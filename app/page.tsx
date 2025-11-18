@@ -1,25 +1,23 @@
 'use client';
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import HeroSection from "@/components/Hero";
-import OurActivitiesSection from "@/components/OurActivites";
-import OurProjectsSection from "@/components/OurProjectsSection";
-import WhoAreWeSection from "@/components/WhoAreWeSection";
-import EventsCalendarSection from "@/components/EventsCalendarSection";
-import NewsSection from "@/components/NewsSection";
+
+import HeroSection from "@/components/LandingPageComponents/Hero";
+import OurActivitiesSection from "@/components/LandingPageComponents/OurActivites";
+import OurProjectsSection from "@/components/LandingPageComponents/OurProjectsSection";
+import WhoAreWeSection from "@/components/LandingPageComponents/WhoAreWeSection";
+import EventsCalendarSection from "@/components/LandingPageComponents/EventsCalendarSection";
+import NewsSection from "@/components/LandingPageComponents/NewsSection";
 
 export default function Home() {
   return (
     
     <div>
-      <Header />
       <HeroSection/>
       <WhoAreWeSection/>
       <OurActivitiesSection/>
       <OurProjectsSection/>
       <EventsCalendarSection/>
       <NewsSection/>
-      <Footer/>
+   
     </div>
   );
 }

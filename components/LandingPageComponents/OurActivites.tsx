@@ -14,16 +14,17 @@ const OurActivitiesSection = () => {
           {activities.map((activity, idx) => (
             <div key={idx} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition">
               <div className="h-48 bg-gradient-to-br from-gray-300 to-gray-400"></div>
-              <div className="p-6">
-                <h3 className="font-bold text-lg mb-2">{activity.title}</h3>
-                <p className="text-gray-600 text-sm mb-4">{activity.count}</p>
-                <button className="text-green-700 font-semibold hover:text-green-800 transition">
-                  View more →
-                </button>
+              <div className="p-2">
+                <p className="font-medium text-[16px] ">{activity.title}</p>
               </div>
             </div>
           ))}
         </div>
+         <div className="mt-6 flex justify-end">
+        <button className="text-green-700 font-semibold hover:text-green-800 transition">
+          View more →
+        </button>
+      </div>
       </div>
     </section>
   );
