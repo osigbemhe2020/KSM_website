@@ -13,7 +13,7 @@ export default function DonationForm() {
   const [nameOnCard, setNameOnCard] = useState('');
   const [project, setProject] = useState('');
 
-  const amounts = ['25', '50', '100', '250'];
+  const amounts = ['50,000', '100,000', '250,000', '500,000'];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -39,7 +39,7 @@ export default function DonationForm() {
                     setAmount(amt);
                     setCustomAmount('');
                   }}
-                  className={`py-3 px-4 rounded font-medium transition-colors ${
+                  className={`py-3 px-4 rounded font-medium transition-colors N{
                     amount === amt && !customAmount
                       ? 'bg-emerald-500 text-white'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
