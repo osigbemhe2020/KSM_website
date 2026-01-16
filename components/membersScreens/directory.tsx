@@ -30,7 +30,7 @@ const StripeTable = () => {
               <td className="px-6 py-2 text-sm">{row.firstname}</td>
               <td className="px-6 py-2 text-sm">{row.lastname}</td>
               <td className="px-6 py-2 text-sm">{row.subConcil}</td>
-              <td className="px-6 py-2 text-sm">{row.officeheld}</td>
+              <td className="px-6 py-2 text-sm">{row.officeHeld}</td>
               <td className="px-6 py-2 text-sm">{row.degree}</td>
               <td className="px-6 py-2 text-sm">{row.occupation}</td>
               <td className="px-6 py-2 text-sm">

@@ -12,7 +12,7 @@ const memberData = [
     officeAdress:"Development Finance Department, CBN, Abuja",
     residentialAdress:"Plot 156 BF Close, Jacob Ngbako St. New Maitama, Kubwa, Abuja",
     homeParish:"Sacred Heart Parish Agenebode",
-    officeheld:"Deputy Grand Knight",
+    officeHeld:"Deputy Grand Knight",
     degree:"4th Degree"
    },
    {
@@ -28,7 +28,7 @@ const memberData = [
     officeAdress:"LEA Pri. Sch. Lower Usuma Dam, Bwari, Abuja",
     residentialAdress:"Block 9, Flat 9B, INEC Quarters, Kubwa, Abuja",
     homeParish:"St. Mattews Parish, Anambra State",
-    officeheld:"Zonal Leader(fha zone)",
+    officeHeld:"Zonal Leader(fha zone)",
     degree:"4th Degree"
    },  
    {
@@ -44,11 +44,11 @@ const memberData = [
     officeAdress:"Transparency Management and Policy Reform",
     residentialAdress:"B 117 Post Service Housing Scheme,Kubwa, Abuja",
     homeParish:"Sacred Heart Gakem",
-    officeheld:"Grand Knight",
+    officeHeld:"Grand Knight",
     degree:"4th Degree"
    },
    {
-    id:4, 
+    id:5, 
     firstname:"Victor", 
     lastname:"Chude", 
     subConcil:"Kubwa Sub Concil",
@@ -60,7 +60,7 @@ const memberData = [
     officeAdress:"National Food Reserve Agency,Mabushi, Abuja",
     residentialAdress:"A51, Army Quarters, Kubwa, Abuja ",
     homeParish:"onistsha north",
-    officeheld:"Founding Grand Knight",
+    officeHeld:"Founding Grand Knight",
     degree:"4th Degree"
    }
 ]

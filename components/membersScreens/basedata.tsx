@@ -1,4 +1,5 @@
 import { Camera } from 'lucide-react';
+import memberData from '@/lib/memberData';
 
 const Topbox = () => {
   return (
@@ -25,10 +26,29 @@ const Topbox = () => {
 };
 
 const Basedata = () => {
+  const member = Object.entries(memberData[0]);
+
+  const transform = (text: string) => {
+    return text
+      .replace(/([A-Z])/g, " $1")      // insert space before capitals
+      .replace(/^./, c => c.toUpperCase()) // capitalize first letter
+      .replace(/\b\w/g, c => c.toUpperCase()); // capitalize each word
+  }
+
   return (
     <div>
       <h2 className='text-2xl font-semibold m-4'>Basedata</h2>
       <Topbox/>
+      <div className='flex mt-6 max-w-[800px] mx-auto py-6 bg-white flex-col space-y-4'>
+         {member.map(([key,value]) =>{
+            return(
+                <div className='grid py-2 px-6 grid-cols-[1fr_2fr] border-b border-gray-200 items-center justify-between'>
+                    <p className='font-semibold'>{transform(key)}</p>
+                    <p>{value}</p>
+                </div>
+            )
+         })}
+      </div>
     </div>
   )
 }

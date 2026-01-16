@@ -7,6 +7,8 @@ import Link from "next/link";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const closeMenu = () => setIsMenuOpen(false);
+
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
       {/* Top Bar with Logo */}
@@ -99,30 +101,52 @@ const Header = () => {
           {/* Mobile Navigation */}
           {isMenuOpen && (
             <div className="md:hidden py-4 space-y-3">
-              <Link href="#leadership" className="block text-gray-700 hover:text-green-700 font-medium">
-                Leadership
+              <Link href="/" className="block text-gray-700 hover:text-green-700 font-medium" onClick={closeMenu}>
+                Home
               </Link>
-              <Link href="#calendar" className="block text-gray-700 hover:text-green-700 font-medium">
+              <div className="space-y-2">
+                <p className="text-gray-700 hover:text-green-700 font-medium">About us</p>
+                <div className="ml-4 space-y-2">
+                  <Link href="/about-me" className="block text-sm text-gray-600 hover:text-green-700" onClick={closeMenu}>
+                    History
+                  </Link>
+                  <Link href="/st.mulumba" className="block text-sm text-gray-600 hover:text-green-700" onClick={closeMenu}>
+                    St. Mulumba
+                  </Link>
+                  <Link href="/our-mission" className="block text-sm text-gray-600 hover:text-green-700" onClick={closeMenu}>
+                    Our Mission
+                  </Link>
+                  <Link href="/how-to-join" className="block text-sm text-gray-600 hover:text-green-700" onClick={closeMenu}>
+                    How to join
+                  </Link>
+                </div>
+              </div>
+              <Link href="/leadership" className="block text-gray-700 hover:text-green-700 font-medium" onClick={closeMenu}>
+                Our Leadership
+              </Link>
+              <Link href="/event-calendar" className="block text-gray-700 hover:text-green-700 font-medium" onClick={closeMenu}>
                 Calendar
               </Link>
-              <Link href="/projects" className="block text-gray-700 hover:text-green-700 font-medium">
+              <Link href="/projects" className="block text-gray-700 hover:text-green-700 font-medium" onClick={closeMenu}>
                 Our projects
               </Link>
-              <a href="#outreach" className="block text-gray-700 hover:text-green-700 font-medium">
-                Our outreach
-              </a>
-              <a href="#membership" className="block text-gray-700 hover:text-green-700 font-medium">
-                Membership
-              </a>
-              <a href="#gallery" className="block text-gray-700 hover:text-green-700 font-medium">
+              <Link href="/sub-concils" className="block text-gray-700 hover:text-green-700 font-medium" onClick={closeMenu}>
+                Our Sub-concils
+              </Link>
+              <Link href="/photo-gallery" className="block text-gray-700 hover:text-green-700 font-medium" onClick={closeMenu}>
                 Photo Gallery
-              </a>
-              <a href="#contact" className="block text-gray-700 hover:text-green-700 font-medium">
+              </Link>
+              <Link href="/news-and-updates" className="block text-gray-700 hover:text-green-700 font-medium" onClick={closeMenu}>
+                News and Updates
+              </Link>
+              <Link href="/contact-us" className="block text-gray-700 hover:text-green-700 font-medium" onClick={closeMenu}>
                 Contact us
-              </a>
-              <button className="w-full bg-green-700 text-white px-6 py-2 rounded hover:bg-green-800 transition">
-                Login
-              </button>
+              </Link>
+              <Link href="/sign-in" onClick={closeMenu}>
+                <button className="w-full bg-green-700 text-white px-6 py-2 rounded hover:bg-green-800 transition">
+                  Login
+                </button>
+              </Link>
             </div>
           )}
         </div>
