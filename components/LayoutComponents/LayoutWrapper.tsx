@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 
 export default function LayoutWrapper({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const hideChrome = pathname.startsWith("/member-page");
+  const hideChrome = pathname.startsWith("/member-page") || pathname.startsWith("/registration") || pathname.startsWith("/sign-in");
 
   return (
     <>

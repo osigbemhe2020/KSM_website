@@ -1,0 +1,128 @@
+[
+    
+    {
+        "firstName": "Gregory",
+        "lastName": "Agboneni",
+        "subCouncil": "Wuse Sub Council",
+        "occupation": "Military Pilot",
+        "email": "gregoryagboneni@gmail.com",
+        "phoneNumber": "08037882412",
+        "placeOfInitiation": "Abuja",
+        "yearOfInitiation": "27-04-2002",
+        "officeAddress": "19, Mumuni Naori Street, Asokom Abuja",
+        "residentialAddress": "68 Lumbunwaishi Str., Ibrahima Abacha Estate, Wuse Zone 4, Abuja",
+        "homeParish": "St. Joseph Parish, Igueben, Edo State",
+        "officeHeld": "Warden",
+        "degree": "2nd Degree"
+    },
+    {
+        "firstName": "Akajiobi",
+        "lastName": "Gabriel",
+        "subCouncil": "Wuse Sub Council",
+        "occupation": "Civil Servant",
+        "email": "akajgabriel@gmail.com",
+        "phoneNumber": "08059464155",
+        "placeOfInitiation": "Maiduguri",
+        "yearOfInitiation": "21-01-1999",
+        "officeAddress": "24 Mamahola Street, Wuse Zone 2, Abuja",
+        "residentialAddress": "48 Mamahola Street, Wuse Zone 2, Abuja",
+        "homeParish": "St. Anns Parish, Akwa-Etiti, Anambra State",
+        "officeHeld": "Grand Knight",
+        "degree": "4th Degree"
+    },
+    
+    {
+        "firstName": "Alagoa",
+        "lastName": "Anthony",
+        "subCouncil": "Wuse Sub Council",
+        "occupation": "Immigrant Consultant",
+        "email": "alagoaanthony@gmail.com",
+        "phoneNumber": "08033200808",
+        "placeOfInitiation": "Abuja",
+        "yearOfInitiation": "02-08-2008",
+        "officeAddress": "Blk 2, Flat 12 Annaba Close, Wuse Zone 6, Abuja",
+        "residentialAddress": "Blk 2, Flat 12 Annaba Close, Wuse Zone 6, Abuja",
+        "homeParish": "Holy Family Parish, Nembe, Bayelsa State",
+        "officeHeld": "none",
+        "degree": "1st Degree"
+    },
+    
+    {
+        "firstName": "Amugo",
+        "lastName": "Oliver",
+        "subCouncil": "Wuse Sub Council",
+        "occupation": "Medical Practitioner",
+        "email": "amugooliver@gmail.com",
+        "phoneNumber": "08036184472",
+        "placeOfInitiation": "Umuahia",
+        "yearOfInitiation": "12-09-2000",
+        "officeAddress": "Queens Clinic Ltd., 38 Cotonou Street, Wuse Zone 6, Abuja",
+        "residentialAddress": "Queens Clinic Ltd., 38 Cotonou Street, Wuse Zone 6, Abuja",
+        "homeParish": "St. Charles Parish, Umuahia Abia State",
+        "officeHeld": "none",
+        "degree": "2nd Degree"
+    },
+    {
+        "firstName": "Innocent",
+        "lastName": "Anosike",
+        "subCouncil": "Maitama Sub Council",
+        "occupation": "Public Servant",
+        "email": "anosikeinnocent@gmail.com",
+        "phoneNumber": "08065707112",
+        "placeOfInitiation": "Abuja",
+        "yearOfInitiation": "30-04-1999",
+        "officeAddress": "Nigerian Customs Services, KLT Lagos",
+        "residentialAddress": "Blk 1, Flat 2, Zinder Close, Abuja",
+        "homeParish": "St. Cyrils Parish, Egbede",
+        "officeHeld": "none",
+        "degree": "2nd Degree"
+    },
+    
+    {
+        "firstName": "Augustine",
+        "lastName": "Ategbole",
+        "subCouncil": "Gwarinpa Sub Council",
+        "occupation": "Medical Practitioner",
+        "email": "ategboleaugustine@gmail.com",
+        "phoneNumber": "08037044240",
+        "placeOfInitiation": "Abuja",
+        "yearOfInitiation": "31-07-2004",
+        "officeAddress": "NO 5, Plot 802 Malufashi Close, Off E Anyakwo Str., Area 11, Garki-Abuja",
+        "residentialAddress": "3, Atigbole Str. Akoko Simerin-Oka, Akoko South-West, Ondo State",
+        "homeParish": "St. Pius Parish, Agba-Oka",
+        "officeHeld": "Deputy Grand Knight",
+        "degree": "2nd Degree"
+    },
+    
+    {
+        "firstName": "Crescent",
+        "lastName": "Attama",
+        "subCouncil": "Gwagwalada Sub Council",
+        "occupation": "Business",
+        "email": "attamacrescentu@gmail.com",
+        "phoneNumber": "08035952229",
+        "placeOfInitiation": "Minna",
+        "yearOfInitiation": "23-11-1996",
+        "officeAddress": "Plot 2059, Abidjan Street, Wuse Zone 3, Abuja",
+        "residentialAddress": "Plot 457 NOAKCHOTT Street, Wuse Zone 1, Abuja",
+        "homeParish": "St. Joseph Parish, Elowogbe",
+        "officeHeld": "none",
+        "degree": "3rd Degree"
+    },
+   
+    {
+        "firstName": "Gregory",
+        "lastName": "Azubuike",
+        "subCouncil": "Maitama Sub Council",
+        "occupation": "Legal Practice",
+        "email": "azubuikegregory@gmail.com",
+        "phoneNumber": "08033118192",
+        "placeOfInitiation": "Abuja",
+        "yearOfInitiation": "30-08-2003",
+        "officeAddress": "11 Alexandria Crescent, Wuse II, Abuja",
+        "residentialAddress": "49 Gaborone Street, Zone 2, Wuse Abuja",
+        "homeParish": "St. Mary's Parish, Alikpo, Ebonyi State",
+        "officeHeld": "Advocate",
+        "degree": "2nd Degree"
+    }
+]
