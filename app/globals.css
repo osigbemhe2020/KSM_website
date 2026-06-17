@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 @theme {
+  --color-cream: #F5F3F0;
+  --color-forest: #1E4D3A;
   --color-portal-button: #1E4D3A;
   --color-portal-button-foreground: #FFFFFF;
   --color-border: #EAEAEA;

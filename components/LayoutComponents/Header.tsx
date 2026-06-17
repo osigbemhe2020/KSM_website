@@ -23,32 +23,33 @@ const NAV_ITEMS: NavItem[] = [
     label: 'Who We Are',
     children: [
       { label: 'Mission & Vision', href: '/our-mission' },
-      { label: 'History',          href: '/about-me' },
-      { label: 'Leadership',       href: '/leadership' },
+      { label: 'History', href: '/history' },
+      { label: 'Leadership', href: '/leadership' },
       { label: 'Our Patron Saint', href: '/st.mulumba' },
-      { label: 'Our Founder',      href: '#founder' },
-      { label:'Organization Structure', href: '#org-structure'},
-      { label: 'Committees', href: '#committees' },
+      { label: 'Our Founder', href: '/ourFounder' },
+      { label: 'Organization Structure', href: '/structure' },
+      { label: 'Committees', href: '/comittees' },
 
     ],
   },
   {
     label: 'What We Do',
     children: [
-      { label: 'Charity & Outreach', href: '#charity-outreach' },
-      { label: 'Projects & Infrastructure',  href: '#projects-infrastructure' },
-      { label: 'Insurance & Financial',    href: '#insurance-financial-services' },
-      {label: 'Metro Investments', href: '#metro-investments'},
+      { label: 'Charity & Outreach', href: '/charity' },
+      { label: 'Projects & Infrastructure', href: '/projects' },
+      { label: 'Insurance & Financial', href: '#insurance-financial-services' },
+      { label: 'Metro Investments', href: '#metro-investments' },
     ],
   },
   {
     label: 'Get Involved',
     children: [
       { label: 'Join Us', href: '#join' },
+      { label: 'Member Benefits', href: '#membership' },
       { label: 'Find A Sub-Council', href: '#sub-concils' },
-      {label: 'Our Sub-Councils', href: '/sub-concils'},
-      {label: 'Calendar', href: '/event-calendar'},
-       {label: 'Donate', href: '/donate'},
+      { label: 'Our Sub-Councils', href: '/sub-concils' },
+      { label: 'Calendar', href: '/event-calendar' },
+      { label: 'Donate', href: '/donate' },
       { label: 'YSM', href: '#ysm' },
       { label: 'LSM', href: '#lsm' },
     ],
@@ -61,7 +62,7 @@ const NAV_ITEMS: NavItem[] = [
     label: 'News & Updates',
     href: '/news-and-updates',      // no dropdown
   },
- 
+
   {
     label: 'Contact Us',
     href: '/contact-us',   // no dropdown
@@ -97,7 +98,7 @@ const DesktopNavItem = ({ item }: { item: NavItem }) => {
 
   return (
     <div
-      className="relative bg-[1E4D3A] text-white"
+      className="relative bg-forest text-white"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -120,7 +121,7 @@ const DesktopNavItem = ({ item }: { item: NavItem }) => {
             <li key={child.label}>
               <a
                 href={child.href}
-                className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-[#1E4D3A] hover:text-white transition-colors"
+                className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-forest hover:text-white transition-colors"
               >
                 {child.label}
               </a>
@@ -201,7 +202,7 @@ function Header() {
   };
 
   return (
-    <header className=" z-20 bg-[#1E4D3A]">
+    <header className=" z-20 bg-forest">
       <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
 
         {/* Logo */}
@@ -244,7 +245,7 @@ function Header() {
 
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="lg:hidden bg-[#1E4D3A]/95 backdrop-blur-sm px-6 py-4 space-y-1">
+        <div className="lg:hidden bg-forest/95 backdrop-blur-sm px-6 py-4 space-y-1">
           {NAV_ITEMS.map((item) => (
             <MobileNavItem key={item.label} item={item} onClose={closeMenu} />
           ))}

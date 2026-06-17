@@ -51,7 +51,7 @@ const ProfileHeader = ({
         <p className="text-gray-600 text-base">{officeHeld}</p>
         {canEdit && (
           <button
-            className="bg-[#1E4D3A] mt-2 text-white px-4 py-2 rounded-md"
+            className="bg-forest mt-2 text-white px-4 py-2 rounded-md"
             onClick={onEditClick}
           >
             Edit Profile

@@ -53,7 +53,7 @@ function HeroSection() {
 
         <a
           href="#join"
-          className="mt-8 rounded-md bg-[#1E4D3A] px-6 py-3 text-white transition hover:bg-[#144814]"
+          className="mt-8 rounded-md bg-forest px-6 py-3 text-white transition hover:bg-[#144814]"
         >
           Join the Order
         </a>

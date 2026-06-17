@@ -272,7 +272,7 @@ const RegistrationForm = ({
                   value={values.officeHeld}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1E4D3A] focus:border-transparent bg-white text-gray-900 shadow-sm hover:border-gray-400 transition-colors appearance-none cursor-pointer"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest focus:border-transparent bg-white text-gray-900 shadow-sm hover:border-gray-400 transition-colors appearance-none cursor-pointer"
                 >
                   <option value="">Select office held</option>
                   {OFFICE_OPTIONS.map((office) => (
@@ -292,7 +292,7 @@ const RegistrationForm = ({
                   value={values.degree}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1E4D3A] focus:border-transparent bg-white text-gray-900 shadow-sm hover:border-gray-400 transition-colors appearance-none cursor-pointer"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest focus:border-transparent bg-white text-gray-900 shadow-sm hover:border-gray-400 transition-colors appearance-none cursor-pointer"
                 >
                   <option value="">Select degree</option>
                   <option value="1st degree">1st degree</option>
@@ -320,7 +320,7 @@ const RegistrationForm = ({
             <Button
               type="submit"
               disabled={isSubmitting || isPending}
-              className="w-full px-8 py-3 bg-[#1E4D3A] text-white rounded-lg disabled:bg-gray-400 transition-colors"
+              className="w-full px-8 py-3 bg-forest text-white rounded-lg disabled:bg-gray-400 transition-colors"
             >
               {isSubmitting || isPending ? 'Registering...' : 'Register Member'}
             </Button>

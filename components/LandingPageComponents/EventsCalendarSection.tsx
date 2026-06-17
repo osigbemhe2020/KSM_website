@@ -8,16 +8,16 @@ const events = [
 
 function Events() {
   return (
-    <section className="bg-cream py-20">
+    <section className=" py-20 text-gray-900">
       <div className="max-w-6xl mx-auto px-6">
-        <h2 className="font-serif text-4xl md:text-5xl text-center mb-14">Upcoming Events</h2>
-        <div className="grid grid-cols-12 text-xs tracking-[0.18em] text-muted-foreground border-b border-border pb-4 mb-2">
+        <h2 className="font-serif text-gray-900 text-4xl md:text-5xl text-center mb-14">Upcoming Events</h2>
+        <div className="grid grid-cols-12 text-xs tracking-[0.18em] text-gray-600 border-b border-gray-900 pb-4 mb-2">
           <div className="col-span-2">DATE</div>
           <div className="col-span-7">EVENTS</div>
           <div className="col-span-3">LOCATION</div>
         </div>
         {events.map((e) => (
-          <div key={e.title} className="grid grid-cols-12 gap-4 py-7 border-b border-border items-start">
+          <div key={e.title} className="grid grid-cols-12 gap-4 py-7 border-b border-gray-900 items-start">
             <div className="col-span-2 font-serif text-sm">{e.date}</div>
             <div className="col-span-7">
               <h3 className="font-serif text-xl mb-1">{e.title}</h3>
@@ -28,7 +28,7 @@ function Events() {
         ))}
       </div>
        <div className="text-center mt-14">
-          <a href="#" className="bg-[#1E4D3A] text-white px-6 py-3 rounded font-semibold hover:bg-green-800 transition inline-flex items-center">View full Calendar <span className="ml-2"><ArrowRight /></span></a>
+          <a href="#" className="bg-forest text-white px-6 py-3 rounded font-semibold hover:bg-green-800 transition inline-flex items-center">View full Calendar <span className="ml-2"><ArrowRight /></span></a>
         </div>
     </section>
   );

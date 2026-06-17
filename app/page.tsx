@@ -12,7 +12,7 @@ import Events from "@/components/LandingPageComponents/EventsCalendarSection";
 export default function Home() {
   return (
     
-    <div className="bg-[#F5F3F0]">
+    <div className="bg-cream text-gray-900">
       <HeroSection/>
       <WhoAreWeSection/>
       <Events/>
@@ -20,7 +20,6 @@ export default function Home() {
       <OurActivitiesSection/>
       <OurProjectsSection/>
       <NewsSection/>
-   
     </div>
   );
 }

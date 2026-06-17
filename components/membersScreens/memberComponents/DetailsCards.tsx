@@ -166,7 +166,7 @@ export const Button = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`w-full bg-[#1E4D3A] text-white py-3 flex items-center justify-center gap-2 text-sm font-medium rounded-sm hover:opacity-90 transition-opacity mt-4 disabled:opacity-60 ${className}`}
+      className={`w-full bg-forest text-white py-3 flex items-center justify-center gap-2 text-sm font-medium rounded-sm hover:opacity-90 transition-opacity mt-4 disabled:opacity-60 ${className}`}
     >
       {icon && icon}
       {children}
@@ -192,7 +192,7 @@ export const Toggle = ({ label, description, checked, onChange }: ToggleProps) =
       <button
         onClick={() => onChange(!checked)}
         className={`w-12 h-6 rounded-full relative transition-colors ${
-          checked ? "bg-[#1E4D3A]" : "bg-gray-300"
+          checked ? "bg-forest" : "bg-gray-300"
         }`}
       >
         <span

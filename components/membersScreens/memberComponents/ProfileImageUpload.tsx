@@ -82,7 +82,7 @@ const ProfileImageUpload = ({
         {...getRootProps()}
         className={`relative ${sizeClasses[size]} rounded-full border-2 border-dashed cursor-pointer transition-all duration-200
           ${isDragActive 
-            ? 'border-[#1E4D3A] bg-[#1E4D3A]/5' 
+            ? 'border-forest bg-forest/5' 
             : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
           }
           ${preview ? 'border-solid border-gray-200' : ''}

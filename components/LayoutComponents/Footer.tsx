@@ -1,14 +1,14 @@
 
 import logo from "@/assets/ksm-logo.jpg";
 
-function Footer() {
+function Footer({ isHomePage }: { isHomePage: boolean }) {
   const cols = [
     { h: "Who We Are", links: ["The Knights Of St. Mulumba Metro Council Abuja Is The Coordinating Body For All KSM Sub-Councils Within The Federal Capital Territory."], paragraph: true },
     { h: "What We Do", links: ["Charity & Outreach", "Projects & Infastructure", "Metro Investments"] },
     { h: "Get Involved", links: ["Join the Order", "Upcoming Events", "Donate"] },
   ];
   return (
-    <footer className="bg-[#1E4D3A] text-white">
+    <footer className={`${isHomePage ? "bg-forest text-white" : "bg-cream text-gray-900"}`}>
       <div className="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-5 gap-10">
         <div className="md:col-span-1 flex items-start gap-3">
           <img src={logo.src} alt="KSM" className="h-12 w-12" width={48} height={48} />

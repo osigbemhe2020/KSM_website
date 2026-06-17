@@ -67,7 +67,7 @@ const DocumentsPage = () => {
         
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 bg-[#1E4D3A] text-white px-4 py-2 text-sm rounded-sm hover:opacity-90"
+            className="flex items-center gap-2 bg-forest text-white px-4 py-2 text-sm rounded-sm hover:opacity-90"
           >
             <Upload size={16} />
             Upload Document
@@ -94,7 +94,7 @@ const DocumentsPage = () => {
                     href={doc.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 text-gray-500 hover:text-[#1E4D3A]"
+                    className="p-2 text-gray-500 hover:text-forest"
                   >
                     <Download size={16} />
                   </a>

@@ -1,22 +1,22 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-const API_URL = 'http://localhost:3002';
+const API_URL = process.env.BACKEND_URL || "http://localhost:3002";
 
 // in your auth.hook file
 export function useGetMe() {
-  return useQuery({
-    queryKey: ['me'],
-    queryFn: async () => {
-      const response = await fetch(`${API_URL}/auth/me`, {
-        credentials: 'include',
-      });
-      console.log("i am logged in", response);
-      if (!response.ok) throw new Error('Not authenticated');
-      return response.json();
-    },
-    retry: false,         // don't retry if not logged in
-    staleTime: 1000 * 60 * 5,
-  });
+    return useQuery({
+        queryKey: ['me'],
+        queryFn: async () => {
+            const response = await fetch(`${API_URL}/auth/me`, {
+                credentials: 'include',
+            });
+            console.log("i am logged in", response);
+            if (!response.ok) throw new Error('Not authenticated');
+            return response.json();
+        },
+        retry: false,         // don't retry if not logged in
+        staleTime: 1000 * 60 * 5,
+    });
 }
 
 export function useLogin() {
@@ -31,7 +31,7 @@ export function useLogin() {
                 credentials: 'include',  // <-- add to every fetch
                 body: JSON.stringify({ email, password }),
             });
-            
+
             if (!response.ok) {
                 // Handle different error statuses
                 if (response.status === 401) {
@@ -46,7 +46,7 @@ export function useLogin() {
                     throw new Error('Login failed. Please try again.');
                 }
             }
-            
+
             return response.json();
         },
         onSuccess: () => {
@@ -102,12 +102,12 @@ export function useForgotPassword() {
                 credentials: 'include',
                 body: JSON.stringify({ email }),
             });
-            
+
             if (!response.ok) {
                 const error = await response.json();
                 throw new Error(error.message || 'Failed to send reset instructions');
             }
-            
+
             return response.json();
         },
     });
@@ -122,12 +122,12 @@ export function useResetPassword() {
                 credentials: 'include',
                 body: JSON.stringify({ token, newPassword }),
             });
-            
+
             if (!response.ok) {
                 const error = await response.json();
                 throw new Error(error.message || 'Failed to reset password');
             }
-            
+
             return response.json();
         },
     });

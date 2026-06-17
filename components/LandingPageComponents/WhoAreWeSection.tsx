@@ -15,7 +15,7 @@ const WhoAreWeSection = () => {
             <div className="bg-gray-300 rounded-lg overflow-hidden h-80">
               <div className="w-full h-full bg-gradient-to-br from-gray-400 to-gray-500"></div>
             </div>
-            <div className="absolute -bottom-6 -right-6 bg-[#1E4D3A] text-white p-6 rounded-lg shadow-lg">
+            <div className="absolute -bottom-6 -right-6 bg-forest text-white p-6 rounded-lg shadow-lg">
               <p className="font-bold text-lg">Sir Johnson Jimoh</p>
               <p className="text-sm text-green-100">Metro Grand Knight</p>
             </div>

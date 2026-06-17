@@ -30,8 +30,8 @@ function NewsSection() {
             </article>
           ))}
         </div>
-        <div className="text-center mt-12">
-          <a href="#" className="flex items-center justify-center">Read Our News & Updates <span className="ml-2"><ArrowRight /></span></a>
+        <div className="text-center mt-14">
+          <a href="#" className="bg-forest text-white px-6 py-3 rounded font-semibold hover:bg-green-800 transition inline-flex items-center">Read Our News and Updates <span className="ml-2"><ArrowRight /></span></a>
         </div>
       </div>
     </section>

@@ -23,12 +23,12 @@ interface PreviousOfficesFieldProps {
 // ── Pill ─────────────────────────────────────────────────────────────────────
 
 const Pill = ({ value, onDelete }: { value: string; onDelete: (v: string) => void }) => (
-  <span className="inline-flex items-center gap-1 px-3 py-1 bg-[#E8F5E9] text-[#1E4D3A] text-sm rounded-full border border-[#1E4D3A]">
+  <span className="inline-flex items-center gap-1 px-3 py-1 bg-[#E8F5E9] text-forest text-sm rounded-full border border-forest">
     {value}
     <button
       type="button"
       onClick={() => onDelete(value)}
-      className="ml-1 text-[#1E4D3A] hover:text-red-500 font-bold leading-none"
+      className="ml-1 text-forest hover:text-red-500 font-bold leading-none"
     >
       ×
     </button>
@@ -64,7 +64,7 @@ const PreviousOfficesField = ({ values, setFieldValue, error }: PreviousOfficesF
           onBlur={() => setTimeout(() => setIsOpen(false), 150)}
           className={`w-full px-4 py-3 border rounded-lg text-left text-sm bg-white shadow-sm transition-colors
             ${error ? 'border-red-500' : 'border-gray-300 hover:border-gray-400'}
-            focus:outline-none focus:ring-2 focus:ring-[#1E4D3A] focus:border-transparent`}
+            focus:outline-none focus:ring-2 focus:ring-forest focus:border-transparent`}
         >
           <span className="text-gray-400">Select previous offices...</span>
           <span className="float-right text-gray-400">{isOpen ? '▲' : '▼'}</span>

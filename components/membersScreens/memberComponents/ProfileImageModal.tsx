@@ -77,7 +77,7 @@ const ProfileImageModal = ({
             type="button"
             onClick={handleConfirm}
             disabled={!selectedFile || isLoading}
-            className="flex-1 px-4 py-2 bg-[#1E4D3A] text-white rounded-lg text-sm hover:bg-[#163d2e] transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+            className="flex-1 px-4 py-2 bg-forest text-white rounded-lg text-sm hover:bg-[#163d2e] transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
           >
             {isLoading ? 'Uploading...' : 'Save Photo'}
           </button>

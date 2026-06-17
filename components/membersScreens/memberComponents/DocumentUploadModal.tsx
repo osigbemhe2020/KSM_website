@@ -135,7 +135,7 @@ const DocumentUploadModal = ({ isOpen, onClose }: UploadModalProps) => {
               className={`flex flex-col items-center justify-center w-full h-36 
                 border-2 border-dashed cursor-pointer transition-colors rounded-sm
                 ${isDragActive
-                  ? 'border-[#1E4D3A] bg-[#1E4D3A]/5'
+                  ? 'border-forest bg-forest/5'
                   : 'border-gray-300 hover:border-gray-400'
                 }`}
             >
@@ -144,7 +144,7 @@ const DocumentUploadModal = ({ isOpen, onClose }: UploadModalProps) => {
               {file ? (
                 // File selected state
                 <div className="flex items-center gap-3 px-4">
-                  <FileText size={24} className="text-[#1E4D3A] shrink-0" />
+                  <FileText size={24} className="text-forest shrink-0" />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate">{file.name}</p>
                     <p className="text-xs text-gray-400 mt-0.5">
@@ -189,7 +189,7 @@ const DocumentUploadModal = ({ isOpen, onClose }: UploadModalProps) => {
             <button
               type="submit"
               disabled={isPending || !file || !title || !category}
-              className="flex-1 bg-[#1E4D3A] text-white py-2 text-sm 
+              className="flex-1 bg-forest text-white py-2 text-sm 
                 hover:opacity-90 transition-opacity disabled:opacity-60"
             >
               {isPending ? "Uploading..." : "Upload"}

@@ -29,6 +29,9 @@ function OurProjectsSection() {
             </article>
           ))}
         </div>
+        <div className="text-center mt-14">
+          <a href="#" className="bg-forest text-white px-6 py-3 rounded font-semibold hover:bg-green-800 transition inline-flex items-center">View Our Projects <span className="ml-2"><ArrowRight /></span></a>
+        </div>
       </div>
     </section>
   );
