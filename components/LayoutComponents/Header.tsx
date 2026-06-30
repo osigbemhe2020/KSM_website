@@ -37,21 +37,19 @@ const NAV_ITEMS: NavItem[] = [
     children: [
       { label: 'Charity & Outreach', href: '/charity' },
       { label: 'Projects & Infrastructure', href: '/projects' },
-      { label: 'Insurance & Financial', href: '#insurance-financial-services' },
-      { label: 'Metro Investments', href: '#metro-investments' },
+      { label: 'Metro Investments', href: '/investments' },
     ],
   },
   {
     label: 'Get Involved',
     children: [
-      { label: 'Join Us', href: '#join' },
-      { label: 'Member Benefits', href: '#membership' },
-      { label: 'Find A Sub-Council', href: '#sub-concils' },
+      { label: 'How to Join', href: '/how-to-join' },
+      { label: 'Find A Sub-Council', href: '/find-subconcil' },
       { label: 'Our Sub-Councils', href: '/sub-concils' },
       { label: 'Calendar', href: '/event-calendar' },
       { label: 'Donate', href: '/donate' },
-      { label: 'YSM', href: '#ysm' },
-      { label: 'LSM', href: '#lsm' },
+      { label: 'YSM', href: '/ysm' },
+      { label: 'LSM', href: '/lsm' },
     ],
   },
   {

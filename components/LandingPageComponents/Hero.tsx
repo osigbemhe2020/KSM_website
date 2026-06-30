@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 import heroImg1 from "@/assets/hero-brotherhood.jpg";
 import heroImg2 from "@/assets/hero-image2.jpg";
@@ -21,16 +22,15 @@ function HeroSection() {
 
   return (
     <section className="relative h-[85vh]  w-full overflow-hidden">
-      
+
       {/* Background Images */}
       {images.map((image, index) => (
         <img
           key={index}
           src={image.src}
           alt=""
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
-            current === index ? "opacity-100" : "opacity-0"
-          }`}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${current === index ? "opacity-100" : "opacity-0"
+            }`}
           width={1920}
           height={1280}
         />
@@ -51,12 +51,12 @@ function HeroSection() {
           Serving God and community through unity, leadership, and charity.
         </p>
 
-        <a
-          href="#join"
+        <Link
+          href="/how-to-join"
           className="mt-8 rounded-md bg-forest px-6 py-3 text-white transition hover:bg-[#144814]"
         >
           Join the Order
-        </a>
+        </Link>
       </div>
 
       {/* Indicators */}
@@ -65,11 +65,10 @@ function HeroSection() {
           <button
             key={index}
             onClick={() => setCurrent(index)}
-            className={`h-3 w-3 rounded-full transition-all ${
-              current === index
+            className={`h-3 w-3 rounded-full transition-all ${current === index
                 ? "bg-white w-8"
                 : "bg-white/50 hover:bg-white/80"
-            }`}
+              }`}
           />
         ))}
       </div>
@@ -83,7 +82,7 @@ function HeroSection() {
 //       <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/40">
 //         <div className="h-full w-full bg-gray-600"></div>
 //       </div>
-      
+
 //       <div className="relative h-full flex items-center justify-center text-center px-4">
 //         <div className="max-w-4xl">
 //           <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
@@ -106,5 +105,5 @@ function HeroSection() {
 //   );
 // };
 
- export default HeroSection;
+export default HeroSection;
 

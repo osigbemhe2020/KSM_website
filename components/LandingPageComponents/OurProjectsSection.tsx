@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import projFood from "@/assets/project-food.jpg";
 import projSchool from "@/assets/project-school.jpg";
 import projYouth from "@/assets/project-youth.jpg";
+import { Button } from "@/components/membersScreens/memberComponents/DetailsCards";
 
 const projects = [
   { img: projFood, t: "FCT Food Relief Programme", d: "Providing essential food items to over 2,000 families across underserved communities in the Federal Capital Territory." },
@@ -30,7 +31,12 @@ function OurProjectsSection() {
           ))}
         </div>
         <div className="text-center mt-14">
-          <a href="#" className="bg-forest text-white px-6 py-3 rounded font-semibold hover:bg-green-800 transition inline-flex items-center">View Our Projects <span className="ml-2"><ArrowRight /></span></a>
+          <Button
+            href="/projects"
+            className="inline-flex px-6 rounded hover:bg-green-800 w-auto mt-0"
+          >
+            View Our Projects <span className="ml-2"><ArrowRight /></span>
+          </Button>
         </div>
       </div>
     </section>
@@ -53,7 +59,7 @@ function OurProjectsSection() {
 //     <section className="py-16 bg-gray-50">
 //       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 //         <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Projects</h2>
-        
+
 //         <div className="grid md:grid-cols-2 gap-8 mb-8">
 //           {projects.map((project, idx) => (
 //             <div key={idx} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition">

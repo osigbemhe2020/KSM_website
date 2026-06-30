@@ -37,12 +37,33 @@ export default async function CharitySlugPage({ params }: { params: { slug: stri
       <section className="bg-cream pt-16 pb-12">
         <div className="max-w-5xl mx-auto px-6">
           <div className="flex items-center justify-center gap-4 mb-10">
-            <h2 className="font-serif text-4xl md:text-5xl text-center">{p.title}</h2>
+            <h2 className="font-serif text-5xl text-foreground mb-6 text-center">{p.title}</h2>
           </div>
-          <div className=" bg-background border border-border overflow-hidden">
-            <img src={p.hero.src} alt={p.title} loading="lazy" width={1200} height={600} className=" object-cover" />
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              aspectRatio: '16 / 7',
+              overflow: 'hidden',
+              border: '1px solid var(--border, #e5e7eb)',
+              background: 'var(--background, #fff)',
+            }}
+          >
+            <img
+              src={p.hero.src}
+              alt={p.title}
+              loading="lazy"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center',
+              }}
+            />
           </div>
-          <div className="mt-5 flex justify-end"><StatusPill s={p.status} /></div>
+          <div className="mt-5  flex justify-end"><StatusPill s={p.status} /></div>
         </div>
       </section>
 
@@ -73,7 +94,7 @@ export default async function CharitySlugPage({ params }: { params: { slug: stri
 
       {/* Milestones */}
       {/* Milestones */}
-      <section className="bg-cream pb-24">
+      <section className="bg-cream pb-24 ">
         <div className="max-w-3xl mx-auto px-6">
           <h3 className="font-serif text-3xl md:text-4xl text-center mb-12">Project Milestones</h3>
           <ol style={{ position: 'relative', marginLeft: '12px', paddingLeft: 0 }}>

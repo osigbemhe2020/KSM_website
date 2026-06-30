@@ -1,5 +1,6 @@
 // DetailsCards.tsx
 import { ReactNode } from 'react';
+import Link from 'next/link';
 import useResponsive from '@/hooks/useResponsive';
 
 // Base card wrapper (handles sizing variants)
@@ -10,10 +11,10 @@ interface CardProps {
 }
 
 export const Card = ({ children, variant = 'normal', className = '' }: CardProps) => {
-  const dimensions = variant === 'normal' 
-    ? 'min-h-[248px] w-full lg:w-[512px]' 
+  const dimensions = variant === 'normal'
+    ? 'min-h-[248px] w-full lg:w-[512px]'
     : 'min-h-[273px] w-full lg:w-[680px]';
-  
+
   return (
     <div className={`${dimensions} border-2 border-[#EAEAEA] mb-6 rounded-lg p-[24px] flex flex-col gap-[32px] ${className}`}>
       {children}
@@ -63,7 +64,7 @@ export const LineItem = ({ label, value, hasBg = false }: ItemProps) => {
 
 export const GridLayout = ({ children }: { children: ReactNode }) => {
   const { isMobile, isTablet } = useResponsive();
-  
+
   return (
     <div className={`grid gap-[16px] ${(isMobile || isTablet) ? 'grid-cols-1' : 'grid-cols-2'}`}>
       {children}
@@ -77,7 +78,7 @@ export const StackLayout = ({ children, spacing = 'gap-[12px]' }: { children: Re
 
 // Reusable Input component
 interface InputProps {
-  type?: 'text' | 'email' | 'password';
+  type?: 'text' | 'email' | 'password' | 'number' | 'tel';
   placeholder?: string;
   value: string;
   onChange: (value: string | React.ChangeEvent<HTMLInputElement>) => void;
@@ -89,21 +90,21 @@ interface InputProps {
   label?: string;
 }
 
-export const Input = ({ 
-  type = 'text', 
-  placeholder, 
-  value, 
-  onChange, 
+export const Input = ({
+  type = 'text',
+  placeholder,
+  value,
+  onChange,
   onBlur,
   name,
   error,
   touched,
-  className = '', 
-  label 
+  className = '',
+  label
 }: InputProps) => {
   const defaultClassName = 'w-full bg-[#FFF8DC] py-2 px-4 text-sm placeholder:text-[#000] focus:border-[#000]';
   const errorClassName = error && touched ? 'border-red-500 focus:border-red-500' : '';
-  
+
   return (
     <div>
       {label && (
@@ -151,22 +152,43 @@ interface ButtonProps {
   className?: string;
   icon?: ReactNode;
   disabled?: boolean;
+  isBorder?: boolean;
+  href?: string;
 }
 
-export const Button = ({ 
-  type = 'button', 
-  children, 
-  onClick, 
-  className = '', 
+export const Button = ({
+  type = 'button',
+  children,
+  onClick,
+  className = '',
   icon,
-  disabled = false
+  isBorder = false,
+  disabled = false,
+  href
 }: ButtonProps) => {
+  const baseClasses = `bg-forest text-white py-3 ${isBorder ? 'border-2 border-white' : ''} flex items-center justify-center gap-2 text-sm font-medium rounded-sm hover:opacity-90 transition-opacity disabled:opacity-60`;
+
+  // We only add default layout classes if they are not overridden in className
+  const widthClass = className.includes('w-') || className.includes('inline-flex') || className.includes('inline-block') ? '' : 'w-full';
+  const marginClass = className.includes('mt-') || className.includes('my-') || className.includes('m-') ? '' : 'mt-4';
+
+  const combinedClasses = `${baseClasses} ${widthClass} ${marginClass} ${className}`;
+
+  if (href) {
+    return (
+      <Link href={href} className={combinedClasses}>
+        {icon && icon}
+        {children}
+      </Link>
+    );
+  }
+
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`w-full bg-forest text-white py-3 flex items-center justify-center gap-2 text-sm font-medium rounded-sm hover:opacity-90 transition-opacity mt-4 disabled:opacity-60 ${className}`}
+      className={combinedClasses}
     >
       {icon && icon}
       {children}
@@ -191,14 +213,12 @@ export const Toggle = ({ label, description, checked, onChange }: ToggleProps) =
       </div>
       <button
         onClick={() => onChange(!checked)}
-        className={`w-12 h-6 rounded-full relative transition-colors ${
-          checked ? "bg-forest" : "bg-gray-300"
-        }`}
+        className={`w-12 h-6 rounded-full relative transition-colors ${checked ? "bg-forest" : "bg-gray-300"
+          }`}
       >
         <span
-          className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
-            checked ? "left-[26px]" : "left-0.5"
-          }`}
+          className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${checked ? "left-[26px]" : "left-0.5"
+            }`}
         />
       </button>
     </div>

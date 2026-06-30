@@ -4,7 +4,7 @@
 // const Content = ({heading}: {heading: string}) => {
 //     return(
 //         <div>
-//             <h2 className="text-3xl font-bold text-black mb-7">{heading}</h2>
+//             <h2 className="font-serif text-5xl text-foreground mb-6">{heading}</h2>
 
 //             <div className="space-y-4 text-base leading-relaxed text-black">
 //               <p>
@@ -71,7 +71,7 @@ function Life() {
           <p className="text-xs tracking-[0.2em] text-muted-foreground mt-4 uppercase">St. Matthias Mulumba — Martyr of Uganda</p>
         </div>
         <div>
-          <h2 className="font-serif text-4xl text-foreground mb-6">The Life of<br />St. Matthias Mulumba</h2>
+          <h2 className="font-serif text-5xl text-foreground mb-6">The Life of<br />St. Matthias Mulumba</h2>
           <div className="space-y-5 text-sm leading-relaxed text-foreground/80">
             <p>St. Matthias Mulumba Kalemba (also known as Matthias Kalemba) was one of the Uganda Martyrs, a group of Catholic and Anglican converts who were executed between 1885 and 1887 on the orders of Mwanga II, the Kabaka (King) of Buganda.</p>
             <p>Matthias Mulumba was a chief and judge in the royal court. He was among the earliest converts to Catholicism in Uganda, baptised by the White Fathers missionaries. His faith was deep and unwavering, and he paid the price of that fidelity in defence of ancient Christians and witness to the Gospel.</p>

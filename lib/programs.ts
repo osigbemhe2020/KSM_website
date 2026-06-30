@@ -18,7 +18,7 @@ import impact3 from "@/assets/impact-3.jpg";
 const programs = [
     {
         slug: "community-support",
-        title: "Charity & Outreach",
+        title: "Community Support Programs",
         tagline: "Extending God's love through compassionate service and structured community support.",
         hero: impact1,
         sectionTitle: "Community Support Programs",

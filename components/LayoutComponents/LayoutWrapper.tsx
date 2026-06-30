@@ -30,7 +30,7 @@ function Legacy() {
             <p className="text-white/90 leading-relaxed mb-8 max-w-sm">
               Join a brotherhood rooted in faith, dedicated to service, and committed to building a stronger Church and nation.
             </p>
-            <a href="#" className="py-2 px-4 border border-white">Begin Your Journey</a>
+            <a href="/how-to-join" className="py-2 px-4 border border-white">Begin Your Journey</a>
           </div>
         </div>
         <img src={sketchImg.src} alt="" aria-hidden className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 h-[110%] opacity-15 pointer-events-none" />
@@ -43,12 +43,14 @@ export default function LayoutWrapper({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const hideChrome = pathname.startsWith("/member-page") || pathname.startsWith("/registration") || pathname.startsWith("/sign-in");
   const isHomePage = pathname === "/";
+  const isJoinPage = pathname === "/how-to-join";
+  const isYsmPage = pathname === "/ysm";
 
   return (
     <main className="text-gray-900 bg-cream">
       {!hideChrome && <Header />}
       {children}
-      {!hideChrome && !isHomePage && <Legacy />}
+      {!hideChrome && !isHomePage && !isJoinPage && !isYsmPage && <Legacy />}
       {!hideChrome && <Footer isHomePage={isHomePage} />}
     </main>
   );

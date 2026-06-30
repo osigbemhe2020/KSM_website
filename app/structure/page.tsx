@@ -29,13 +29,19 @@ const tiers = [
   },
   {
     tier: "TIER 3",
+    title: "Metro Zones",
+    body: "Zones are the operational units of the Metro Council. They are responsible for the day-to-day activities of the Metro Council.",
+    roles: ["Zonal Leader", "Zonal Secretary", "Zonal Treasurer"],
+  },
+  {
+    tier: "TIER 4",
     title: "Sub-Councils",
     body: "Parish-level councils where the day-to-day brotherhood and service takes place. Each sub-council operates within a specific parish community and is led by its own elected officers.",
     roles: ["Grand Knight", "Deputy Grand Knight", "Chancellor", "Financial Secretary"],
   },
   {
-    tier: "TIER 4",
-    title: "Zones",
+    tier: "TIER 5",
+    title: "Sub-Concil Zones",
     body: "Zones are the operational units of the Sub Council. They are responsible for the day-to-day activities of the Metro Council.",
     roles: ["Zonal Leader", "Zonal Secretary", "Zonal Treasurer"],
   },
@@ -48,7 +54,7 @@ function Tiers() {
         {tiers.map((t) => (
           <article key={t.tier} className="border border-gray-300 bg-cream p-7">
             <div className="inline-block bg-forest text-cream text-[10px] tracking-[0.25em] px-2.5 py-1 mb-5">{t.tier}</div>
-            <h2 className="font-serif text-3xl text-foreground mb-3">{t.title}</h2>
+            <h2 className="font-serif text-5xl text-foreground mb-6">{t.title}</h2>
             <p className="text-sm leading-relaxed text-foreground/80 mb-6">{t.body}</p>
             <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-3">Key Roles</p>
             <div className="flex flex-wrap gap-2">

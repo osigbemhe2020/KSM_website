@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/membersScreens/memberComponents/DetailsCards";
 
 const events = [
   { date: "22 MAR", title: "Metro Council Quarterly General Meeting", desc: "Quarterly meeting of all sub-councils within the Abuja metropolis. All Knights are expected to attend.", loc: "Our Lady Queen of Nigeria Pro-Cathedral, Abuja" },
@@ -27,9 +28,14 @@ function Events() {
           </div>
         ))}
       </div>
-       <div className="text-center mt-14">
-          <a href="#" className="bg-forest text-white px-6 py-3 rounded font-semibold hover:bg-green-800 transition inline-flex items-center">View full Calendar <span className="ml-2"><ArrowRight /></span></a>
-        </div>
+      <div className="text-center mt-14">
+        <Button
+          href="/event-calendar"
+          className="inline-flex px-6 rounded  w-auto mt-0"
+        >
+          View full Calendar <span className="ml-2"><ArrowRight /></span>
+        </Button>
+      </div>
     </section>
   );
 }

@@ -79,7 +79,7 @@ const ResetPasswordPage = () => {
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Lock size={32} className="text-red-600" />
               </div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">Invalid or Expired Token</h2>
+              <h2 className="font-serif text-5xl text-foreground mb-6">Invalid or Expired Token</h2>
               <p className="text-sm text-gray-600 mb-6">
                 The password reset token is invalid or has expired. Please request a new one.
               </p>

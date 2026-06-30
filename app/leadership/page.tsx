@@ -18,7 +18,7 @@
 // const Leadership = () => {
 //     return (
 //         <main className="py-10 px-6">
-//             <h2 className="text-3xl text-center font-bold">Our Leadership</h2>
+//             <h2 className="font-serif text-5xl text-foreground mb-6 text-center">Our Leadership</h2>
 //             <p className="text-[16px] p-4 text-center font-semibold">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 //             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 mt-10 px-4 sm:px-6 lg:px-8 mx-auto max-w-6xl">
 //                 <Profile/>
@@ -38,6 +38,9 @@ import WhoWeAreHero from "@/components/whoWeAreComponents/WhoWeAreHero";
 import leader1 from "@/assets/leader-1.jpg";
 import leader2 from "@/assets/leader-2.jpg";
 import leader3 from "@/assets/leader-3.jpg";
+import ProfileCard from "@/components/ProfileCard";
+import Link from 'next/link'
+
 
 
 const grandKnight = {
@@ -60,19 +63,21 @@ function GrandKnight() {
     <section className="bg-cream pt-16 pb-12">
       <div className="max-w-3xl mx-auto px-6 text-center">
         <p className="text-[10px] tracking-[0.3em] text-muted-foreground mb-3">LEADERSHIP SPOTLIGHT</p>
-        <h2 className="font-serif text-3xl md:text-4xl text-foreground mb-10">The Metropolitan Grand Knight</h2>
-        <article className="border border-border bg-cream/60 p-5 text-left max-w-sm mx-auto">
-          <div className="aspect-square bg-muted overflow-hidden mb-5">
-            <img src={grandKnight.img.src} alt={grandKnight.name} loading="lazy" width={1024} height={1024} className="w-full h-full object-cover" />
-          </div>
-          <p className="text-[9px] tracking-[0.25em] text-muted-foreground mb-2">{grandKnight.rolePill}</p>
-          <h3 className="font-serif text-xl text-foreground leading-tight mb-1">{grandKnight.name}</h3>
-          <p className="text-[11px] tracking-wide text-muted-foreground mb-3">{grandKnight.served}</p>
-          <p className="text-xs text-foreground/70 leading-relaxed mb-5">{grandKnight.bio}</p>
-          <button className="text-[10px] tracking-[0.2em] px-4 py-2 border border-border hover:border-forest hover:text-forest transition-colors">
-            READ FULL BIOGRAPHY
-          </button>
-        </article>
+        <h2 className="font-serif text-5xl text-foreground mb-6">The Metropolitan Grand Knight</h2>
+        <Link href={`/leadership/slugplaceholder`}>
+          <article className="border border-border bg-cream/60 p-5 text-left max-w-sm mx-auto">
+            <div className="aspect-square bg-muted overflow-hidden mb-5">
+              <img src={grandKnight.img.src} alt={grandKnight.name} loading="lazy" width={1024} height={1024} className="w-full h-full object-cover" />
+            </div>
+            <p className="text-[9px] tracking-[0.25em] text-muted-foreground mb-2">{grandKnight.rolePill}</p>
+            <h3 className="font-serif text-xl text-foreground leading-tight mb-1">{grandKnight.name}</h3>
+            <p className="text-[11px] tracking-wide text-muted-foreground mb-3">{grandKnight.served}</p>
+            <p className="text-xs text-foreground/70 leading-relaxed mb-5">{grandKnight.bio}</p>
+            <button className="text-[10px] tracking-[0.2em] px-4 py-2 border border-border hover:border-forest hover:text-forest transition-colors">
+              VIEW FULL PROFILE
+            </button>
+          </article>
+        </Link>
       </div>
     </section>
   );
@@ -83,24 +88,23 @@ function Stewards() {
     <section className="bg-cream pb-24">
       <div className="max-w-6xl mx-auto px-6">
         <p className="text-[10px] tracking-[0.3em] text-muted-foreground mb-3">THE COUNCIL OFFICERS</p>
-        <h2 className="font-serif text-3xl md:text-4xl text-foreground mb-3">Stewards of the Order</h2>
+        <h2 className="font-serif text-5xl text-foreground mb-6">Stewards of the Order</h2>
         <p className="text-sm text-muted-foreground max-w-xl mb-10 leading-relaxed">
           Each officer brings particular gifts to the service of the Council, supporting the Worthy Metropolitan Grand Knight in shepherding our brotherhood.
         </p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {stewards.map((s) => (
-            <article key={s.name} className="border border-border bg-cream/60 p-4">
-              <div className="aspect-square bg-muted overflow-hidden mb-4">
-                <img src={s.img.src} alt={s.name} loading="lazy" width={800} height={800} className="w-full h-full object-cover" />
-              </div>
-              <p className="text-[9px] tracking-[0.25em] text-muted-foreground mb-2">{s.role}</p>
-              <h3 className="font-serif text-lg text-foreground leading-tight mb-1">{s.name}</h3>
-              <p className="text-[11px] tracking-wide text-muted-foreground mb-3">{s.served}</p>
-              <p className="text-xs text-foreground/70 leading-relaxed mb-4">{s.bio}</p>
-              <button className="text-[10px] tracking-[0.2em] px-3 py-2 border border-border hover:border-forest hover:text-forest transition-colors">
-                READ FULL BIOGRAPHY
-              </button>
-            </article>
+            <Link key={s.name} href={`/leadership/slugplaceholder`}>
+              <ProfileCard
+                key={s.name}
+                imageSrc={s.img.src}
+                roleNode={s.role}
+                name={s.name}
+                subtitle={s.served}
+                description={s.bio}
+                buttonText="VIEW FULL PROFILE"
+              />
+            </Link>
           ))}
         </div>
       </div>
@@ -119,7 +123,7 @@ function Pillars() {
     <section className="bg-cream pb-24">
       <div className="max-w-6xl mx-auto px-6 text-center">
         <p className="text-[10px] tracking-[0.3em] text-muted-foreground mb-3">LEADERSHIP SPOTLIGHT</p>
-        <h2 className="font-serif text-4xl md:text-5xl text-foreground mb-14">The Pillars of Our Council</h2>
+        <h2 className="font-serif text-5xl text-foreground mb-6">The Pillars of Our Council</h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 text-left">
           {pillars.map((p) => (
             <div key={p.title}>

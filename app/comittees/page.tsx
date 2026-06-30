@@ -1,5 +1,5 @@
 import WhoWeAreHero from "@/components/whoWeAreComponents/WhoWeAreHero";
-import {StaticImageData} from "next/image";
+import { StaticImageData } from "next/image";
 import img1 from "@/assets/impact-1.jpg";
 import img2 from "@/assets/impact-2.jpg";
 import img3 from "@/assets/impact-3.jpg";
@@ -20,18 +20,6 @@ import img4 from "@/assets/project-cathedral.jpg";
 
 
 
-
-function Intro() {
-  return (
-    <section className="bg-cream py-20">
-      <div className="max-w-2xl mx-auto px-6 text-center">
-        <p className="font-serif text-2xl md:text-3xl text-foreground leading-snug">
-          Each committee is a ministry within the Order — entrusted with a specific calling, measured not by activity but by the fruit it bears in the lives of the faithful.
-        </p>
-      </div>
-    </section>
-  );
-}
 
 type Committee = {
   ministry: string;
@@ -84,14 +72,13 @@ const committees: Committee[] = [
 
 function CommitteeCard({ c, reverse }: { c: Committee; reverse: boolean }) {
   return (
-    <article className="border border-border bg-cream">
+    <article className="border border-border bg-cream mt-10">
       <div className={`grid md:grid-cols-2 ${reverse ? "md:[&>*:first-child]:order-2" : ""}`}>
         <div className="aspect-[4/3] md:aspect-auto bg-muted overflow-hidden">
           <img src={c.image.src} alt={c.title.replace("\n", " ")} loading="lazy" width={800} height={600} className="w-full h-full object-cover" />
         </div>
         <div className="p-8 md:p-10">
-          <p className="text-[10px] tracking-[0.3em] text-muted-foreground mb-3">{c.ministry}</p>
-          <h3 className="font-serif text-2xl md:text-3xl text-foreground mb-6 leading-tight whitespace-pre-line">{c.title}</h3>
+          <h3 className="font-serif text-2xl md:text-3xl text-foreground mb-4 leading-tight whitespace-pre-line">{c.title}</h3>
 
           <p className="text-[10px] tracking-[0.25em] text-muted-foreground mb-2">PURPOSE</p>
           <p className="text-sm text-foreground/80 leading-relaxed mb-6">{c.purpose}</p>
@@ -99,7 +86,7 @@ function CommitteeCard({ c, reverse }: { c: Committee; reverse: boolean }) {
           <p className="text-[10px] tracking-[0.25em] text-muted-foreground mb-3">RESPONSIBILITIES</p>
           <ul className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm text-foreground/80 mb-6">
             {c.responsibilities.map((r) => (
-              <li key={r} className="flex items-start gap-2"><span className="text-forest mt-1">›</span><span>{r}</span></li>
+              <li key={r} className="flex items-start gap-2"><span className="text-forest">›</span><span>{r}</span></li>
             ))}
           </ul>
 
@@ -136,12 +123,11 @@ function Grid() {
 export default function CommitteesPage() {
   return (
     <main className="min-h-screen bg-cream">
-      <WhoWeAreHero 
+      <WhoWeAreHero
         title="Our Committees"
         description="Each committee is a ministry within the Order — entrusted with a specific calling, measured not by activity but by the fruit it bears in the lives of the faithful."
       />
       <br />
-      <Intro />
       <br />
       <Grid />
     </main>

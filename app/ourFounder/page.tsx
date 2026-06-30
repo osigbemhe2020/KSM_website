@@ -30,24 +30,20 @@ function FounderTable() {
           <div className="aspect-[4/5] bg-muted border border-border overflow-hidden">
             <img src={portrait.src} alt="Sir Kt. Augustine I. Nnamdiwu" loading="lazy" width={1024} height={1280} className="w-full h-full object-cover" />
           </div>
-          <p className="text-xs tracking-[0.2em] text-muted-foreground mt-4">SIR KT. AUGUSTINE I. NNAMDIWU</p>
+          <p className="text-xs tracking-[0.2em] text-muted-foreground mt-4">REV.FR. OJEFUA</p>
         </div>
         <div>
           <p className="text-[10px] tracking-[0.3em] text-muted-foreground mb-3">OUR FOUNDER</p>
-          <h2 className="font-serif text-4xl text-foreground mb-6">Our Founder.</h2>
+          <h2 className="font-serif text-5xl text-foreground mb-6">Our Founder.</h2>
           <p className="text-sm text-foreground/80 leading-relaxed mb-8">
             The visionary whose faith, leadership, and commitment laid the foundation upon which this metropolitan council was built — a man of God and a servant of the Order.
           </p>
           <div className="border-t border-border">
-            <div className="grid grid-cols-3 text-[10px] tracking-[0.2em] text-muted-foreground py-3 border-b border-border">
-              <span>NAME</span>
-              <span>SERVED</span>
-              <span>TITLE</span>
-            </div>
-            <div className="grid grid-cols-3 text-sm py-4 border-b border-border">
-              <span className="font-serif">Sir Kt. Augustine<br/>I. Nnamdiwu, KSM</span>
-              <span>1968 —<br/>1975</span>
-              <span>Founding<br/>Grand Knight</span>
+            <div className="space-y-5 text-sm leading-relaxed text-foreground/80">
+              <p>St. Matthias Mulumba Kalemba (also known as Matthias Kalemba) was one of the Uganda Martyrs, a group of Catholic and Anglican converts who were executed between 1885 and 1887 on the orders of Mwanga II, the Kabaka (King) of Buganda.</p>
+              <p>Matthias Mulumba was a chief and judge in the royal court. He was among the earliest converts to Catholicism in Uganda, baptised by the White Fathers missionaries. His faith was deep and unwavering, and he paid the price of that fidelity in defence of ancient Christians and witness to the Gospel.</p>
+              <p>When King Mwanga II launched a violent persecution against Christians, Matthias refused to renounce his faith. He was arrested, brutally tortured, and clamoured a slow, agonizing death. On May 30, 1886, his death was particularly grievous — he was dismembered and left to die alone — yet he bore his suffering with extraordinary faith and forgiveness.</p>
+              <p>He was beatified by Pope Benedict XV in 1920 and canonized by Pope Paul VI on October 18, 1964, along with 21 other Uganda Martyrs. Their feast day is celebrated on June 3rd.</p>
             </div>
           </div>
         </div>
@@ -101,7 +97,7 @@ function Vision() {
     <section className="bg-forest text-cream py-20">
       <div className="max-w-3xl mx-auto px-6 text-center">
         <p className="text-[10px] tracking-[0.3em] opacity-70 mb-4">HIS VISION</p>
-        <h2 className="font-serif text-3xl md:text-4xl mb-8">The Vision That Started It All.</h2>
+        <h2 className="font-serif text-5xl text-foreground mb-6">The Vision That Started It All.</h2>
         <p className="font-serif italic text-lg md:text-xl leading-relaxed opacity-90">
           “To raise up Catholic gentlemen who, by the witness of faith and the labour of charity, shall be a light to the Church and a refuge to the poor — bound to one another in brotherhood, and to God in obedience — until the close of the age.”
         </p>
@@ -114,7 +110,7 @@ function Moments() {
   return (
     <section className="bg-cream py-20">
       <div className="max-w-6xl mx-auto px-6 text-center">
-        <h2 className="font-serif text-4xl text-foreground mb-12">Moments Preserved.</h2>
+        <h2 className="font-serif text-5xl text-foreground mb-6">Moments Preserved.</h2>
         <div className="grid md:grid-cols-3 gap-6">
           {[moment1, moment2, moment3].map((src, i) => (
             <div key={i} className="aspect-[4/5] bg-muted border border-border overflow-hidden">
@@ -130,12 +126,12 @@ function Moments() {
 export default function FoundersPage() {
   return (
     <main className="min-h-screen bg-cream">
-      <WhoWeAreHero 
+      <WhoWeAreHero
         title="Our Founder"
         description="The man behind the mission."
       />
       <FounderTable />
-      <Story />
+      {/* <Story /> */}
       <Vision />
       <Moments />
     </main>

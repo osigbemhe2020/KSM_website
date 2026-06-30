@@ -27,7 +27,7 @@ function Programs() {
       style={{ marginTop: "60px", marginBottom: "40px" }}
     >
       <div className="max-w-6xl mx-auto px-6">
-        <h2 className="font-serif text-4xl md:text-5xl text-center mb-12">Our Programs</h2>
+        <h2 className="font-serif text-5xl text-foreground mb-6 text-center">Our Programs</h2>
         <div className="grid md:grid-cols-2 gap-5">
           {programs.map((p) => (
             <Link href={`/charity/${p.slug}`} key={p.slug} className="block">
@@ -54,7 +54,7 @@ function Impact() {
     <section className="bg-cream pb-24">
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-10">
-          <h2 className="font-serif text-4xl md:text-5xl">Our Impact in Action</h2>
+          <h2 className="font-serif text-5xl text-foreground mb-6">Our Impact in Action</h2>
           <p className="mt-3 text-muted-foreground max-w-md">Moments of service, solidarity, and compassion across the Abuja metropolis.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-5">

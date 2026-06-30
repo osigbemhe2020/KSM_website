@@ -15,14 +15,38 @@ export default async function CharitySlugPage({ params }: { params: { slug: stri
     return (
         <div>
             {/* Section title + Hero image */}
-            <section className="bg-cream !pt-[100px] pb-16">
-                <div className="max-w-5xl mx-auto px-6">
-                    <h2 className="font-serif text-4xl md:text-5xl text-center mb-12">{p.sectionTitle}</h2>
-                    <div className="aspect-[16/8] bg-background border border-border overflow-hidden">
-                        <img src={p.hero.src} alt={p.sectionTitle} loading="lazy" width={1600} height={800} className="h-full w-full object-cover" />
+            <section className="bg-cream pt-16 pb-12">
+                <div className="max-w-5xl mx-auto px-6 ">
+                    <div className="flex items-center justify-center gap-4 mb-10">
+                        <h2 className="font-serif text-5xl text-foreground mb-6 text-center">{p.title}</h2>
+                    </div>
+                    <div
+                        style={{
+                            position: 'relative',
+                            width: '100%',
+                            aspectRatio: '16 / 7',
+                            overflow: 'hidden',
+                            border: '1px solid var(--border, #e5e7eb)',
+                            background: 'var(--background, #fff)',
+                        }}
+                    >
+                        <img
+                            src={p.hero.src}
+                            alt={p.title}
+                            loading="lazy"
+                            style={{
+                                position: 'absolute',
+                                inset: 0,
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                                objectPosition: 'center',
+                            }}
+                        />
                     </div>
                 </div>
             </section>
+            <br />
 
             {/* Overview */}
             <section className="bg-cream pb-20">
@@ -39,7 +63,7 @@ export default async function CharitySlugPage({ params }: { params: { slug: stri
                 <div className="max-w-5xl mx-auto px-6">
                     <h3 className="font-serif text-3xl md:text-4xl text-center mb-3">Core Initiatives</h3>
                     <p className="text-xs text-muted-foreground text-center mb-10">The specific works through which this ministry takes shape.</p>
-                    <div className="grid md:grid-cols-2 gap-px bg-border border border-border">
+                    <div className="grid md:grid-cols-2 gap-5  border border-[#EAEAEA]">
                         {p.initiatives.map((it, i) => (
                             <div key={it.t} className="bg-cream p-7">
                                 <p className="text-xs text-muted-foreground mb-3">{String(i + 1).padStart(2, "0")}</p>

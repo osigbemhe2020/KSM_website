@@ -1,25 +1,26 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 
 const activities = [
-  { title: 'Community Outreach',    count: '24 recent events' },
-  { title: 'Charity Drive',         count: '12 recent events' },
-  { title: 'Youth Evangelisation',  count: 'Activities on outreach in area...' },
-  { title: 'Medical Mission',       count: '8 recent events' },
-  { title: 'Annual Thanksgiving',   count: '30 recent events' },
-  { title: 'Knights Formation',     count: '15 recent events' },
+  { title: 'Community Outreach', count: '24 recent events' },
+  { title: 'Charity Drive', count: '12 recent events' },
+  { title: 'Youth Evangelisation', count: 'Activities on outreach in area...' },
+  { title: 'Medical Mission', count: '8 recent events' },
+  { title: 'Annual Thanksgiving', count: '30 recent events' },
+  { title: 'Knights Formation', count: '15 recent events' },
 ];
 
 const AUTOPLAY_INTERVAL = 3000;
 
 const OurActivitiesSection = () => {
-  const [current, setCurrent]   = useState(0);
+  const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [cardsVisible, setCardsVisible] = useState(3);
-  const intervalRef             = useRef<NodeJS.Timeout | null>(null);
-  const touchStartX             = useRef<number | null>(null);
-  const total                   = activities.length;
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const touchStartX = useRef<number | null>(null);
+  const total = activities.length;
 
   useEffect(() => {
     const update = () => setCardsVisible(window.innerWidth < 768 ? 1 : 3);
@@ -63,9 +64,9 @@ const OurActivitiesSection = () => {
   const cardWidth = 100 / cardsVisible;
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-cream">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Photo Gallery</h2>
+        <h2 className="font-serif text-4xl md:text-5xl text-center mb-8">Photo Gallery</h2>
 
         <div
           className="relative overflow-hidden"
@@ -114,18 +115,19 @@ const OurActivitiesSection = () => {
             <button
               key={idx}
               onClick={() => { setCurrent(idx); setIsPaused(true); }}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                idx === current % total ? 'bg-forest w-4' : 'bg-gray-300'
-              }`}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${idx === current % total ? 'bg-forest w-4' : 'bg-gray-300'
+                }`}
               aria-label={`Go to slide ${idx + 1}`}
             />
           ))}
         </div>
 
         <div className="mt-6 flex justify-end">
-          <button className="text-forest font-semibold transition">
-            View more →
-          </button>
+          <Link href="/photo-gallery">
+            <button className="text-forest font-semibold transition">
+              View more →
+            </button>
+          </Link>
         </div>
       </div>
     </section>

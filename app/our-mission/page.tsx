@@ -32,7 +32,7 @@ function Mission() {
   return (
     <section className="bg-cream pb-28">
       <div className="max-w-6xl mx-auto px-6">
-        <h2 className="font-serif text-5xl text-foreground text-center mb-16">Our Mission</h2>
+        <h2 className="font-serif text-5xl text-foreground mb-6 text-center">Our Mission</h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {pillars.map((p) => (
             <div key={p.title}>
@@ -67,7 +67,7 @@ export default VisionPage;
 // const Content = ({heading}: {heading: string}) => {
 //     return(
 //         <div>
-//             <h2 className="text-3xl font-bold text-black mb-7">{heading}</h2>
+//             <h2 className="font-serif text-5xl text-foreground mb-6">{heading}</h2>
 
 //             <div className="space-y-4 text-base leading-relaxed text-black">
 //               <p>

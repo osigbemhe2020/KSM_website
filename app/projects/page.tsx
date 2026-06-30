@@ -32,7 +32,7 @@
 // const ProjectPage = () => {
 //   return (
 //     <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-//         <h2 className="text-3xl text-center font-bold text-black mb-2">Our Projects</h2>
+//         <h2 className="font-serif text-5xl text-foreground mb-6 text-center">Our Projects</h2>
 //         <p className="text-center text-black font-semibold mb-8">Our projects are a reflection of our commitment to God and His Church. We believe that through our projects, we can make a positive impact on the lives of those around us.</p>
 //         <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8 mb-8">
 //         <ProjectCard title="Project 1" description="Description of project 1" />
