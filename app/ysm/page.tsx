@@ -2,6 +2,7 @@
 import { Cross, Star, HandHeart, Users } from "lucide-react";
 import WhoWeAreHero from "@/components/whoWeAreComponents/WhoWeAreHero";
 import InterestForm from "@/components/forms/InterestForm";
+import heroImage from "@/assets/hero-image3.jpg";
 
 export default function YSM() {
     return (
@@ -14,35 +15,24 @@ export default function YSM() {
 
             {/* About */}
             <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-                <div className="grid md:grid-cols-[1fr_2fr] gap-10 items-center">
+                <div className="flex flex-col md:flex-row gap-10 items-start">
 
-                    <div>
-                        <h2 className="font-serif text-5xl text-foreground mb-6">About YSM</h2>
-                        <div
-                            style={{
-                                position: 'relative',
-                                width: '60%',
-                                aspectRatio: '16 / 7',
-                                overflow: 'hidden',
-                                border: '1px solid var(--border, #e5e7eb)',
-                                background: 'var(--background, #fff)',
-                            }}
-                        >
+                    {/* Image column */}
+                    <div className="w-full md:w-1/2 shrink-0">
+                        <div className="relative w-full aspect-[16/9] overflow-hidden border border-border">
                             <img
-                                src="@/assets/hero-image3.jpg"
-                                alt=""
+                                src={heroImage.src}
+                                alt="YSM members"
                                 loading="lazy"
-                                style={{
-                                    position: 'absolute',
-                                    inset: 0,
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover',
-                                    objectPosition: 'center',
-                                }}
+                                className="absolute inset-0 w-full h-full object-cover object-center"
                             />
                         </div>
-                        <div className="space-y-4 mt-8 text-foreground/80 leading-relaxed">
+                    </div>
+
+                    {/* Text column */}
+                    <div className="flex flex-col justify-center md:py-4">
+                        <h2 className="font-serif text-5xl text-foreground mb-6">About YSM</h2>
+                        <div className="space-y-4 text-foreground/80 leading-relaxed">
                             <p>
                                 The Youths of Saint Mulumba (YSM) serves as the vibrant youth wing of the Knights of St. Mulumba. We are dedicated to nurturing young Catholic men and women aged 15-35 in the vital pillars of faith, leadership, and community service.
                             </p>
@@ -51,6 +41,7 @@ export default function YSM() {
                             </p>
                         </div>
                     </div>
+
                 </div>
             </section>
 
@@ -77,7 +68,7 @@ export default function YSM() {
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-8">
-                        <div className="bg-background p-8 rounded-lg border-l-4 border-l-primary shadow-sm">
+                        <div className="bg-background p-8 rounded-lg  shadow-sm">
                             <h3 className="font-serif text-2xl font-bold text-primary mb-4">Youth Development Programs</h3>
                             <p className="text-foreground/80 mb-4">
                                 Our comprehensive programs are designed to support holistic youth development including spiritual, academic, and social growth.
@@ -89,7 +80,7 @@ export default function YSM() {
                                 <li>Social Development</li>
                             </ul>
                         </div>
-                        <div className="bg-background p-8 rounded-lg border-l-4 border-l-primary shadow-sm">
+                        <div className="bg-background p-8 rounded-lg shadow-sm">
                             <h3 className="font-serif text-2xl font-bold text-primary mb-4">Leadership Formation</h3>
                             <p className="text-foreground/80 mb-4">
                                 We prepare young Catholics to be leaders in their communities, parishes, and professions.

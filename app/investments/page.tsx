@@ -2,13 +2,13 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import WhoWeAreHero from "@/components/whoWeAreComponents/WhoWeAreHero";
+
 import ProfileCard from "@/components/ProfileCard";
-import { ChevronRight, ChevronLeft } from "lucide-react";
+import Pagination from "@/components/Pagination";
 import { ventures } from "@/lib/ventures";
-import leader1 from "@/assets/leader-1.jpg";
-import leader2 from "@/assets/leader-2.jpg";
-import leader3 from "@/assets/leader-3.jpg";
+import leader1 from "@/assets/activity-brotherhood.jpg";
+import leader2 from "@/assets/activity-medical.jpg";
+import leader3 from "@/assets/project-school.jpg";
 
 const placeholders = [leader1.src, leader2.src, leader3.src];
 
@@ -31,11 +31,7 @@ export default function Investments() {
     return (
         <div className="w-full">
             {/* Hero */}
-            <WhoWeAreHero
-                title="Metro Investments"
-                description="Our investments and business ventures support long-term sustainability, community development, and the continued growth of our mission."
 
-            />
 
             {/* Our Investment Impact */}
             <section className="py-16 px-4 sm:px-6 lg:px-8 text-center">
@@ -110,42 +106,14 @@ export default function Investments() {
                     </div>
 
                     {/* Pagination */}
-                    <div className="flex flex-wrap items-center justify-between gap-4 text-sm">
-                        <p className="text-muted-foreground text-xs">
-                            Showing {start + 1}–{Math.min(start + PER_PAGE, ventures.length)} of {ventures.length}
-                        </p>
-                        <div className="flex items-center gap-1">
-                            <button
-                                data-testid="button-prev-page"
-                                onClick={() => setPage((p) => Math.max(1, p - 1))}
-                                disabled={page === 1}
-                                className="flex items-center gap-1 px-3 py-1.5 text-xs border border-border rounded text-foreground/70 hover:bg-muted disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                            >
-                                <ChevronLeft className="w-3.5 h-3.5" /> Previous
-                            </button>
-                            {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
-                                <button
-                                    key={n}
-                                    data-testid={`button-page-${n}`}
-                                    onClick={() => setPage(n)}
-                                    className={`w-8 h-8 text-xs rounded border transition-colors ${n === page
-                                        ? "bg-primary text-primary-foreground border-primary"
-                                        : "border-border text-foreground/70 hover:bg-muted"
-                                        }`}
-                                >
-                                    {n}
-                                </button>
-                            ))}
-                            <button
-                                data-testid="button-next-page"
-                                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                                disabled={page === totalPages}
-                                className="flex items-center gap-1 px-3 py-1.5 text-xs border border-border rounded text-foreground/70 hover:bg-muted disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                            >
-                                Next <ChevronRight className="w-3.5 h-3.5" />
-                            </button>
-                        </div>
-                    </div>
+                    <Pagination
+                        currentPage={page}
+                        totalPages={totalPages}
+                        onPageChange={setPage}
+                        totalItems={ventures.length}
+                        itemsPerPage={PER_PAGE}
+                        testIdPrefix="button"
+                    />
                 </div>
             </section>
 

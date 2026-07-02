@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-const API_URL = 'http://localhost:3002';
+const API_URL = process.env.BACKEND_URL || "http://localhost:3002";
 
 export function useGetMembers(filters: Record<string, string> = {}, page = 1, limit = 10) {
     const queryParams = new URLSearchParams({
@@ -82,7 +82,7 @@ export function useUpdateMember() {
     const queryClient = useQueryClient();
     
     return useMutation({
-        mutationFn: async ({ id, data }: { id: string; data: any }) => {
+        mutationFn: async ({ id, data }: { id: string; data: Record<string, unknown> }) => {
             const response = await fetch(`${API_URL}/members/${id}`, {
                 method: 'PUT',
                 headers: {

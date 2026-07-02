@@ -102,7 +102,7 @@ export const Input = ({
   className = '',
   label
 }: InputProps) => {
-  const defaultClassName = 'w-full bg-[#FFF8DC] py-2 px-4 text-sm placeholder:text-[#000] focus:border-[#000]';
+  const defaultClassName = 'w-full bg-[#FFF8DC] py-2 px-4 text-sm placeholder:text-[#000] border border-gray-400 focus:border-[#000]';
   const errorClassName = error && touched ? 'border-red-500 focus:border-red-500' : '';
 
   return (

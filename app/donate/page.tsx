@@ -184,9 +184,10 @@
 'use client';
 import { useState } from "react";
 import ProfileCard from "@/components/ProfileCard";
-import leader1 from "@/assets/leader-1.jpg";
-import leader2 from "@/assets/leader-2.jpg";
-import leader3 from "@/assets/leader-3.jpg";
+import leader1 from "@/assets/activity-community.jpg";
+import leader2 from "@/assets/activity-mentorship.jpg";
+import leader3 from "@/assets/project-scholarship.jpg";
+import { useDonate } from "@/hooks/payment.hook";
 
 const placeholders = [leader1.src, leader2.src, leader3.src];
 
@@ -234,7 +235,17 @@ const presets = [5000, 10000, 25000, 50000];
 function Donate() {
   const [amount, setAmount] = useState<number | "">(10000);
   const [custom, setCustom] = useState("");
-  const [dedication, setDedication] = useState("");
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const { mutate: donate } = useDonate();
+
+  const handleDonate = () => {
+    if (!amount || amount <= 0) {
+      alert("Please enter a valid donation amount.");
+      return;
+    }
+    donate({ name, amount, email });
+  }
 
   return (
     <section className="bg-cream pb-24">
@@ -260,6 +271,14 @@ function Donate() {
                 </button>
               ))}
             </div>
+            <p className="text-[10px] tracking-[0.25em] text-muted-foreground mb-3">DEDICATION OR INTENTION (OPTIONAL)</p>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Dirisu Paul"
+              className="w-full px-3 py-3 text-sm border border-border bg-background focus:outline-none focus:border-forest mb-8"
+            />
             <div className="flex items-center gap-2 mb-8">
               <input
                 type="number"
@@ -274,13 +293,16 @@ function Donate() {
             <p className="text-[10px] tracking-[0.25em] text-muted-foreground mb-3">DEDICATION OR INTENTION (OPTIONAL)</p>
             <input
               type="text"
-              value={dedication}
-              onChange={(e) => setDedication(e.target.value)}
-              placeholder="In memory of, in honor of…"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="dirisupaul16@gmail.com"
               className="w-full px-3 py-3 text-sm border border-border bg-background focus:outline-none focus:border-forest mb-8"
             />
 
-            <button type="button" className="w-full bg-forest text-white py-4 text-sm tracking-[0.15em] hover:bg-forest-deep transition-colors">
+             
+
+
+            <button onClick={handleDonate} className="w-full bg-forest text-white py-4 text-sm tracking-[0.15em] hover:bg-forest-deep transition-colors">
               CONTINUE TO PAYMENT
             </button>
             <p className="text-[10px] text-muted-foreground mt-4 text-center">
@@ -299,13 +321,13 @@ function Testmonial() {
       <div className="max-w-6xl mx-auto px-6">
         <p className="text-[10px] tracking-[0.3em] text-muted-foreground mb-4">TESTIMONIALS</p>
         <h2 className="font-serif text-5xl text-foreground mb-6">What Our Beneficiaries Say</h2>
-        <div className="grid md:grid-cols-2 h-100  gap-10 ">
+        <div className="grid md:grid-cols-2 h-100  gap-6 ">
           <div className="bg-forest h-full w-[451px] min-h-100 hidden md:block" />
-          <div>
+          <div className="flex flex-col justify-center">
 
             <p className="font-serif text-xl mb-6 text-foreground/90 leading-snug ">
-              "When the Knights came to our parish, they did not arrive as benefactors but as brothers. Their quiet
-              generosity carried my son through university — a gift our family will pray for, always."
+              &quot;When the Knights came to our parish, they did not arrive as benefactors but as brothers. Their quiet
+              generosity carried my son through university — a gift our family will pray for, always.&quot;
             </p>
             <p className="font-bold text-lg">
               Mrs. Adeze

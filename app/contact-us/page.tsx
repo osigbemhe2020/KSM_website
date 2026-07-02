@@ -42,7 +42,7 @@ const contactSchema = Yup.object().shape({
 type ContactValues = Yup.InferType<typeof contactSchema>;
 
 function ContactForm() {
-    const textareaCls = "w-full px-4 py-3 text-sm bg-[#FFF8DC] border border-border focus:outline-none focus:border-forest transition-colors resize-y";
+    const textareaCls = "w-full px-4 py-3 text-sm bg-[#FFF8DC] border border-gray-400 focus:outline-none focus:border-forest transition-colors resize-y";
 
     return (
         <Formik
@@ -61,7 +61,7 @@ function ContactForm() {
             }}
         >
             {({ isSubmitting, errors, touched, values, handleChange, handleBlur }) => (
-                <Form noValidate className="bg-background border border-border p-6 md:p-10">
+                <Form noValidate className="border border-border p-6 md:p-10">
                     <h2 className="font-serif text-5xl text-foreground mb-6">Send us a message</h2>
                     <p className="text-sm text-muted-foreground mb-8">Fields marked with <span className="text-forest">*</span> are required.</p>
 

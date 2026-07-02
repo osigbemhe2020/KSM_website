@@ -2,7 +2,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 // hooks/document.hook.ts
-const API_URL = 'http://localhost:3002';
+const API_URL = process.env.BACKEND_URL || "http://localhost:3002";
 
 export function useGetDocuments() {
   return useQuery({

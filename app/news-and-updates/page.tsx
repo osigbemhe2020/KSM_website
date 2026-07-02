@@ -38,8 +38,8 @@ export default function NewsListPage() {
                   setVisibleCount(6);
                 }}
                 className={`px-6 py-2 text-xs font-semibold rounded-full border transition-colors ${activeCategory === cat
-                    ? "bg-forest text-white border-forest"
-                    : "bg-transparent text-gray-600 border-gray-300 hover:border-gray-400"
+                  ? "bg-forest text-white border-forest"
+                  : "bg-transparent text-gray-600 border-gray-300 hover:border-gray-400"
                   }`}
               >
                 {cat}

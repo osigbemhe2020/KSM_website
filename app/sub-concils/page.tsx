@@ -91,6 +91,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Pagination from "@/components/Pagination";
 import { MapPin, ChevronRight } from "lucide-react";
 import WhoWeAreHero from "@/components/whoWeAreComponents/WhoWeAreHero";
 import ProfileCard from "@/components/ProfileCard";
@@ -153,10 +154,23 @@ const stats = [
 
 export default function SubCouncils() {
     const [activeRegion, setActiveRegion] = useState<Region>("ALL");
+    const [currentPage, setCurrentPage] = useState(1);
+    const ITEMS_PER_PAGE = 3;
 
     const filtered = subCouncils.filter(
         (sc) => activeRegion === "ALL" || sc.region === activeRegion
     );
+
+    const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+    const paginated = filtered.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
+
+    const handleRegionChange = (region: Region) => {
+        setActiveRegion(region);
+        setCurrentPage(1);
+    };
 
     return (
         <div className="w-full">
@@ -231,7 +245,7 @@ export default function SubCouncils() {
                         <select
                             id="region-filter"
                             value={activeRegion}
-                            onChange={(e) => setActiveRegion(e.target.value as Region)}
+                            onChange={(e) => handleRegionChange(e.target.value as Region)}
 
                         >
                             {regions.map((region) => (
@@ -244,10 +258,10 @@ export default function SubCouncils() {
 
                     {/* Cards Grid */}
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {filtered.map((sc, i) => (
+                        {paginated.map((sc, i) => (
                             <ProfileCard
-                                key={i}
-                                testIdPrefix={`subcouncil-${i}`}
+                                key={`${sc.name}-${i}`}
+                                testIdPrefix={`subcouncil-${(currentPage - 1) * ITEMS_PER_PAGE + i}`}
                                 imageSrc={placeholders[i % 3]}
                                 roleNode={
                                     <>
@@ -262,6 +276,16 @@ export default function SubCouncils() {
                             />
                         ))}
                     </div>
+
+                    {/* Pagination */}
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={setCurrentPage}
+                        totalItems={filtered.length}
+                        itemsPerPage={ITEMS_PER_PAGE}
+                        testIdPrefix="subcouncils-pagination"
+                    />
                 </div>
             </section>
         </div>

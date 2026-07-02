@@ -3,7 +3,6 @@ import Link from "next/link";
 
 import { ArrowLeft } from "lucide-react";
 import { ventures } from "@/lib/ventures";
-import WhoWeAreHero from "@/components/whoWeAreComponents/WhoWeAreHero";
 
 // ---------- shared style tokens ----------
 const colors = {
@@ -265,10 +264,7 @@ export default async function InvestmentDetail({ params }: { params: { slug: str
     return (
         <div style={styles.page}>
             {/* Hero — same as Investments page */}
-            <WhoWeAreHero
-                title="Investments"
-                description="Our investments and business ventures support long-term sustainability, community development, and the continued growth of our mission."
-            />
+
 
             {/* Back link + Company Name */}
             <section style={styles.headerSection}>

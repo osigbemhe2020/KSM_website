@@ -4,6 +4,7 @@ import ProfileCard from "@/components/ProfileCard";
 import leader1 from "@/assets/leader-1.jpg";
 import leader2 from "@/assets/leader-2.jpg";
 import leader3 from "@/assets/leader-3.jpg";
+import heroImage from "@/assets/hero-image3.jpg";
 
 export default function LSM() {
     return (
@@ -16,35 +17,24 @@ export default function LSM() {
 
             {/* About */}
             <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-                <div className="grid md:grid-cols-[1fr_2fr] gap-10 items-center">
+                <div className="flex flex-col md:flex-row gap-10 items-start">
 
-                    <div>
-                        <h2 className="font-serif text-5xl text-foreground mb-6">About LSM</h2>
-                        <div
-                            style={{
-                                position: 'relative',
-                                width: '60%',
-                                aspectRatio: '16 / 7',
-                                overflow: 'hidden',
-                                border: '1px solid var(--border, #e5e7eb)',
-                                background: 'var(--background, #fff)',
-                            }}
-                        >
+                    {/* Image column */}
+                    <div className="w-full md:w-1/2 shrink-0">
+                        <div className="relative w-full aspect-[16/9] overflow-hidden border border-border">
                             <img
-                                src="@/assets/hero-image3.jpg"
-                                alt=""
+                                src={heroImage.src}
+                                alt="LSM members"
                                 loading="lazy"
-                                style={{
-                                    position: 'absolute',
-                                    inset: 0,
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover',
-                                    objectPosition: 'center',
-                                }}
+                                className="absolute inset-0 w-full h-full object-cover object-center"
                             />
                         </div>
-                        <div className="space-y-4 mt-8 text-foreground/80 leading-relaxed">
+                    </div>
+
+                    {/* Text column */}
+                    <div className="flex flex-col justify-center md:py-4">
+                        <h2 className="font-serif text-5xl text-foreground mb-6">About LSM</h2>
+                        <div className="space-y-4 text-foreground/80 leading-relaxed">
                             <p>
                                 The Ladies of St. Mulumba (LSM) serves as the esteemed women's auxiliary of the Knights of St. Mulumba. We are a sisterhood dedicated to supporting women in living out their Catholic faith profoundly through dedicated service, fellowship, and spiritual growth.
                             </p>
@@ -53,6 +43,7 @@ export default function LSM() {
                             </p>
                         </div>
                     </div>
+
                 </div>
             </section>
 
@@ -101,9 +92,9 @@ export default function LSM() {
 
                     <div className="grid sm:grid-cols-3 gap-8 mb-12">
                         {[
-                            { name: "Lady Normarose O., LSM", role: "National President", img: leader1 },
-                            { name: "Lady Margaret N., LSM", role: "Secretary General", img: leader2 },
-                            { name: "Lady Cecelia E., LSM", role: "Treasurer", img: leader3 },
+                            { name: "Lady Normarose O., LSM", role: "Metro President", img: leader1 },
+                            { name: "Lady Margaret N., LSM", role: "Metro Secretary", img: leader2 },
+                            { name: "Lady Cecelia E., LSM", role: "Metro Treasurer", img: leader3 },
                         ].map((leader, i) => (
                             <ProfileCard
                                 key={i}

@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from 'react';
 import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
-import Image from 'next/image';
 import WhoWeAreHero from '@/components/whoWeAreComponents/WhoWeAreHero';
 
 interface SubCouncil {
@@ -183,16 +182,16 @@ export default function FindSubCouncil() {
                             />
                         </div>
                     </div>
-                    <div className="w-full flex sm:flex-col gap-4 justify-between">
+                    <div className="w-full mt-8 flex flex-col sm:flex-row gap-4 justify-between">
                         <button
                             onClick={handleSearch}
-                            className="w-[300px]  bg-white text-forest border border-forest font-semibold py-2 px-6 rounded hover:bg-opacity-90 transition-all"
+                            className="w-[300px]  bg-white text-forest border border-forest  py-2 px-6 rounded hover:bg-opacity-90 transition-all"
                         >
                             Use Location
                         </button>
                         <button
                             onClick={handleSearch}
-                            className=" w-[300px]  bg-forest text-white font-semibold py-2 px-6 rounded hover:bg-opacity-90 transition-all"
+                            className=" w-[300px]  bg-forest text-white  py-2 px-6 rounded hover:bg-opacity-90 transition-all"
                         >
                             Search Sub-Councils
                         </button>

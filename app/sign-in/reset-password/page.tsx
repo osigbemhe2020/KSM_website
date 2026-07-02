@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Lock, ArrowLeft} from "lucide-react";
 import {  Button, Card, CardHeader } from "@/components/membersScreens/memberComponents/DetailsCards";
@@ -8,24 +8,21 @@ import { PasswordInput } from "@/components/membersScreens/memberComponents/Pass
 import { toast } from "react-toastify";
 import { useResetPassword } from "@/hooks/auth.hook";
 
-const ResetPasswordPage = () => {
+const ResetPasswordForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [token, setToken] = useState<string>('');
+  const token = searchParams.get('token') ?? '';
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [tokenValid, setTokenValid] = useState<boolean | null>(null);
   const { mutate, isPending } = useResetPassword();
 
   useEffect(() => {
-    const tokenParam = searchParams.get('token');
-    if (!tokenParam) {
+    if (!token) {
       toast.error('Reset token is missing');
       router.push('/forgot-password');
-      return;
     }
-    setToken(tokenParam);
-  }, [searchParams, router]);
+  }, [token, router]);
 
   const validateForm = () => {
     if (!password) {
@@ -45,7 +42,7 @@ const ResetPasswordPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!token) {
       toast.error('Reset token is missing');
       return;
@@ -54,7 +51,7 @@ const ResetPasswordPage = () => {
     if (!validateForm()) {
       return;
     }
-    
+
     mutate({ token, newPassword: password }, {
       onSuccess: (data) => {
         toast.success(data.message || 'Password reset successfully!');
@@ -109,13 +106,13 @@ const ResetPasswordPage = () => {
             Back
           </button>
 
-          <CardHeader 
-            title="Reset Password" 
+          <CardHeader
+            title="Reset Password"
             icon={<Lock size={20} />}
           />
-          
+
           <p className="text-sm text-gray-600 mb-6">
-            Enter your new password below. Make sure it's strong and secure.
+            Enter your new password below. Make sure it&apos;s strong and secure.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -168,6 +165,20 @@ const ResetPasswordPage = () => {
         </Card>
       </div>
     </div>
+  );
+};
+
+const ResetPasswordPage = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">
+          <p className="text-sm text-gray-600">Loading...</p>
+        </div>
+      }
+    >
+      <ResetPasswordForm />
+    </Suspense>
   );
 };
 

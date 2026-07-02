@@ -280,12 +280,7 @@ export default function Events() {
           {/* Filter Tabs */}
           <div className="flex flex-wrap items-center gap-3 mb-10 pb-4">
             {/* Time dropdown stub */}
-            <button
-              data-testid="button-time-filter"
-              className="flex items-center gap-1.5 px-2 py-2 text-xs font-bold text-gray-700 uppercase tracking-wide"
-            >
-              TIME <ChevronDown className="w-4 h-4" />
-            </button>
+
 
             {filters.map((f) => (
               <button
@@ -318,20 +313,20 @@ export default function Events() {
                   {/* Date Column */}
                   <div className="shrink-0 w-16 pt-1 text-center">
                     <div className="text-xs font-medium uppercase tracking-widest text-gray-500 mb-1">{ev.month}</div>
-                    <div className="font-serif text-4xl font-bold text-gray-900 leading-none mb-1">{ev.day}</div>
+                    <div className="font-serif text-4xl font-bold text-black leading-none mb-1">{ev.day}</div>
                     <div className="text-xs font-medium text-gray-500">{ev.year}</div>
                   </div>
 
                   {/* Divider */}
-                  <div className="w-px bg-black self-stretch shrink-0" />
+
 
                   {/* Content */}
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-serif text-2xl sm:text-3xl font-bold text-forest leading-snug mb-3 group-hover:opacity-90 transition-opacity">
+                    <h3 className="font-serif text-4xl sm:text-3xl f text-black leading-snug mb-3 group-hover:opacity-90 transition-opacity">
                       {ev.title}
                     </h3>
                     <div className="flex justify-between items-start mb-3">
-                      <span className="flex items-center gap-2 text-xs font-medium text-gray-600">
+                      <span className="flex items-center gap-2 text-sm font-medium text-gray-600">
                         <MapPin className="w-4 h-4 shrink-0 text-gray-500" />
                         {ev.location}
                       </span>
