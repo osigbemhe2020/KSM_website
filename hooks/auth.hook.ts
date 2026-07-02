@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-const API_URL = process.env.BACKEND_URL || "http://localhost:3002";
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3002";
 
 // in your auth.hook file
 export function useGetMe() {
