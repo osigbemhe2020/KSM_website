@@ -43,7 +43,7 @@ const MemberSearch = ({ searchQuery, onMemberSelect, onSearchChange }: MemberSea
     // if (val && searchQuery) {
     //   onMemberSelect(null);
     // }
-    console.log(val)
+    
     onSearchChange(val);   // fires on every keystroke → sets searchText in parent
   };
 

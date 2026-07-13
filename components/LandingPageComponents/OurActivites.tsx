@@ -12,7 +12,7 @@ const activities = [
   { title: 'Knights Formation', count: '15 recent events' },
 ];
 
-const AUTOPLAY_INTERVAL = 3000;
+const AUTOPLAY_INTERVAL = 6000;
 
 const OurActivitiesSection = () => {
   const [current, setCurrent] = useState(0);

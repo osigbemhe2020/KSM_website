@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/membersScreens/memberComponents/DetailsCards";
+//import { Button } from "@/components/membersScreens/memberComponents/DetailsCards";
 
 const pillars = [
   { t: "Charity & Outreach", d: "Extending God's love through community service, welfare programs, and compassionate outreach to the vulnerable.", i: "♥", href: "/charity" },

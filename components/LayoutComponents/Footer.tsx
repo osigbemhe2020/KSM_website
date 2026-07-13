@@ -4,8 +4,8 @@ import logo from "@/assets/ksm-logo.jpg";
 function Footer({ isHomePage }: { isHomePage: boolean }) {
   const cols = [
     { h: "Who We Are", links: ["The Knights Of St. Mulumba Metro Council Abuja Is The Coordinating Body For All KSM Sub-Councils Within The Federal Capital Territory."], paragraph: true },
-    { h: "What We Do", links: ["Charity & Outreach", "Projects & Infastructure", "Metro Investments"] },
-    { h: "Get Involved", links: ["Join the Order", "Upcoming Events", "Donate"] },
+    { h: "What We Do", links: [{ name: "Charity & Outreach", href: "/charity" }, { name: "Projects & Infastructure", href: "#/projects" }, { name: "Metro Investments", href: "/investments" }] },
+    { h: "Get Involved", links: [{ name: "How to Join", href: "/how-to-join" }, { name: "Upcoming Events", href: "/event-calendar" }, { name: "Donate", href: "/donate" }] },
   ];
   return (
     <footer className={`${isHomePage ? "bg-forest text-white" : "bg-cream text-gray-900"}`}>
@@ -24,7 +24,15 @@ function Footer({ isHomePage }: { isHomePage: boolean }) {
               <p className="text-xs text-muted-foreground leading-relaxed">{c.links[0]}</p>
             ) : (
               <ul className="space-y-2 text-sm text-muted-foreground">
-                {c.links.map((l) => <li key={l}><a href="#" className="hover:text-forest">{l}</a></li>)}
+                {c.links.map((l, i) =>
+                  typeof l === "string" ? (
+                    <li key={l}>{l}</li>
+                  ) : (
+                    <li key={l.href ?? l.name ?? i}>
+                      <a href={l.href} className="hover:underline">{l.name}</a>
+                    </li>
+                  )
+                )}
               </ul>
             )}
           </div>

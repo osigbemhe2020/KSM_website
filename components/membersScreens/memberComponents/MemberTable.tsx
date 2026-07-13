@@ -58,7 +58,6 @@ const MemberTable = () => {
     return f;
   }, [searchQuery, searchText, filters]);
 
-  console.log(activeFilters)
 
   const { data, isLoading, isError } = useGetMembers(activeFilters, currentPage, ITEMS_PER_PAGE);
 

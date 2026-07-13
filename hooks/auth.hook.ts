@@ -10,7 +10,7 @@ export function useGetMe() {
             const response = await fetch(`${API_URL}/auth/me`, {
                 credentials: 'include',
             });
-            console.log("i am logged in", response);
+            
             if (!response.ok) throw new Error('Not authenticated');
             return response.json();
         },

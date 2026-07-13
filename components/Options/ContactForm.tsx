@@ -78,7 +78,6 @@ export const ContactForm = () => {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (validate()) {
-      console.log("Form submitted:", formData);
       toast.success("Message sent successfully!", {
         description: "We'll get back to you as soon as possible.",
       });
@@ -95,7 +94,7 @@ export const ContactForm = () => {
            Contact Us
           </h2>
           <p className="text-muted-foreground">
-            Fill out the form below and we'll get back to you shortly
+            Fill out the form below and we&apos;ll get back to you shortly
           </p>
         </div>
 

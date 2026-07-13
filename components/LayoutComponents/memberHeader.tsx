@@ -7,8 +7,17 @@ import { useGetSingleMember } from '@/hooks/member.hook';
 import useResponsive from '@/hooks/useResponsive';
 import { useState } from 'react';
 
+interface AuthData {
+  user?: {
+    id: string;
+    firstName?: string;
+    lastName?: string;
+    isAdmin?: boolean;
+  };
+}
+
 interface MemberHeaderProps {
-  authData?: any;
+  authData?: AuthData;
   authLoading?: boolean;
 }
 
@@ -20,7 +29,7 @@ const MemberHeader = ({ authData, authLoading }: MemberHeaderProps) => {
 
   const { data: memberData, isLoading, isError } = useGetSingleMember(memberId ?? '');
 
-  console.log("memberData>>>>", memberData);
+
 
   // Dummy notification data
   const notifications = [
@@ -144,17 +153,34 @@ const MemberHeader = ({ authData, authLoading }: MemberHeaderProps) => {
         </div>
 
         <div className="flex items-center gap-2">
-          <img 
-            src={memberData?.profilePhoto || "/default-avatar.png"} 
-            alt="Profile" 
-            className="w-10 h-10 rounded-full border border-[#858585] object-cover"
-          />
+          <div className="relative">
+            <img 
+              src={memberData?.profilePhoto || "/default-avatar.png"} 
+              alt="Profile" 
+              className="w-10 h-10 rounded-full border border-[#858585] object-cover"
+            />
+            {(authLoading || isLoading) && (
+              <div className="absolute inset-0 flex items-center justify-center rounded-full bg-white/70">
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-400 border-t-transparent" />
+              </div>
+            )}
+          </div>
           {!(isMobile || isTablet) && <div>
-            <p className="text-[16px] text-black font-500">
-              {authLoading ? "Loading..." : `${authData?.user?.firstName || "John"} ${authData?.user?.lastName || "Doe"}`}
-            </p>
-            <p className="text-xs text-gray-600">Member</p>
-          </div>}
+          <p className="text-[16px] text-black font-500">
+            {authLoading || isLoading
+              ? "Loading..."
+              : isError
+                ? "Profile unavailable"
+                : `${authData?.user?.firstName || "John"} ${authData?.user?.lastName || "Doe"}`}
+          </p>
+          <p className="text-xs text-gray-600">
+            {isError
+              ? "Unable to load member details"
+              : authData?.user?.isAdmin
+                ? "Admin"
+                : "Member"}
+          </p>
+        </div>}
         </div>
       </div>
     </header>

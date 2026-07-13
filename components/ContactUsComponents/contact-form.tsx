@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
+import {toast} from "react-toastify"
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -21,16 +22,11 @@ export default function ContactForm() {
     }))
   }
 
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = e.target
-    setFormData((prev) => ({
-      ...prev,
-    }))
-  }
-
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Form submitted:", formData)
+    toast.success("Form sent successfully!")
+    
     // Add your form submission logic here
   }
 
