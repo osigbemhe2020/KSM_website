@@ -1,6 +1,7 @@
 "use client";
 import { useState,useEffect } from "react";
 import { ArrowLeft, LogIn } from "lucide-react";
+import signInImage from "@/assets/images/sign-in-image.jpg";
 
 import { useLogin,useGetMe } from "@/hooks/auth.hook";
 import { useRouter } from "next/navigation";
@@ -50,7 +51,13 @@ const Page = () => {
       {/* Main */}
       <div className="flex flex-1">
         {/* Left panel */}
-        <div className="hidden md:block md:w-1/2 bg-gray-100" />
+        <div className="hidden md:block md:w-1/2 relative h-screen overflow-hidden">
+          <img
+            src={signInImage.src}
+            alt="Sign in"
+            className="w-full h-full object-cover"
+          />
+        </div>
 
         {/* Right panel - form */}
         <div className="w-full md:w-1/2 flex items-center justify-start px-8 ">

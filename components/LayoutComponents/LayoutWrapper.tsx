@@ -6,9 +6,9 @@ import Footer from "./Footer";
 import { ReactNode } from "react";
 
 import sketchImg from "@/assets/cathedral-sketch.png";
-import legacy1 from "@/assets/legacy-1.jpg";
-import legacy2 from "@/assets/legacy-2.jpg";
-import legacy3 from "@/assets/legacy-3.jpg";
+import legacy1 from "@/assets/images/legacy1.jpg";
+import legacy2 from "@/assets/images/legacy2.jpg";
+import legacy3 from "@/assets/images/legacy3.jpg";
 
 
 function Legacy() {
@@ -41,7 +41,7 @@ function Legacy() {
 
 export default function LayoutWrapper({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const hideChrome = pathname.startsWith("/member-page") || pathname.startsWith("/registration") || pathname.startsWith("/sign-in");
+  const hideChrome = pathname.startsWith("/member-page") || pathname.startsWith("/registration") || pathname.startsWith("/sign-in") || pathname.startsWith("/studio") || pathname.startsWith("/admin");
   const isHomePage = pathname === "/";
   const isJoinPage = pathname === "/how-to-join";
   const isYsmPage = pathname === "/ysm";

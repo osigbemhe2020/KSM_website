@@ -1,22 +1,74 @@
 "use client";
 
-import { useState } from "react";
-import { news, formatDate } from "@/lib/news-data";
+import { useState, useEffect } from "react";
+import { client } from "@/sanity/lib/client";
+import { newsPostsQuery } from "@/sanity/lib/queries";
 import WhoWeAreHero from "@/components/whoWeAreComponents/WhoWeAreHero";
 import { NewsCard } from "@/components/NewsCard";
+
+interface NewsPost {
+  _id: string;
+  slug: { current: string };
+  title: string;
+  excerpt: string;
+  publishedAt: string;
+  category: string;
+  hero?: {
+    asset?: {
+      url?: string;
+    };
+  };
+}
 
 const CATEGORIES = ["All", "Latest", "Announcements", "Events", "YSM / LSM"];
 
 export default function NewsListPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [visibleCount, setVisibleCount] = useState(6);
+  const [newsPosts, setNewsPosts] = useState<NewsPost[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredNews = [...news]
-    .sort((a, b) => b.date.localeCompare(a.date))
+  useEffect(() => {
+    async function fetchNews() {
+      try {
+        const posts = await client.fetch<NewsPost[]>(newsPostsQuery);
+        setNewsPosts(posts);
+      } catch (error) {
+        console.error("Failed to fetch news posts:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchNews();
+  }, []);
+
+  const filteredNews = [...newsPosts]
+    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
     .filter((n) => activeCategory === "All" || n.category === activeCategory);
 
   const visibleNews = filteredNews.slice(0, visibleCount);
   const hasMore = visibleCount < filteredNews.length;
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  };
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-cream w-full">
+        <WhoWeAreHero
+          title="News and Updates"
+          description="Stay informed with the latest news, announcements, events, community stories, and updates from the Knights of St. Mulumba Metro Council Abuja."
+        />
+        <section className="max-w-7xl mx-auto px-6 py-16">
+          <div className="text-center py-20 text-gray-500">
+            Loading news...
+          </div>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-cream w-full">
@@ -56,12 +108,12 @@ export default function NewsListPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {visibleNews.map((post) => (
               <NewsCard
-                key={post.slug}
+                key={post._id}
                 title={post.title}
-                date={formatDate(post.date)}
-                imageSrc={post.image.src}
+                date={formatDate(post.publishedAt)}
+                imageSrc={post.hero?.asset?.url || ''}
                 excerpt={post.excerpt}
-                href={`/news-and-updates/${post.slug}`}
+                href={`/news-and-updates/${post.slug.current}`}
               />
             ))}
           </div>

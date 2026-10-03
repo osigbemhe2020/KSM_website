@@ -1,14 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-import heroImg1 from "@/assets/hero-brotherhood.jpg";
-import heroImg2 from "@/assets/hero-image2.jpg";
-import heroImg3 from "@/assets/hero-image3.jpg";
+import heroImg1 from "@/assets/images/home/hero1.jpg";
+import heroImg2 from "@/assets/images/home/hero2.jpg";
+import heroImg3 from "@/assets/images/home/hero3.jpg";
+import heroImg4 from "@/assets/images/home/hero4.jpg";
 
 function HeroSection() {
-  const images = [heroImg1, heroImg2, heroImg3];
+  const images = [heroImg1, heroImg2, heroImg3, heroImg4];
 
   const [current, setCurrent] = useState(0);
 
@@ -25,14 +27,15 @@ function HeroSection() {
 
       {/* Background Images */}
       {images.map((image, index) => (
-        <img
-          key={index}
-          src={image.src}
+        <Image
+          key={image.src}
+          src={image}
           alt=""
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${current === index ? "opacity-100" : "opacity-0"
-            }`}
-          width={1920}
-          height={1280}
+          fill
+          priority={index === 0}
+          className={`object-cover transition-opacity duration-1000 ${
+            current === index ? "opacity-100" : "opacity-0"
+          }`}
         />
       ))}
 
@@ -41,22 +44,30 @@ function HeroSection() {
 
       {/* Content */}
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white">
-        <h1 className="font-serif text-5xl leading-[1.05] max-w-4xl md:text-7xl lg:text-8xl">
-          Faith. Service.
+        <h1 className="font-serif text-3xl leading-[1.05] max-w-5xl md:text-7xl lg:text-7xl">
+         Faith, Fraternity, and Charity 
           <br />
-          Brotherhood.
+          in Service to God and Humanity
         </h1>
 
-        <p className="mt-6 max-w-xl text-base text-white/85 md:text-lg">
-          Serving God and community through unity, leadership, and charity.
+        <p className="mt-6 max-w-5xl text-base text-white/85 md:text-lg">
+          Welcome to the official portal of the Order of Knights of St. Mulumba Nigeria, Abuja Metropolitan Council—defending the Catholic faith, strengthening family values, and empowering communities across the Federal Capital Territory and North-Central Nigeria.
         </p>
 
-        <Link
-          href="/how-to-join"
-          className="mt-8 rounded-md bg-forest px-6 py-3 text-white transition hover:bg-[#144814]"
-        >
-          Join the Order
-        </Link>
+        <div className="mt-8 flex flex-col sm:flex-row gap-4">
+          <Link
+            href="/history"
+            className="rounded-md bg-forest px-6 py-3 text-white transition hover:bg-[#144814]"
+          >
+            Explore Our History
+          </Link>
+          <Link
+            href="/sign-in"
+            className="rounded-md bg-white/20 px-6 py-3 text-white transition hover:bg-white/30 backdrop-blur-sm"
+          >
+            Member Portal Login
+          </Link>
+        </div>
       </div>
 
       {/* Indicators */}

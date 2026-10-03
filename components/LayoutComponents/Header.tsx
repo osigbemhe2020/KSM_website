@@ -24,6 +24,7 @@ const NAV_ITEMS: NavItem[] = [
     children: [
       { label: 'Mission & Vision', href: '/our-mission' },
       { label: 'History', href: '/history' },
+      { label: 'Our Values', href: '/our-values' },
       { label: 'Leadership', href: '/leadership' },
       { label: 'Our Patron Saint', href: '/st.mulumba' },
       { label: 'Our Founder', href: '/ourFounder' },
@@ -200,7 +201,7 @@ function Header() {
   };
 
   return (
-    <header className=" z-20 bg-forest">
+    <header className="relative z-20 bg-forest">
       <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
 
         {/* Logo */}

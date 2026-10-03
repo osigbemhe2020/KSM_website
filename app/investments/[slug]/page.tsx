@@ -1,8 +1,32 @@
 import React from "react";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import { client } from '@/sanity/lib/client';
+import { ventureBySlugQuery } from '@/sanity/lib/queries';
 
 import { ArrowLeft } from "lucide-react";
-import { ventures } from "@/lib/ventures";
+
+interface Venture {
+  _id: string;
+  slug: { current: string };
+  name: string;
+  category?: string;
+  tagline?: string;
+  industry?: string;
+  areaOfOperation?: string;
+  registered?: string;
+  aboutShort?: string;
+  aboutLong?: string;
+  impactText?: string;
+  stats?: Array<{
+    value: string;
+    label: string;
+  }>;
+  leaders?: Array<{
+    role?: string;
+    name?: string;
+  }>;
+}
 
 // ---------- shared style tokens ----------
 const colors = {
@@ -248,23 +272,15 @@ export default async function InvestmentDetail({ params }: { params: { slug: str
 
     const { slug } = await params;
 
-    const venture = ventures.find((v) => v.slug === slug);
+    const venture = await client.fetch<Venture>(ventureBySlugQuery, { slug });
 
     if (!venture) {
-        return (
-            <div style={styles.notFoundWrap}>
-                <h2 style={styles.notFoundHeading}>Venture not found</h2>
-                <Link href="/investments" style={styles.notFoundLink}>
-                    <ArrowLeft style={{ width: "16px", height: "16px" }} /> Back to Investments
-                </Link>
-            </div>
-        );
+        notFound();
     }
 
     return (
         <div style={styles.page}>
             {/* Hero — same as Investments page */}
-
 
             {/* Back link + Company Name */}
             <section style={styles.headerSection}>
@@ -279,7 +295,7 @@ export default async function InvestmentDetail({ params }: { params: { slug: str
                     <h2 className="font-serif text-5xl text-foreground mb-6">
                         {venture.name}
                     </h2>
-                    <p className="text-foreground/60 text-sm max-w-lg leading-relaxed">{venture.tagline}</p>
+                    <p className="text-foreground/60 text-sm max-w-lg leading-relaxed">{venture.tagline || venture.aboutShort || ''}</p>
                 </div>
             </section>
 
@@ -296,83 +312,95 @@ export default async function InvestmentDetail({ params }: { params: { slug: str
                         <p style={styles.kicker}>
                             ABOUT US
                         </p>
-                        <h3 style={styles.aboutHeading}>{venture.aboutShort}</h3>
+                        <h3 style={styles.aboutHeading}>{venture.aboutShort || venture.name}</h3>
 
-                        {venture.aboutLong.split("\n\n").map((para, i) => (
+                        {venture.aboutLong && venture.aboutLong.split("\n\n").map((para, i) => (
                             <p key={i} className="text-foreground/60 text-sm max-w-lg leading-relaxed">{para}</p>
                         ))}
 
                         {/* Meta grid */}
                         <div style={styles.metaGrid}>
-                            <div>
-                                <p style={styles.kicker}>
-                                    Industry
-                                </p>
-                                <p style={styles.metaValue}>{venture.industry}</p>
-                            </div>
-                            <div>
-                                <p style={styles.kicker}>
-                                    Area of Operation
-                                </p>
-                                <p style={styles.metaValue}>{venture.areaOfOperation}</p>
-                            </div>
-                            <div>
-                                <p style={styles.kicker}>
-                                    Registered
-                                </p>
-                                <p style={styles.metaValue}>{venture.registered}</p>
-                            </div>
+                            {venture.industry && (
+                                <div>
+                                    <p style={styles.kicker}>
+                                        Industry
+                                    </p>
+                                    <p style={styles.metaValue}>{venture.industry}</p>
+                                </div>
+                            )}
+                            {venture.areaOfOperation && (
+                                <div>
+                                    <p style={styles.kicker}>
+                                        Area of Operation
+                                    </p>
+                                    <p style={styles.metaValue}>{venture.areaOfOperation}</p>
+                                </div>
+                            )}
+                            {venture.registered && (
+                                <div>
+                                    <p style={styles.kicker}>
+                                        Registered
+                                    </p>
+                                    <p style={styles.metaValue}>{venture.registered}</p>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
             </section>
 
             {/* Impact and Community Contribution */}
-            <section style={styles.impactSection}>
-                <div style={styles.impactInner}>
-                    <h2 style={styles.impactHeading}>Impact and Community<br />Contribution</h2>
+            {venture.stats && venture.stats.length > 0 && (
+                <section style={styles.impactSection}>
+                    <div style={styles.impactInner}>
+                        <h2 style={styles.impactHeading}>Impact and Community<br />Contribution</h2>
 
-                    {/* Stats */}
-                    <div style={styles.statsGrid} className="investment-detail-stats">
-                        {venture.stats.map((s) => (
-                            <div key={s.label} data-testid={`impact-stat-${s.label.toLowerCase().replace(/\s+/g, "-")}`}>
-                                <div style={styles.statValue}>{s.value}</div>
-                                <div style={styles.statLabel}>{s.label}</div>
+                        {/* Stats */}
+                        <div style={styles.statsGrid} className="investment-detail-stats">
+                            {venture.stats.map((s) => (
+                                <div key={s.label} data-testid={`impact-stat-${s.label.toLowerCase().replace(/\s+/g, "-")}`}>
+                                    <div style={styles.statValue}>{s.value}</div>
+                                    <div style={styles.statLabel}>{s.label}</div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Impact text */}
+                        {venture.impactText && (
+                            <div style={styles.impactTextWrap}>
+                                {venture.impactText.split("\n\n").map((para, i) => (
+                                    <p key={i} className="text-foreground/60 text-sm max-w-lg leading-relaxed">{para}</p>
+                                ))}
                             </div>
-                        ))}
+                        )}
                     </div>
-
-                    {/* Impact text */}
-                    <div style={styles.impactTextWrap}>
-                        {venture.impactText.split("\n\n").map((para, i) => (
-                            <p key={i} className="text-foreground/60 text-sm max-w-lg leading-relaxed">{para}</p>
-                        ))}
-                    </div>
-                </div>
-            </section>
+                </section>
+            )}
 
             {/* Company Leadership */}
-            <section style={styles.leadershipSection}>
-                <div style={styles.leadershipInner}>
-                    <h2 style={styles.leadershipHeading}>
-                        Company Leadership
-                    </h2>
-                    <div style={styles.leadersGrid} className="investment-detail-leaders">
-                        {venture.leaders.map((leader, i) => (
-                            <div key={i} data-testid={`card-leader-${i}`} style={styles.leaderCard}>
-                                {/* Photo placeholder */}
-                                <div style={styles.leaderPhoto}>
-                                    Photo
+            {venture.leaders && venture.leaders.length > 0 && (
+                <section style={styles.leadershipSection}>
+                    <div style={styles.leadershipInner}>
+                        <h2 style={styles.leadershipHeading}>
+                            Company Leadership
+                        </h2>
+                        <div style={styles.leadersGrid} className="investment-detail-leaders">
+                            {venture.leaders.map((leader, i) => (
+                                <div key={i} data-testid={`card-leader-${i}`} style={styles.leaderCard}>
+                                    {/* Photo placeholder */}
+                                    <div style={styles.leaderPhoto}>
+                                        Photo
+                                    </div>
+                                    <p style={styles.leaderRole}>
+                                        {leader.role || 'Team Member'}
+                                    </p>
+                                    <p style={styles.leaderName}>{leader.name || 'TBD'}</p>
                                 </div>
-                                <p style={styles.leaderRole}>
-                                    {leader.role}
-                                </p>
-                                <p style={styles.leaderName}>{leader.name}</p>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            )}
 
             {/* Internal CSS for responsive behavior only — inline styles can't express media queries */}
             <style>{`

@@ -1,19 +1,36 @@
+import Image from "next/image";
+import metroGk from "@/assets/images/home/metro-gk.jpg";
+
 const WhoAreWeSection = () => {
   return (
     <section className="py-16 cream">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+         <h2 className="font-serif text-5xl text-foreground mb-6">Metro Grand Knight Address</h2>
+        <div className="grid md:grid-cols-[52%_38%] gap-18 items-center">
           <div>
-            <h2 className="font-serif text-5xl text-foreground mb-6">Metro Grand Knight Address</h2>
             <p className="text-gray-600 leading-relaxed mb-6">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+              “Welcome to the digital home of the Abuja Metropolitan Council 
+              of the Knights of St. Mulumba Nigeria. As Catholic laymen, 
+              our solemn mandate is rooted in unwavering faith, 
+              high Christian morals, and selfless service. Through this 
+              official portal, we connect our sub-councils, share our spiritual 
+              apostolates, and extend Christ’s 
+              mercy through impactful charitable outreaches across Central Nigeria.
+               We invite you to explore our rich history, mission, and 
+               community programs.”
             </p>
+            <h4 className="font-bold text-md text-forest">
+              — Sir Johnson Abiodun Jimoh (KSG, KSM), Worthy Metropolitan Grand Knight
+            </h4>
           </div>
 
           <div className="relative">
-            <div className="bg-gray-300 rounded-lg overflow-hidden h-80">
-              <div className="w-full h-full bg-gradient-to-br from-gray-400 to-gray-500"></div>
+            <div className="bg-gray-300 rounded-lg overflow-hidden h-72">
+              <Image 
+                src={metroGk} 
+                alt="Metro Grand Knight" 
+                className="w-full h-full object-contain"
+              />
             </div>
             <div className="absolute -bottom-6 -right-6 bg-forest text-white p-6 rounded-lg shadow-lg">
               <p className="font-bold text-lg">Sir Johnson Jimoh</p>

@@ -1,13 +1,45 @@
 import { notFound } from 'next/navigation';
-import programs from '@/lib/programs';
+import { client } from '@/sanity/lib/client';
+import { charityProgramBySlugQuery } from '@/sanity/lib/queries';
 import Link from 'next/link';
+import Image from 'next/image';
+
+interface Initiative {
+  title?: string;
+  description?: string;
+}
+
+interface ImpactImage {
+  title?: string;
+  image?: {
+    asset?: {
+      url?: string;
+    };
+  };
+}
+
+interface CharityProgramDetail {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  tagline?: string;
+  hero?: {
+    asset?: {
+      url?: string;
+    };
+  };
+  overview: string[];
+  initiatives?: Initiative[];
+  impactNote?: string;
+  impactImages?: ImpactImage[];
+}
 
 
 
 export default async function CharitySlugPage({ params }: { params: { slug: string } }) {
     const { slug } = await params;
 
-    const p = programs.find((p) => p.slug === slug);
+    const p = await client.fetch<CharityProgramDetail>(charityProgramBySlugQuery, { slug });
     if (!p) {
         notFound();
     }
@@ -30,19 +62,18 @@ export default async function CharitySlugPage({ params }: { params: { slug: stri
                             background: 'var(--background, #fff)',
                         }}
                     >
-                        <img
-                            src={p.hero.src}
-                            alt={p.title}
-                            loading="lazy"
-                            style={{
-                                position: 'absolute',
-                                inset: 0,
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'cover',
-                                objectPosition: 'center',
-                            }}
-                        />
+                        {p.hero?.asset?.url && (
+                            <Image
+                                src={p.hero.asset.url}
+                                alt={p.title}
+                                fill
+                                loading="lazy"
+                                style={{
+                                    objectFit: 'cover',
+                                    objectPosition: 'center',
+                                }}
+                            />
+                        )}
                     </div>
                 </div>
             </section>
@@ -53,44 +84,56 @@ export default async function CharitySlugPage({ params }: { params: { slug: stri
                 <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-[200px_1fr] gap-10">
                     <h3 className="font-serif text-3xl">Overview</h3>
                     <div className="space-y-5 text-sm md:text-[15px] text-foreground/80 leading-relaxed">
-                        {p.overview.map((para, i) => <p key={i}>{para}</p>)}
+                        {p.overview.map((para: string, i: number) => <p key={i}>{para}</p>)}
                     </div>
                 </div>
             </section>
 
             {/* Core Initiatives */}
-            <section className="bg-cream pb-20">
-                <div className="max-w-5xl mx-auto px-6">
-                    <h3 className="font-serif text-3xl md:text-4xl text-center mb-3">Core Initiatives</h3>
-                    <p className="text-xs text-muted-foreground text-center mb-10">The specific works through which this ministry takes shape.</p>
-                    <div className="grid md:grid-cols-2 gap-5  border border-[#EAEAEA]">
-                        {p.initiatives.map((it, i) => (
-                            <div key={it.t} className="bg-cream p-7">
-                                <p className="text-xs text-muted-foreground mb-3">{String(i + 1).padStart(2, "0")}</p>
-                                <h4 className="font-serif text-lg mb-3 leading-snug">{it.t}</h4>
-                                <p className="text-sm text-foreground/75 leading-relaxed">{it.d}</p>
-                            </div>
-                        ))}
+            {p.initiatives && p.initiatives.length > 0 && (
+                <section className="bg-cream pb-20">
+                    <div className="max-w-5xl mx-auto px-6">
+                        <h3 className="font-serif text-3xl md:text-4xl text-center mb-3">Core Initiatives</h3>
+                        <p className="text-xs text-muted-foreground text-center mb-10">The specific works through which this ministry takes shape.</p>
+                        <div className="grid md:grid-cols-2 gap-5  border border-[#EAEAEA]">
+                            {p.initiatives.filter((it): it is Initiative => it !== null).map((it: Initiative, i: number) => (
+                                <div key={i} className="bg-cream p-7">
+                                    <p className="text-xs text-muted-foreground mb-3">{String(i + 1).padStart(2, "0")}</p>
+                                    <h4 className="font-serif text-lg mb-3 leading-snug">{it.title || 'Untitled Initiative'}</h4>
+                                    <p className="text-sm text-foreground/75 leading-relaxed">{it.description || ''}</p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            )}
 
             {/* Our Impact */}
-            <section className="bg-cream pb-24">
-                <div className="max-w-6xl mx-auto px-6">
-                    <h3 className="font-serif text-3xl md:text-4xl text-center mb-3">Our Impact</h3>
-                    <p className="text-xs text-muted-foreground text-center mb-10">{p.impactNote}</p>
-                    <div className="grid md:grid-cols-3 gap-5">
-                        {p.impactImages.map((i) => (
-                            <div key={i.t} className="relative aspect-[4/3] overflow-hidden group">
-                                <img src={i.src.src} alt={i.t} loading="lazy" width={1024} height={768} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                                <div className="absolute bottom-4 left-4 text-white font-serif text-lg">{i.t}</div>
-                            </div>
-                        ))}
+            {p.impactImages && p.impactImages.length > 0 && (
+                <section className="bg-cream pb-24">
+                    <div className="max-w-6xl mx-auto px-6">
+                        <h3 className="font-serif text-3xl md:text-4xl text-center mb-3">Our Impact</h3>
+                        <p className="text-xs text-muted-foreground text-center mb-10">{p.impactNote || ''}</p>
+                        <div className="grid md:grid-cols-3 gap-5">
+                            {p.impactImages
+                                .filter((item): item is ImpactImage => item !== null && !!item.image?.asset?.url)
+                                .map((item: ImpactImage, i: number) => (
+                                <div key={i} className="relative aspect-[4/3] overflow-hidden group">
+                                    <Image
+                                        src={item.image?.asset?.url || ''}
+                                        alt={item.title || 'Impact image'}
+                                        fill
+                                        loading="lazy"
+                                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                                    <div className="absolute bottom-4 left-4 text-white font-serif text-lg">{item.title || ''}</div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            )}
 
             {/* Back */}
             <section className="bg-cream pb-20">

@@ -48,9 +48,13 @@
 import { Cross, Users, Star, Heart, Globe, BookOpen, Shield, Church } from "lucide-react";
 import WhoWeAreHero from "@/components/whoWeAreComponents/WhoWeAreHero";
 import InterestForm from "@/components/forms/InterestForm";
+import { client } from "@/sanity/lib/client";
+import { staticPageBySlugQuery } from "@/sanity/lib/queries";
+import { PortableText } from "next-sanity";
 
+export default async function JoinUs() {
+  const pageData = await client.fetch(staticPageBySlugQuery, { slug: 'how-to-join' });
 
-export default function JoinUs() {
   const cards = [
     { title: "Spiritual Growth", icon: Cross, desc: "Deepen your faith through regular prayer, sacraments, and spiritual retreats" },
     { title: "Brotherhood & Networking", icon: Users, desc: "Build lasting friendships with like-minded Catholic men" },
@@ -65,10 +69,9 @@ export default function JoinUs() {
   return (
     <div className="w-full">
       {/* Hero */}
-
       <WhoWeAreHero
-        title="Join Us"
-        description="Experience God's Love through purposeful and spiritually enriched lives"
+        title={pageData?.title || "Join Us"}
+        description={pageData?.description || "Experience God's Love through purposeful and spiritually enriched lives"}
       />
       {/* Intro */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto ">
@@ -77,10 +80,13 @@ export default function JoinUs() {
             Join a Brotherhood of Faith, Service, and Leadership
           </h2>
           <div className="space-y-4">
-            <p className="font-serif text-[16px]  text-foreground/90 leading-snug">
-              The Knights of St. Mulumba is a premier Catholic fraternal organization for men committed to living out their faith through active service and unwavering leadership. We are bound together by a shared devotion to the Church and a mutual desire to support one another in our spiritual journeys.
-            </p>
-
+            {pageData?.body ? (
+              <PortableText value={pageData.body} />
+            ) : (
+              <p className="font-serif text-[16px]  text-foreground/90 leading-snug">
+                The Knights of St. Mulumba is a premier Catholic fraternal organization for men committed to living out their faith through active service and unwavering leadership. We are bound together by a shared devotion to the Church and a mutual desire to support one another in our spiritual journeys.
+              </p>
+            )}
           </div>
         </div>
       </section>
@@ -103,18 +109,47 @@ export default function JoinUs() {
         </div>
       </section>
 
+      {/* Eligibility Requirements */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <h2 className="font-serif text-5xl text-foreground mb-6">
+          Eligibility Requirements
+        </h2>
+        <div className="bg-forest/5 border border-forest/20 rounded-lg p-8">
+          <div className="space-y-6">
+            {[
+              { icon: Cross, title: "Practicing Catholic", desc: "Must be a baptized, confirmed Catholic man in good standing with regular sacramental participation." },
+              { icon: Heart, title: "Sacramental Marriage", desc: "If married, must be validly married in accordance with Catholic Church rites (Holy Matrimony). His spouse joins the LSM." },
+              { icon: Shield, title: "Moral Character", desc: "Must possess high moral standing, completely free from secret cults or anti-Catholic organizations." },
+              { icon: Church, title: "Parish Recommendation", desc: "Must be an active parishioner (e.g., active in CMO) and recommended by his Parish Priest." },
+              { icon: Star, title: "Financial Stability", desc: "Must be gainfully employed or practicing a recognized profession with capability to meet dues and charitable pledges." },
+            ].map((req, i) => (
+              <div key={i} className="flex gap-4 items-start">
+                <div className="shrink-0">
+                  <req.icon className="w-6 h-6 text-forest" />
+                </div>
+                <div>
+                  <h3 className="font-serif text-lg font-bold text-forest mb-1">{req.title}</h3>
+                  <p className="text-foreground/70 text-sm leading-relaxed">{req.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Path to Membership */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         <h2 className="font-serif text-5xl text-foreground mb-6">
-          The Path to Membership
+          Step-by-Step Pathway to Knighthood
         </h2>
         <div className="space-y-8">
           {[
-            { num: "01", title: "Submit Your Interest", desc: "Complete the expression of interest form below" },
-            { num: "02", title: "Initial Contact", desc: "Our membership coordinator will contact you within 5 business days" },
-            { num: "03", title: "Attend Local Info Council", desc: "Visit your local Knights council to learn more about our mission" },
-            { num: "04", title: "Membership Assessment", desc: "Complete a brief assessment with the membership committee" },
-            { num: "05", title: "Formation & Initiation", desc: "Complete the formation program and be formally initiated" },
+            { num: "01", title: "Sponsorship", desc: "Nomination by two active Knights in good standing from a local Sub-Council." },
+            { num: "02", title: "Application", desc: "Submission of baptismal certificate, marriage certificate, and confidential Parish Priest clearance." },
+            { num: "03", title: "Interview", desc: "Formal screening by the Sub-Council Membership Committee involving both candidate and spouse." },
+            { num: "04", title: "Secret Balloting", desc: "Approval by existing members through Sub-Council secret balloting." },
+            { num: "05", title: "Postulancy", desc: "Probationary formation period on Catholic doctrine and KSM statutes." },
+            { num: "06", title: "Investiture", desc: "Formal initiation into the 1st Degree of Knighthood (husband as Knight, wife as LSM)." },
           ].map((step, i, arr) => (
             <div key={i} className="flex gap-6 relative">
               {i !== arr.length - 1 && (
@@ -131,7 +166,7 @@ export default function JoinUs() {
       </section>
 
       {/* Form */}
-      <InterestForm 
+      <InterestForm
         title="Express Your Interest"
         subtitle="Take the first step towards becoming a Knight of St. Mulumba"
         buttonText="Join the Brotherhood"

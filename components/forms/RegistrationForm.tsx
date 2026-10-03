@@ -262,17 +262,19 @@ const RegistrationForm = ({
             <h3 className="text-lg font-semibold mb-4 text-gray-800">Professional Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-              {/* officeHeld — now a select */}
+              {/* officeHeld — assigned by admins */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Office Held <span className="text-red-500">*</span>
+                  Office Held {!isEditMode && <span className="text-red-500">*</span>}
+                  {isEditMode && <span className="ml-2 text-xs font-normal text-gray-500">(managed by admins)</span>}
                 </label>
                 <select
                   name="officeHeld"
                   value={values.officeHeld}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest focus:border-transparent bg-white text-gray-900 shadow-sm hover:border-gray-400 transition-colors appearance-none cursor-pointer"
+                  disabled={isEditMode}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-forest focus:border-transparent bg-white text-gray-900 shadow-sm hover:border-gray-400 transition-colors appearance-none cursor-pointer disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500"
                 >
                   <option value="">Select office held</option>
                   {OFFICE_OPTIONS.map((office) => (
@@ -304,13 +306,15 @@ const RegistrationForm = ({
               </div>
 
               {/* previousOfficesHeld — spans full width */}
-              <div className="md:col-span-2">
-                <PreviousOfficesField
-                  values={values.previousOfficesHeld ?? []}
-                  setFieldValue={setFieldValue}
-                  error={getError(errors.previousOfficesHeld)}
-                />
-              </div>
+              {!isEditMode && (
+                <div className="md:col-span-2">
+                  <PreviousOfficesField
+                    values={values.previousOfficesHeld ?? []}
+                    setFieldValue={setFieldValue}
+                    error={getError(errors.previousOfficesHeld)}
+                  />
+                </div>
+              )}
 
             </div>
           </div>

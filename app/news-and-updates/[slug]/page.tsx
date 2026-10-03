@@ -1,9 +1,28 @@
 'use client';
 
-import { useState, use } from "react";
+import { useState, useEffect, use } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { news, getAdjacent, getRelated, formatDate, relativeDate, type NewsBlock, type NewsPost } from "@/lib/news-data";
+import { client } from "@/sanity/lib/client";
+import { newsPostBySlugQuery, newsPostsQuery } from "@/sanity/lib/queries";
+import Image from "next/image";
+import RichTextRenderer from "@/components/RichTextRenderer";
+
+interface NewsPost {
+  _id: string;
+  slug: { current: string };
+  title: string;
+  excerpt: string;
+  publishedAt: string;
+  category: string;
+  author?: string;
+  hero?: {
+    asset?: {
+      url?: string;
+    };
+  };
+  content?: any;
+}
 
 // ---------- shared style tokens ----------
 const colors = {
@@ -58,6 +77,10 @@ const styles: Record<string, React.CSSProperties> = {
         lineHeight: 1.15,
         marginBottom: "24px",
         marginTop: 0,
+        display: "-webkit-box",
+        WebkitBoxOrient: "vertical",
+        WebkitLineClamp: 3,
+        overflow: "hidden",
     },
     metaRow: {
         display: "flex",
@@ -311,15 +334,71 @@ const styles: Record<string, React.CSSProperties> = {
 
 export default function NewsDetailPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = use(params);
-    const post = news.find((p) => p.slug === slug) as NewsPost | undefined;
+    const [post, setPost] = useState<NewsPost | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [latestPosts, setLatestPosts] = useState<NewsPost[]>([]);
 
-    if (!post) {
-        notFound();
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const currentPost = await client.fetch<NewsPost>(newsPostBySlugQuery, { slug });
+                if (!currentPost) {
+                    notFound();
+                    return;
+                }
+                setPost(currentPost);
+
+                const allPosts = await client.fetch<NewsPost[]>(newsPostsQuery);
+                const latest = allPosts
+                    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+                    .slice(0, 5);
+                setLatestPosts(latest);
+            } catch (error) {
+                console.error("Failed to fetch news post:", error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchData();
+    }, [slug]);
+
+    if (loading || !post) {
+        return (
+            <main style={styles.main}>
+                <div style={styles.backLinkWrap}>
+                    <Link href="/news-and-updates" style={styles.backLink}>
+                        ← BACK TO NEWSROOM
+                    </Link>
+                </div>
+                <div style={{ textAlign: 'center', padding: '80px 24px' }}>
+                    Loading article...
+                </div>
+            </main>
+        );
     }
 
-    const { prev, next } = getAdjacent(post.slug);
-    const related = getRelated(post.slug, 4);
-    const latest = [...news].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    };
+
+    const relativeDate = (dateString: string) => {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffTime = Math.abs(now.getTime() - date.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        if (diffDays === 1) return '1 day ago';
+        if (diffDays < 7) return `${diffDays} days ago`;
+        if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+        return formatDate(dateString);
+    };
+
+    // Simple prev/next logic based on date
+    const sortedPosts = [...latestPosts].sort((a, b) => new Date(a.publishedAt).getTime() - new Date(b.publishedAt).getTime());
+    const currentIndex = sortedPosts.findIndex(p => p._id === post._id);
+    const prev = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
+    const next = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
+    const related = sortedPosts.filter(p => p._id !== post._id).slice(0, 4);
 
     return (
         <main style={styles.main}>
@@ -335,25 +414,28 @@ export default function NewsDetailPage({ params }: { params: Promise<{ slug: str
             >
                 <div style={styles.mainCol}>
                     <div style={styles.category}>{post.category.toUpperCase()}</div>
-                    <h1 style={styles.title}>{post.title}</h1>
+                    <h1 style={styles.title} title={post.title}>{post.title}</h1>
                     <div style={styles.metaRow}>
-                        <span>By <span style={styles.metaAuthor}>{post.author}</span></span>
+                        <span>By <span style={styles.metaAuthor}>{post.author || 'KSM Metro Council'}</span></span>
                         <span>·</span>
-                        <span>{formatDate(post.date)}</span>
+                        <span>{formatDate(post.publishedAt)}</span>
                     </div>
 
                     <figure style={styles.figure}>
-                        <img
-                            src={post.image.src}
-                            alt={post.title}
-                            style={styles.figureImg}
-                        />
+                        {post.hero?.asset?.url && (
+                            <Image
+                                src={post.hero.asset.url}
+                                alt={post.title}
+                                fill
+                                style={styles.figureImg}
+                            />
+                        )}
                     </figure>
 
                     <div style={styles.proseWrap}>
-                        {(post as NewsPost).content.map((b: NewsBlock, i: number) => (
-                            <RenderBlock key={i} block={b} />
-                        ))}
+                        {post.content ? (
+                            <RichTextRenderer content={post.content} />
+                        ) : null}
                     </div>
 
                     <ShareBar title={post.title} />
@@ -364,16 +446,24 @@ export default function NewsDetailPage({ params }: { params: Promise<{ slug: str
                 <aside style={styles.aside}>
                     <SidebarBlock title="Latest News">
                         <ul style={styles.latestList}>
-                            {latest.map((p) => (
-                                <li key={p.slug}>
-                                    <Link href={`/news-and-updates/${p.slug}`} style={styles.latestLink}>
+                            {latestPosts.map((p) => (
+                                <li key={p._id}>
+                                    <Link href={`/news-and-updates/${p.slug.current}`} style={styles.latestLink}>
                                         <div style={styles.latestThumbWrap}>
-                                            <img src={p.image.src} alt="" loading="lazy" style={styles.latestThumbImg} />
+                                            {p.hero?.asset?.url && (
+                                                <Image
+                                                    src={p.hero.asset.url}
+                                                    alt=""
+                                                    fill
+                                                    loading="lazy"
+                                                    style={styles.latestThumbImg}
+                                                />
+                                            )}
                                         </div>
                                         <div style={{ minWidth: 0 }}>
                                             <div style={styles.latestTitle}>{p.title}</div>
-                                            <div style={styles.latestMeta}>{p.author}</div>
-                                            <div style={styles.latestMeta}>{relativeDate(p.date)}</div>
+                                            <div style={styles.latestMeta}>{p.author || 'KSM Metro Council'}</div>
+                                            <div style={styles.latestMeta}>{relativeDate(p.publishedAt)}</div>
                                         </div>
                                     </Link>
                                 </li>
@@ -384,11 +474,11 @@ export default function NewsDetailPage({ params }: { params: Promise<{ slug: str
                     <SidebarBlock title="Related Stories">
                         <ul style={styles.relatedList}>
                             {related.map((p) => (
-                                <li key={p.slug}>
-                                    <Link href={`/news-and-updates/${p.slug}`} style={styles.relatedLink}>
+                                <li key={p._id}>
+                                    <Link href={`/news-and-updates/${p.slug.current}`} style={styles.relatedLink}>
                                         <div style={styles.relatedKicker}>{p.category.toUpperCase()}</div>
                                         <div style={styles.relatedTitle}>{p.title}</div>
-                                        <div style={styles.latestMeta}>{relativeDate(p.date)}</div>
+                                        <div style={styles.latestMeta}>{relativeDate(p.publishedAt)}</div>
                                     </Link>
                                 </li>
                             ))}
@@ -421,42 +511,6 @@ function SidebarBlock({ title, children }: { title: string; children: React.Reac
             {children}
         </div>
     );
-}
-
-function RenderBlock({ block }: { block: NewsBlock }) {
-    switch (block.type) {
-        case "p":
-            return <p style={styles.p}>{block.text}</p>;
-        case "h2":
-            return <h2 style={styles.h2}>{block.text}</h2>;
-        case "list":
-            return (
-                <ul style={styles.list}>
-                    {block.items.map((it, i) => <li key={i}>{it}</li>)}
-                </ul>
-            );
-        case "quote":
-            return (
-                <blockquote style={styles.quote}>
-                    "{block.text}"
-                    {block.cite && <footer style={styles.quoteFooter}>— {block.cite}</footer>}
-                </blockquote>
-            );
-        case "image":
-            return (
-                <figure style={{ margin: 0 }}>
-                    <div style={styles.inlineFigure}>
-                        <img
-                            src={block.src}
-                            alt={block.caption ?? ""}
-                            loading="lazy"
-                            style={styles.figureImg}
-                        />
-                    </div>
-                    {block.caption && <figcaption style={styles.figcaption}>{block.caption}</figcaption>}
-                </figure>
-            );
-    }
 }
 
 function ShareBar({ title }: { title: string }) {
@@ -531,7 +585,7 @@ function ShareBar({ title }: { title: string }) {
     );
 }
 
-function PrevNext({ prev, next }: { prev: ReturnType<typeof getAdjacent>["prev"]; next: ReturnType<typeof getAdjacent>["next"] }) {
+function PrevNext({ prev, next }: { prev: NewsPost | null; next: NewsPost | null }) {
     if (!prev && !next) return null;
 
     const hoverIn = (e: React.MouseEvent<HTMLElement>) => {
@@ -545,7 +599,7 @@ function PrevNext({ prev, next }: { prev: ReturnType<typeof getAdjacent>["prev"]
         <nav style={styles.navWrap} className="news-detail-nav" aria-label="Article navigation">
             {prev ? (
                 <Link
-                    href={`/news-and-updates/${prev.slug}`}
+                    href={`/news-and-updates/${prev.slug.current}`}
                     style={styles.navCard}
                     onMouseEnter={hoverIn}
                     onMouseLeave={hoverOut}
@@ -556,7 +610,7 @@ function PrevNext({ prev, next }: { prev: ReturnType<typeof getAdjacent>["prev"]
             ) : <div />}
             {next ? (
                 <Link
-                    href={`/news-and-updates/${next.slug}`}
+                    href={`/news-and-updates/${next.slug.current}`}
                     style={{ ...styles.navCard, textAlign: "right" }}
                     onMouseEnter={hoverIn}
                     onMouseLeave={hoverOut}

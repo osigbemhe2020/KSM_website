@@ -1,15 +1,84 @@
+'use client';
+
+import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/membersScreens/memberComponents/DetailsCards";
+import { client } from "@/sanity/lib/client";
+import { eventsQuery } from "@/sanity/lib/queries";
 
-const events = [
-  { date: "22 MAR", title: "Metro Council Quarterly General Meeting", desc: "Quarterly meeting of all sub-councils within the Abuja metropolis. All Knights are expected to attend.", loc: "Our Lady Queen of Nigeria Pro-Cathedral, Abuja" },
-  { date: "05 APR", title: "Annual Charity Gala & Fundraiser", desc: "Black-tie evening celebrating a year of service and raising funds for the Council's outreach initiatives.", loc: "Transcorp Hilton, Maitama, Abuja" },
-  { date: "18 APR", title: "Day of Recollection & Spiritual Retreat", desc: "A day of prayer, reflection, and spiritual renewal for Knights and their families ahead of the Easter season.", loc: "Dominican Retreat House, Lugbe" },
-];
+type Event = {
+  _id: string;
+  title: string;
+  startDate: string;
+  endDate?: string;
+  time?: string;
+  location?: string;
+  description?: string;
+};
 
 function Events() {
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    async function fetchEvents() {
+      try {
+        const allEvents = await client.fetch<Event[]>(eventsQuery);
+        const startOfToday = new Date();
+        startOfToday.setHours(0, 0, 0, 0);
+
+        // Upcoming events (today or future), sorted chronologically
+        const upcoming = allEvents
+          .filter((e) => new Date(e.endDate || e.startDate) >= startOfToday)
+          .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
+          .slice(0, 3);
+
+        setEvents(upcoming.length > 0 ? upcoming : allEvents.slice(0, 3));
+        setError(false);
+      } catch (error) {
+        console.error("Failed to fetch events for landing page:", error);
+        setError(true);
+        // Fallback to sample events if query fails
+        setEvents([
+          {
+            _id: 'fallback-1',
+            title: 'Annual General Assembly',
+            startDate: new Date().toISOString(),
+            location: 'Metro Council Hall',
+            description: 'Join us for our annual general assembly.'
+          },
+          {
+            _id: 'fallback-2',
+            title: 'Charity Food Drive',
+            startDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+            location: 'Various Locations',
+            description: 'Community outreach program serving families in need.'
+          },
+          {
+            _id: 'fallback-3',
+            title: 'Youth Formation Retreat',
+            startDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
+            location: 'Youth Center',
+            description: 'Spiritual formation program for young Catholics.'
+          }
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchEvents();
+  }, []);
+
+  const formatEventDate = (dateStr: string) => {
+    const d = new Date(dateStr);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+    return `${day} ${month}`;
+  };
+
   return (
-    <section className=" py-20 text-gray-900">
+    <section className="py-20 text-gray-900">
       <div className="max-w-6xl mx-auto px-6">
         <h2 className="font-serif text-gray-900 text-4xl md:text-5xl text-center mb-14">Upcoming Events</h2>
         <div className="grid grid-cols-12 text-xs tracking-[0.18em] text-gray-600 border-b border-gray-900 pb-4 mb-2">
@@ -17,21 +86,32 @@ function Events() {
           <div className="col-span-7">EVENTS</div>
           <div className="col-span-3">LOCATION</div>
         </div>
-        {events.map((e) => (
-          <div key={e.title} className="grid grid-cols-12 gap-4 py-7 border-b border-gray-900 items-start">
-            <div className="col-span-2 font-serif text-sm">{e.date}</div>
-            <div className="col-span-7">
-              <h3 className="font-serif text-xl mb-1">{e.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{e.desc}</p>
+        {loading ? (
+          <div className="py-12 text-center text-sm text-muted-foreground">Loading events...</div>
+        ) : events.length === 0 ? (
+          <div className="py-12 text-center text-sm text-muted-foreground">No upcoming events scheduled at this time.</div>
+        ) : (
+          events.map((e) => (
+            <div key={e._id || e.title} className="grid grid-cols-12 gap-4 py-7 border-b border-gray-900 items-start">
+              <div className="col-span-2 font-serif text-sm">{formatEventDate(e.startDate)}</div>
+              <div className="col-span-7">
+                <h3 className="font-serif text-xl mb-1">{e.title}</h3>
+                {e.description && <p className="text-sm text-muted-foreground leading-relaxed">{e.description}</p>}
+              </div>
+              <div className="col-span-3 text-sm text-muted-foreground">{e.location || 'TBD'}</div>
             </div>
-            <div className="col-span-3 text-sm text-muted-foreground">{e.loc}</div>
+          ))
+        )}
+        {error && (
+          <div className="text-center text-xs text-gray-500 mt-2 italic">
+            Showing sample events — check Sanity connection
           </div>
-        ))}
+        )}
       </div>
       <div className="text-center mt-14">
         <Button
           href="/event-calendar"
-          className="inline-flex px-6 rounded  w-auto mt-0"
+          className="inline-flex px-6 rounded w-auto mt-0"
         >
           View full Calendar <span className="ml-2"><ArrowRight /></span>
         </Button>

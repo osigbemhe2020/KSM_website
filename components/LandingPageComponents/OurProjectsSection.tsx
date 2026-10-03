@@ -1,16 +1,34 @@
 import { ArrowRight } from "lucide-react";
-import projFood from "@/assets/project-food.jpg";
-import projSchool from "@/assets/project-school.jpg";
-import projYouth from "@/assets/project-youth.jpg";
 import { Button } from "@/components/membersScreens/memberComponents/DetailsCards";
+import { client } from "@/sanity/lib/client";
+import { projectsQuery } from "@/sanity/lib/queries";
+import Image from "next/image";
+import Link from "next/link";
 
-const projects = [
-  { img: projFood, t: "FCT Food Relief Programme", d: "Providing essential food items to over 2,000 families across underserved communities in the Federal Capital Territory." },
-  { img: projSchool, t: "St. Mulumba Model School", d: "Construction of a modern primary school facility to serve children in rural Abuja communities." },
-  { img: projYouth, t: "Youth Mentorship Initiative", d: "A structured programme equipping young Catholics with leadership skills, career guidance, and spiritual formation." },
-];
+type Project = {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  description: string;
+  hero?: {
+    asset?: {
+      url?: string;
+      altText?: string;
+    };
+  };
+  isFeatured?: boolean;
+};
 
-function OurProjectsSection() {
+const OurProjectsSection = async () => {
+  const projects = await client.fetch<Project[]>(projectsQuery);
+  
+  // Filter for featured projects, or take first 3 if no featured flag exists
+  const featuredProjects = projects
+    .filter((p) => p.isFeatured)
+    .slice(0, 3);
+  
+  const displayProjects = featuredProjects.length > 0 ? featuredProjects : projects.slice(0, 3);
+
   return (
     <section className="bg-cream py-20">
       <div className="max-w-7xl mx-auto px-6">
@@ -19,14 +37,21 @@ function OurProjectsSection() {
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto">Building lasting impact through purposeful, faith-driven initiatives.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
-          {projects.map((p) => (
-            <article key={p.t}>
-              <div className="aspect-[4/3] overflow-hidden mb-5">
-                <img src={p.img.src} alt={p.t} loading="lazy" width={1024} height={768} className="h-full w-full object-cover hover:scale-105 transition-transform duration-700" />
+          {displayProjects.map((p) => (
+            <article key={p._id}>
+              <div className="aspect-[4/3] overflow-hidden mb-5 relative">
+                {p.hero?.asset?.url && (
+                  <Image
+                    src={p.hero.asset.url}
+                    alt={p.hero.asset.altText || p.title}
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-700"
+                  />
+                )}
               </div>
-              <h3 className="font-serif text-2xl mb-3">{p.t}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-4">{p.d}</p>
-              <a href="#" className="flex items-center gap-2">Learn More <ArrowRight /></a>
+              <h3 className="font-serif text-2xl mb-3">{p.title}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-4">{p.description}</p>
+              <Link href={`/projects/${p.slug.current}`} className="flex items-center gap-2">Learn More <ArrowRight /></Link>
             </article>
           ))}
         </div>
@@ -41,7 +66,9 @@ function OurProjectsSection() {
       </div>
     </section>
   );
-}
+};
+
+export default OurProjectsSection;
 
 // const OurProjectsSection = () => {
 //   const projects = [
@@ -86,4 +113,3 @@ function OurProjectsSection() {
 //   );
 // };
 
-export default OurProjectsSection;

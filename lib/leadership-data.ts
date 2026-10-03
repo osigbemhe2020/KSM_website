@@ -7,6 +7,8 @@ export type Leader = {
   image: string;
   role: string;
   name: string;
+  category?: string;
+  order?: number;
   served: string;
   shortBio: string;
   bioHeading: string;

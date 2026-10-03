@@ -1,16 +1,34 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 
 import ProfileCard from "@/components/ProfileCard";
 import Pagination from "@/components/Pagination";
-import { ventures } from "@/lib/ventures";
-import leader1 from "@/assets/activity-brotherhood.jpg";
-import leader2 from "@/assets/activity-medical.jpg";
-import leader3 from "@/assets/project-school.jpg";
+import { client } from "@/sanity/lib/client";
+import { venturesQuery } from "@/sanity/lib/queries";
 
-const placeholders = [leader1.src, leader2.src, leader3.src];
+interface Venture {
+  _id: string;
+  slug: { current: string };
+  name: string;
+  category?: string;
+  tagline?: string;
+  industry?: string;
+  areaOfOperation?: string;
+  registered?: string;
+  aboutShort?: string;
+  aboutLong?: string;
+  impactText?: string;
+  leaders?: Array<{
+    role?: string;
+    name?: string;
+  }>;
+  stats?: Array<{
+    value: string;
+    label: string;
+  }>;
+}
 
 const stats = [
     { value: "7", label: "Active Ventures" },
@@ -24,15 +42,44 @@ const PER_PAGE = 5;
 
 export default function Investments() {
     const [page, setPage] = useState(1);
+    const [ventures, setVentures] = useState<Venture[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchVentures() {
+            try {
+                const fetchedVentures = await client.fetch<Venture[]>(venturesQuery);
+                setVentures(fetchedVentures);
+            } catch (error) {
+                console.error("Failed to fetch ventures:", error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchVentures();
+    }, []);
+
     const totalPages = Math.ceil(ventures.length / PER_PAGE);
     const start = (page - 1) * PER_PAGE;
     const visible = ventures.slice(start, start + PER_PAGE);
 
+    if (loading) {
+        return (
+            <div className="w-full">
+                <section className="py-16 px-4 sm:px-6 lg:px-8 text-center">
+                    <div className="max-w-5xl mx-auto">
+                        <h2 className="font-serif text-5xl text-foreground mb-6 text-center">
+                            Our Investments Impact
+                        </h2>
+                        <p className="text-muted-foreground">Loading investments...</p>
+                    </div>
+                </section>
+            </div>
+        );
+    }
+
     return (
         <div className="w-full">
-            {/* Hero */}
-
-
             {/* Our Investment Impact */}
             <section className="py-16 px-4 sm:px-6 lg:px-8 text-center">
                 <div className="max-w-5xl mx-auto">
@@ -57,7 +104,6 @@ export default function Investments() {
                                     display: "flex",
                                     flexDirection: "column",
                                     gap: "4px",
-                                    // 5th item (index 4) sits alone on row 2 — span columns 2–3 of the 4-col grid to center it
                                     ...(i === 4 ? { gridColumn: "2 / span 2" } : {}),
                                 }}
                             >
@@ -90,15 +136,15 @@ export default function Investments() {
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                         {visible.map((v, i) => (
                             <Link
-                                key={v.slug}
-                                href={`/investments/${v.slug}`}
+                                key={v._id}
+                                href={`/investments/${v.slug.current}`}
                                 data-testid={`card-venture-${start + i}`}
                             >
                                 <ProfileCard
-                                    imageSrc={placeholders[i % 3]}
+                                    imageSrc={''}
                                     name={v.name}
-                                    subtitle={v.category}
-                                    description={v.tagline}
+                                    subtitle={v.category || 'Investment'}
+                                    description={v.tagline || v.aboutShort || ''}
                                 />
                             </Link>
 
@@ -117,7 +163,7 @@ export default function Investments() {
                 </div>
             </section>
 
-            {/* Responsive overrides for the stats grid — must live inside the returned JSX, not at module scope */}
+            {/* Responsive overrides for the stats grid */}
             <style>{`
                 @media (max-width: 1024px) {
                     .investment-stats-grid {

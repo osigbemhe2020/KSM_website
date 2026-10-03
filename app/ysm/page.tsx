@@ -1,16 +1,20 @@
-
 import { Cross, Star, HandHeart, Users } from "lucide-react";
 import WhoWeAreHero from "@/components/whoWeAreComponents/WhoWeAreHero";
 import InterestForm from "@/components/forms/InterestForm";
 import heroImage from "@/assets/hero-image3.jpg";
+import { client } from "@/sanity/lib/client";
+import { staticPageBySlugQuery } from "@/sanity/lib/queries";
+import { PortableText } from "next-sanity";
 
-export default function YSM() {
+export default async function YSM() {
+    const pageData = await client.fetch(staticPageBySlugQuery, { slug: 'ysm' });
+
     return (
         <div className="w-full">
             {/* Hero */}
             <WhoWeAreHero
-                title="Youths of Saint Mulumba"
-                description="Forming the next generation of Catholic leaders"
+                title={pageData?.title || "Youths of Saint Mulumba"}
+                description={pageData?.description || "Forming the next generation of Catholic leaders"}
             />
 
             {/* About */}
@@ -33,12 +37,18 @@ export default function YSM() {
                     <div className="flex flex-col justify-center md:py-4">
                         <h2 className="font-serif text-5xl text-foreground mb-6">About YSM</h2>
                         <div className="space-y-4 text-foreground/80 leading-relaxed">
-                            <p>
-                                The Youths of Saint Mulumba (YSM) serves as the vibrant youth wing of the Knights of St. Mulumba. We are dedicated to nurturing young Catholic men and women aged 15-35 in the vital pillars of faith, leadership, and community service.
-                            </p>
-                            <p>
-                                Through dynamic programs, spiritual retreats, and collaborative projects, YSM empowers the next generation to boldly live out their Catholic faith in a modern world, providing them with a strong foundation of values, supportive mentorship, and lasting friendships.
-                            </p>
+                            {pageData?.body ? (
+                                <PortableText value={pageData.body} />
+                            ) : (
+                                <>
+                                    <p>
+                                        The Youths of Saint Mulumba (YSM) serves as the vibrant youth wing of the Knights of St. Mulumba. We are dedicated to nurturing young Catholic men and women aged 15-35 in the vital pillars of faith, leadership, and community service.
+                                    </p>
+                                    <p>
+                                        Officially inaugurated in Abuja Metro on August 13, 2021, at Our Lady Queen of Nigeria Pro-Cathedral, the YSM prepares youth for Catholic leadership through career workshops, moral instruction, and faith mentorship.
+                                    </p>
+                                </>
+                            )}
                         </div>
                     </div>
 

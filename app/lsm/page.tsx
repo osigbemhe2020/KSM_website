@@ -1,18 +1,47 @@
-import { Cross, Star, HandHeart, Users } from "lucide-react";
 import WhoWeAreHero from "@/components/whoWeAreComponents/WhoWeAreHero";
 import ProfileCard from "@/components/ProfileCard";
 import leader1 from "@/assets/leader-1.jpg";
 import leader2 from "@/assets/leader-2.jpg";
 import leader3 from "@/assets/leader-3.jpg";
-import heroImage from "@/assets/hero-image3.jpg";
+import heroImage from "@/assets/images/home/hero2.jpg";
+import { client } from "@/sanity/lib/client";
+import { staticPageBySlugQuery, lsmLeadersQuery } from "@/sanity/lib/queries";
+import { PortableText } from "next-sanity";
 
-export default function LSM() {
+interface LeaderData {
+    _id?: string;
+    name: string;
+    role: string;
+    slug?: { current: string };
+    served?: string;
+    shortBio?: string;
+    image?: {
+        asset?: {
+            url?: string;
+        };
+    };
+}
+
+const fallbackLsmLeaders = [
+    { name: "Lady Normarose O., LSM", role: "Metro President", img: leader1 },
+    { name: "Lady Margaret N., LSM", role: "Metro Secretary", img: leader2 },
+    { name: "Lady Cecelia E., LSM", role: "Metro Treasurer", img: leader3 },
+];
+
+export default async function LSM() {
+    const [pageData, lsmLeaders] = await Promise.all([
+        client.fetch(staticPageBySlugQuery, { slug: 'lsm' }),
+        client.fetch<LeaderData[]>(lsmLeadersQuery),
+    ]);
+
+    const displayLeaders = lsmLeaders && lsmLeaders.length > 0 ? lsmLeaders : fallbackLsmLeaders;
+
     return (
         <div className="w-full">
             {/* Hero */}
             <WhoWeAreHero
-                title="Ladies of St. Mulumba"
-                description="Women of Faith, Purpose, and Commitment"
+                title={pageData?.title || "Ladies of St. Mulumba"}
+                description={pageData?.description || "Women of Faith, Purpose, and Commitment"}
             />
 
             {/* About */}
@@ -35,12 +64,18 @@ export default function LSM() {
                     <div className="flex flex-col justify-center md:py-4">
                         <h2 className="font-serif text-5xl text-foreground mb-6">About LSM</h2>
                         <div className="space-y-4 text-foreground/80 leading-relaxed">
-                            <p>
-                                The Ladies of St. Mulumba (LSM) serves as the esteemed women's auxiliary of the Knights of St. Mulumba. We are a sisterhood dedicated to supporting women in living out their Catholic faith profoundly through dedicated service, fellowship, and spiritual growth.
-                            </p>
-                            <p>
-                                Our members are actively engaged in parish life, philanthropic endeavors, and family ministries. Together, we uplift one another, enrich our communities, and bear witness to the transformative power of women grounded in faith.
-                            </p>
+                            {pageData?.body ? (
+                                <PortableText value={pageData.body} />
+                            ) : (
+                                <>
+                                    <p>
+                                        Formed nationally on June 24, 1978, in Calabar, the LSM comprises the wives of Knights. The LSM leads initiatives in protecting Christian marriage, supporting widows, conducting orphan welfare, and promoting spiritual formation among Catholic women.
+                                    </p>
+                                    <p>
+                                        Our members are actively engaged in parish life, philanthropic endeavors, and family ministries. Together, we uplift one another, enrich our communities, and bear witness to the transformative power of women grounded in faith.
+                                    </p>
+                                </>
+                            )}
                         </div>
                     </div>
 
@@ -91,18 +126,24 @@ export default function LSM() {
                     <h2 className="font-serif text-5xl text-foreground mb-6 text-center">Leadership Structure</h2>
 
                     <div className="grid sm:grid-cols-3 gap-8 mb-12">
-                        {[
-                            { name: "Lady Normarose O., LSM", role: "Metro President", img: leader1 },
-                            { name: "Lady Margaret N., LSM", role: "Metro Secretary", img: leader2 },
-                            { name: "Lady Cecelia E., LSM", role: "Metro Treasurer", img: leader3 },
-                        ].map((leader, i) => (
-                            <ProfileCard
-                                key={i}
-                                imageSrc={leader.img.src}
-                                roleNode={leader.role}
-                                name={leader.name}
-                            />
-                        ))}
+                        {displayLeaders.map((leader, i) => {
+                            const imageSrc = 'image' in leader && leader.image?.asset?.url
+                                ? leader.image.asset.url
+                                : 'img' in leader && leader.img
+                                ? (leader.img as { src: string }).src
+                                : leader1.src;
+
+                            return (
+                                <ProfileCard
+                                    key={leader.name + i}
+                                    imageSrc={imageSrc}
+                                    roleNode={leader.role}
+                                    name={leader.name}
+                                    subtitle={'served' in leader ? leader.served : undefined}
+                                    description={'shortBio' in leader ? leader.shortBio : undefined}
+                                />
+                            );
+                        })}
                     </div>
                 </div>
             </section>

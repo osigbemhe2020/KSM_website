@@ -2,7 +2,7 @@
 
 
 import Link from 'next/link';
-import { ArrowLeft, BellDot, X} from 'lucide-react';
+import { ArrowLeft, BellDot, LayoutDashboard, X} from 'lucide-react';
 import { useGetSingleMember } from '@/hooks/member.hook';
 import useResponsive from '@/hooks/useResponsive';
 import { useState } from 'react';
@@ -75,7 +75,17 @@ const MemberHeader = ({ authData, authLoading }: MemberHeaderProps) => {
         <ArrowLeft/>
         {!isMobile && <span className="text-[16px] font-500 hover:text-gray-600">Return Home</span>}  
       </Link>
-      <div className="flex items-center gap-8">
+      <div className="flex items-center gap-3 sm:gap-8">
+        {authData?.user?.isAdmin && (
+          <Link
+            href="/admin"
+            aria-label="Open admin dashboard"
+            className="inline-flex items-center gap-2 rounded-md border border-[#1B382B]/20 px-3 py-2 text-sm font-medium text-[#1B382B] transition-colors hover:bg-[#D4F4E1]"
+          >
+            <LayoutDashboard size={16} />
+            <span className="hidden sm:inline">Admin</span>
+          </Link>
+        )}
         <div className='relative'>
           <button
             onClick={() => setIsNotificationOpen(!isNotificationOpen)}

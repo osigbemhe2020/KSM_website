@@ -1,161 +1,58 @@
-// type SubConcilProps = {
-//     gkname: string;
-//     year: number;
-//     description: string;
-//     email: string;
-// }
-
-// const SubConcil = ({gkname, year, description, email}: SubConcilProps) => {
-//     return(
-//         <div className="border-b border-gray-200 py-6">
-//         <div className="grid grid-cols-[30%_65%] gap-[5%]  px-10 max-w-[1200px] items-center mx-auto justify-between">
-//             <div className="relative">
-//             <div className="bg-gray-300 rounded-lg overflow-hidden w-full max-h-[250px] aspect-square">
-//               <div className="w-full h-full bg-gradient-to-br from-gray-400 to-gray-500"></div>
-//             </div>
-//             <div className="absolute -bottom-4 -right-4 bg-green-700 text-white p-2 rounded-lg shadow-lg">
-//               <p className="font-bold text-lg">{gkname}</p>
-//               <p className="text-sm text-green-100"> Grand Knight</p>
-//             </div>
-//           </div>
-//             <div className="px-5">
-//                 <div className="flex items-center mb-4 justify-between">
-//                     <h1 className="text-xl font-bold">St Rita Sub Concil</h1>
-//                     <p className="text-[16px] font-semibold"> Year of inuagration: {year}</p>
-//                 </div>
-//                 <div>
-//                     <p className="text-[14px]">
-//                         {description}
-//                     </p>
-//                 </div>
-//                 <div >
-//                     <h2 className="font-serif text-5xl text-foreground mb-6">email: {email}</h2>
-//                 </div>
-//             </div>
-//         </div>
-//         </div>
-//     )
-// }
-
-// const SubConcils = () => {
-//     return (
-//         <main className="py-8">
-//             <h1 className="text-3xl text-center font-bold text-gray-900 mb-2">Sub Concils</h1>
-//             <p className="text-black text-center text-[16px] font-semibold mb-6">Here are the sub concils of the KSM metro</p>
-//             <SubConcil
-//              gkname="Sir Cyril Ole" 
-//              year={2018} 
-//              description="Lorem ipsum dolor sit amet, consectetur
-//               adipiscing elit, sed do eiusmod tempor incididunt ut l
-//               abore et dolore magna aliqua. Ut enim ad minim veniam, q
-//               uis nostrud exercitation ullamco laboris nisi ut aliquip 
-//               ex ea commodo consequat." 
-//               email="strita@ksm.org" 
-//               />
-//               <SubConcil
-//              gkname="Sir Cyril Ole"
-//              year={2018} 
-//              description="Lorem ipsum dolor sit amet, consectetur
-//               adipiscing elit, sed do eiusmod tempor incididunt ut l
-//               abore et dolore magna aliqua. Ut enim ad minim veniam, q
-//               uis nostrud exercitation ullamco laboris nisi ut aliquip 
-//               ex ea commodo consequat." 
-//               email="strita@ksm.org" 
-//               />
-//               <SubConcil
-//              gkname="Sir Cyril Ole" 
-//              year={2018} 
-//              description="Lorem ipsum dolor sit amet, consectetur
-//               adipiscing elit, sed do eiusmod tempor incididunt ut l
-//               abore et dolore magna aliqua. Ut enim ad minim veniam, q
-//               uis nostrud exercitation ullamco laboris nisi ut aliquip 
-//               ex ea commodo consequat." 
-//               email="strita@ksm.org" 
-//               />
-//               <SubConcil
-//              gkname="Sir Cyril Ole" 
-//              year={2018} 
-//              description="Lorem ipsum dolor sit amet, consectetur
-//               adipiscing elit, sed do eiusmod tempor incididunt ut l
-//               abore et dolore magna aliqua. Ut enim ad minim veniam, q
-//               uis nostrud exercitation ullamco laboris nisi ut aliquip 
-//               ex ea commodo consequat." 
-//               email="strita@ksm.org" 
-//               />
-//         </main>
-//     )
-// }
-
-// export default SubConcils
-
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Pagination from "@/components/Pagination";
 import { MapPin, ChevronRight } from "lucide-react";
 import WhoWeAreHero from "@/components/whoWeAreComponents/WhoWeAreHero";
 import ProfileCard from "@/components/ProfileCard";
-import leader1 from "@/assets/leader-1.jpg";
-import leader2 from "@/assets/leader-2.jpg";
-import leader3 from "@/assets/leader-3.jpg";
-
-const placeholders = [leader1.src, leader2.src, leader3.src];
+import { client } from "@/sanity/lib/client";
+import { subCouncilsQuery } from "@/sanity/lib/queries";
 
 const regions = ["ALL", "CENTRAL", "NORTH", "SOUTH", "EAST"] as const;
 type Region = (typeof regions)[number];
 
-const subCouncils = [
-    {
-        name: "St. Mulumba Sub-Council No. 1",
-        location: "Abuja, FCT",
-        region: "CENTRAL",
-        desc: "The founding chapter of the Order in the FCT. St. Mulumba No. 1 has been the cornerstone of Catholic fraternal service in Abuja for over two decades.",
-    },
-    {
-        name: "Blessed Iwene Tansi Sub-Council",
-        location: "Abuja, FCT",
-        region: "CENTRAL",
-        desc: "The founding chapter of the Order in the FCT. St. Mulumba No. 1 has been the cornerstone of Catholic fraternal service in Abuja for over two decades.",
-    },
-    {
-        name: "Our Lady of Fatima Sub-Council",
-        location: "National, Abuja",
-        region: "CENTRAL",
-        desc: "The founding chapter of the Order in the FCT. St. Mulumba No. 1 has been the cornerstone of Catholic fraternal service in Abuja for over two decades.",
-    },
-    {
-        name: "St. Charles Lwanga Sub-Council",
-        location: "Lagos, Lagos",
-        region: "SOUTH",
-        desc: "The founding chapter of the Order in the FCT. St. Mulumba No. 1 has been the cornerstone of Catholic fraternal service in Abuja for over two decades.",
-    },
-    {
-        name: "Holy Rosary Sub-Council",
-        location: "Kano, Kano",
-        region: "NORTH",
-        desc: "The founding chapter of the Order in the FCT. St. Mulumba No. 1 has been the cornerstone of Catholic fraternal service in Abuja for over two decades.",
-    },
-    {
-        name: "St. Theresa Sub-Council",
-        location: "Enugu, Enugu",
-        region: "EAST",
-        desc: "The founding chapter of the Order in the FCT. St. Mulumba No. 1 has been the cornerstone of Catholic fraternal service in Abuja for over two decades.",
-    },
-];
+interface SubCouncil {
+  _id: string;
+  name: string;
+  region?: string;
+  description?: string;
+  city?: string;
+  state?: string;
+  area?: string;
+  address?: string;
+  phone?: string;
+  email?: string;
+  establishedYear?: number;
+  grandKnight?: string;
+}
 
 const stats = [
-    { value: "12", label: "Sub-Councils" },
-    { value: "450+", label: "Active Members" },
-    { value: "40+", label: "Years of Service" },
-    { value: "200+", label: "Community Projects" },
-    { value: "30+", label: "Charity Initiatives" },
-    { value: "15+", label: "Youth Programmes" },
+    { value: "35+ ", label: "Sub-Councils", description: "Active subordinate councils spanning FCT and suffragan states." },
+    { value: "3 ", label: "Diocesan Axes", description: "Encompassing Abuja Archdiocese, Benue Axis, Nasarawa Axis, and Kogi Axis." },
+    { value: "3", label: "Fraternal Wings", description: "Synergistic apostolate of Knights, Ladies (LSM), and Youths (YSM)." },
+    { value: "70+ ", label: "Years", description: "Legacy of Catholic service in Nigeria since June 14, 1953." },
 ];
 
 export default function SubCouncils() {
     const [activeRegion, setActiveRegion] = useState<Region>("ALL");
     const [currentPage, setCurrentPage] = useState(1);
+    const [subCouncils, setSubCouncils] = useState<SubCouncil[]>([]);
+    const [loading, setLoading] = useState(true);
     const ITEMS_PER_PAGE = 3;
+
+    useEffect(() => {
+        async function fetchSubCouncils() {
+            try {
+                const fetchedCouncils = await client.fetch<SubCouncil[]>(subCouncilsQuery);
+                setSubCouncils(fetchedCouncils);
+            } catch (error) {
+                console.error("Failed to fetch sub-councils:", error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchSubCouncils();
+    }, []);
 
     const filtered = subCouncils.filter(
         (sc) => activeRegion === "ALL" || sc.region === activeRegion
@@ -171,6 +68,22 @@ export default function SubCouncils() {
         setActiveRegion(region);
         setCurrentPage(1);
     };
+
+    if (loading) {
+        return (
+            <div className="w-full">
+                <WhoWeAreHero
+                    title="Sub-Councils"
+                    description="United by faith, strengthened through brotherhood, and committed to serving our communities."
+                />
+                <section className="py-16 px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-7xl mx-auto text-center">
+                        <p className="text-muted-foreground">Loading sub-councils...</p>
+                    </div>
+                </section>
+            </div>
+        );
+    }
 
     return (
         <div className="w-full">
@@ -188,7 +101,7 @@ export default function SubCouncils() {
                             The Brotherhood
                         </p>
                         <h2 className="font-serif text-5xl text-foreground mb-6">
-                            A Brotherhood<br />Across<br />Communities
+                            A Brotherhood<br/>Across<br/>Communities
                         </h2>
                         <blockquote className="font-serif text-xl md:text-2xl text-foreground/90 leading-snug italic">
                             "Each Sub-Council is a living expression of the Order's mission — a place where Catholic men are formed, supported, and sent forth to serve."
@@ -221,11 +134,12 @@ export default function SubCouncils() {
                     <h2 className="font-serif text-5xl text-foreground mb-6 text-center">
                         Our Collective Impact
                     </h2>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                         {stats.map((stat) => (
-                            <div key={stat.label} className="space-y-1" data-testid={`stat-${stat.label.toLowerCase().replace(/\s+/g, "-")}`}>
+                            <div key={stat.label} className="space-y-2" data-testid={`stat-${stat.label.toLowerCase().replace(/\s+/g, "-")}`}>
                                 <div className="font-serif text-4xl text-primary">{stat.value}</div>
                                 <div className="text-xs uppercase tracking-widest text-muted-foreground font-medium">{stat.label}</div>
+                                <div className="text-xs text-muted-foreground leading-tight">{stat.description}</div>
                             </div>
                         ))}
                     </div>
@@ -236,7 +150,7 @@ export default function SubCouncils() {
             <section className="py-16 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
                     <h2 className="font-serif text-5xl text-foreground mb-6">
-                        The Full List Of<br /> OUR Sub-Councils
+                        The Full List Of<br/> OUR Sub-Councils
                     </h2>
 
                     {/* Filter Dropdown */}
@@ -260,17 +174,17 @@ export default function SubCouncils() {
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {paginated.map((sc, i) => (
                             <ProfileCard
-                                key={`${sc.name}-${i}`}
+                                key={sc._id}
                                 testIdPrefix={`subcouncil-${(currentPage - 1) * ITEMS_PER_PAGE + i}`}
-                                imageSrc={placeholders[i % 3]}
+                                imageSrc={''}
                                 roleNode={
                                     <>
                                         <MapPin className="w-3.5 h-3.5" />
-                                        <span>{sc.location}</span>
+                                        <span>{sc.city ? `${sc.city}, ${sc.state}` : 'TBD'}</span>
                                     </>
                                 }
                                 name={sc.name}
-                                description={sc.desc}
+                                description={sc.description || ''}
                                 buttonText="View Profile"
                                 buttonIcon={<ChevronRight className="w-4 h-4" />}
                             />

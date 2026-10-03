@@ -16,7 +16,7 @@ interface InterestFormProps {
 export default function InterestForm({
   title = "Express Your Interest",
   subtitle = "Take the first step towards becoming a Knight of St. Mulumba",
-  buttonText = "Join the Brotherhood",
+  buttonText = "Submit",
   showParish = true,
   showAgeGroup = false,
 }: InterestFormProps) {
@@ -90,7 +90,7 @@ export default function InterestForm({
                     onBlur={handleBlur}
                     error={getError(errors.surname)}
                     touched={getTouched(touched.surname)}
-                    placeholder="Doe"
+                    placeholder="Dirisu"
                   />
                 </div>
                 <div>
@@ -102,7 +102,7 @@ export default function InterestForm({
                     onBlur={handleBlur}
                     error={getError(errors.firstName)}
                     touched={getTouched(touched.firstName)}
-                    placeholder="John"
+                    placeholder="Paul"
                   />
                 </div>
               </div>
@@ -118,7 +118,7 @@ export default function InterestForm({
                     onBlur={handleBlur}
                     error={getError(errors.email)}
                     touched={getTouched(touched.email)}
-                    placeholder="john@example.com"
+                    placeholder="dirisupaul@gmail.com"
                   />
                 </div>
                 <div>
@@ -131,7 +131,7 @@ export default function InterestForm({
                     onBlur={handleBlur}
                     error={getError(errors.phoneNumber)}
                     touched={getTouched(touched.phoneNumber)}
-                    placeholder="+1 (555) 000-0000"
+                    placeholder="08052601606"
                   />
                 </div>
               </div>
@@ -146,7 +146,7 @@ export default function InterestForm({
                     onBlur={handleBlur}
                     error={getError(errors.stateCity)}
                     touched={getTouched(touched.stateCity)}
-                    placeholder="New York"
+                    placeholder="Abuja"
                   />
                 </div>
                 <div>
@@ -158,7 +158,7 @@ export default function InterestForm({
                     onBlur={handleBlur}
                     error={getError(errors.country)}
                     touched={getTouched(touched.country)}
-                    placeholder="United States"
+                    placeholder="Nigeria"
                   />
                 </div>
               </div>
@@ -186,7 +186,7 @@ export default function InterestForm({
                       onBlur={handleBlur}
                       error={getError(errors.parish)}
                       touched={getTouched(touched.parish)}
-                      placeholder="St. Mary's..."
+                      placeholder="St. Rita's Parish..."
                     />
                   </div>
                 </div>

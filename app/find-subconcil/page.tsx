@@ -1,90 +1,23 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
 import WhoWeAreHero from '@/components/whoWeAreComponents/WhoWeAreHero';
+import { client } from '@/sanity/lib/client';
+import { subCouncilsQuery } from '@/sanity/lib/queries';
 
 interface SubCouncil {
     id: string;
+    _id: string;
     name: string;
     city: string;
     state: string;
     area: string;
-    latitude: number;
-    longitude: number;
+    latitude?: number;
+    longitude?: number;
     address: string;
     phone?: string;
 }
-
-// Sample sub-council data - replace with real data from your database
-const subCouncils: SubCouncil[] = [
-    {
-        id: '1',
-        name: 'St. Mulumba Sub-Council No. 1',
-        city: 'New York',
-        state: 'NY',
-        area: 'Manhattan',
-        latitude: 40.7128,
-        longitude: -74.006,
-        address: '123 Main Street, New York, NY 10001',
-        phone: '(212) 555-0100',
-    },
-    {
-        id: '2',
-        name: 'St. Mulumba Sub-Council No. 2',
-        city: 'Brooklyn',
-        state: 'NY',
-        area: 'Brooklyn Heights',
-        latitude: 40.6942,
-        longitude: -73.9886,
-        address: '456 Flatbush Avenue, Brooklyn, NY 11201',
-        phone: '(718) 555-0200',
-    },
-    {
-        id: '3',
-        name: 'St. Mulumba Sub-Council No. 3',
-        city: 'Queens',
-        state: 'NY',
-        area: 'Forest Hills',
-        latitude: 40.7169,
-        longitude: -73.8254,
-        address: '789 Continental Avenue, Queens, NY 11375',
-        phone: '(718) 555-0300',
-    },
-    {
-        id: '4',
-        name: 'St. Mulumba Sub-Council No. 4',
-        city: 'Bronx',
-        state: 'NY',
-        area: 'The Grand Concourse',
-        latitude: 40.8245,
-        longitude: -73.9308,
-        address: '321 Grand Concourse, Bronx, NY 10451',
-        phone: '(718) 555-0400',
-    },
-    {
-        id: '5',
-        name: 'St. Mulumba Sub-Council No. 5',
-        city: 'Newark',
-        state: 'NJ',
-        area: 'Downtown',
-        latitude: 40.7357,
-        longitude: -74.1724,
-        address: '654 Broad Street, Newark, NJ 07102',
-        phone: '(973) 555-0500',
-    },
-];
-
-const containerStyle = {
-    width: '100%',
-    height: '100%',
-    minHeight: '500px',
-};
-
-const defaultCenter = {
-    lat: 40.7128,
-    lng: -74.006,
-};
 
 export default function FindSubCouncil() {
     const { isLoaded } = useJsApiLoader({
@@ -96,7 +29,29 @@ export default function FindSubCouncil() {
     const [searchArea, setSearchArea] = useState('');
     const [searchName, setSearchName] = useState('');
     const [selectedMarker, setSelectedMarker] = useState<string | null>(null);
-    const [filteredCouncils, setFilteredCouncils] = useState<SubCouncil[]>(subCouncils);
+    const [subCouncils, setSubCouncils] = useState<SubCouncil[]>([]);
+    const [filteredCouncils, setFilteredCouncils] = useState<SubCouncil[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchSubCouncils = async () => {
+            try {
+                const data = await client.fetch<SubCouncil[]>(subCouncilsQuery);
+                const councilsWithIds = data.map(council => ({
+                    ...council,
+                    id: council._id,
+                }));
+                setSubCouncils(councilsWithIds);
+                setFilteredCouncils(councilsWithIds);
+            } catch (error) {
+                console.error('Error fetching sub-councils:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchSubCouncils();
+    }, []);
 
     const handleSearch = useCallback(() => {
         const filtered = subCouncils.filter((council) => {
@@ -109,11 +64,15 @@ export default function FindSubCouncil() {
         });
 
         setFilteredCouncils(filtered);
-    }, [searchState, searchCity, searchArea, searchName]);
+    }, [searchState, searchCity, searchArea, searchName, subCouncils]);
 
-    if (!isLoaded) {
-        return <div className="w-full h-screen flex items-center justify-center bg-cream">Loading map...</div>;
+    if (!isLoaded || loading) {
+        return <div className="w-full h-screen flex items-center justify-center bg-cream">Loading...</div>;
     }
+
+    const defaultCenter = subCouncils.length > 0 && subCouncils[0].latitude && subCouncils[0].longitude
+        ? { lat: subCouncils[0].latitude, lng: subCouncils[0].longitude }
+        : { lat: 40.7128, lng: -74.006 };
 
     return (
         <div className="bg-cream">
@@ -206,14 +165,18 @@ export default function FindSubCouncil() {
                     {/* Map */}
                     <div className="lg:col-span-2 bg-white rounded-lg shadow-sm overflow-hidden">
                         <GoogleMap
-                            mapContainerStyle={containerStyle}
+                            mapContainerStyle={{
+                                width: '100%',
+                                height: '100%',
+                                minHeight: '500px',
+                            }}
                             center={defaultCenter}
                             zoom={10}
                         >
-                            {filteredCouncils.map((council) => (
+                            {filteredCouncils.filter(c => c.latitude && c.longitude).map((council) => (
                                 <Marker
                                     key={council.id}
-                                    position={{ lat: council.latitude, lng: council.longitude }}
+                                    position={{ lat: council.latitude!, lng: council.longitude! }}
                                     onClick={() => setSelectedMarker(council.id)}
                                     icon={{
                                         path: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z',

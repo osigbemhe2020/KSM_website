@@ -26,3 +26,17 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.admin-input {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  padding: 0.75rem 0.875rem;
+  font-size: 0.9375rem;
+  color: #0f172a;
+}
+
+.admin-input:focus {
+  outline: 2px solid #1E4D3A;
+  outline-offset: 1px;
+}

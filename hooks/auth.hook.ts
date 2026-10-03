@@ -1,28 +1,41 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3002";
+const AUTH_QUERY_KEY = ['me'] as const;
 
-// in your auth.hook file
+interface AuthResponse {
+    status: string;
+    user: {
+        id: string;
+        email: string;
+        firstName?: string;
+        lastName?: string;
+        mustChangePassword: boolean;
+        isAdmin: boolean;
+    };
+}
+
 export function useGetMe() {
     return useQuery({
-        queryKey: ['me'],
+        queryKey: AUTH_QUERY_KEY,
         queryFn: async () => {
             const response = await fetch(`${API_URL}/auth/me`, {
                 credentials: 'include',
             });
             
             if (!response.ok) throw new Error('Not authenticated');
-            return response.json();
+            return response.json() as Promise<AuthResponse>;
         },
         retry: false,         // don't retry if not logged in
-        staleTime: 1000 * 60 * 5,
+        staleTime: 0,
+        refetchOnMount: 'always',
     });
 }
 
 export function useLogin() {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: async ({ email, password }: { email: string; password: string }) => {
+        mutationFn: async ({ email, password }: { email: string; password: string }): Promise<AuthResponse> => {
             const response = await fetch(`${API_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
@@ -50,7 +63,7 @@ export function useLogin() {
             return response.json();
         },
         onSuccess: () => {
-            // Refetch any protected queries after login
+            queryClient.invalidateQueries({ queryKey: AUTH_QUERY_KEY });
             queryClient.invalidateQueries({ queryKey: ['members'] });
         },
     });

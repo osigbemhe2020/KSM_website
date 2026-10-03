@@ -1,20 +1,31 @@
 import { notFound } from 'next/navigation';
-import projects from '@/lib/projects';
+import { client } from '@/sanity/lib/client';
+import { projectBySlugQuery } from '@/sanity/lib/queries';
 import Link from 'next/link';
+import Image from 'next/image';
 
 type Status = "COMPLETED" | "ONGOING" | "UPCOMING";
 
-type Milestone = { date: string; title: string; note: string };
+interface Milestone {
+  date?: string;
+  title?: string;
+  note?: string;
+}
 
-type Project = {
-  slug: string;
+interface Project {
+  _id: string;
+  slug: { current: string };
   title: string;
-  hero: string;
   status: Status;
+  hero?: {
+    asset?: {
+      url?: string;
+    };
+  };
   overview: string[];
   objectives: string[];
-  milestones: Milestone[];
-};
+  milestones?: Milestone[];
+}
 
 
 function StatusPill({ s }: { s: Status }) {
@@ -22,10 +33,10 @@ function StatusPill({ s }: { s: Status }) {
   return <span className={`inline-block text-[10px] tracking-[0.18em] px-3 py-1 ${cls}`}>{s}</span>;
 }
 
-export default async function CharitySlugPage({ params }: { params: { slug: string } }) {
+export default async function ProjectSlugPage({ params }: { params: { slug: string } }) {
   const { slug } = await params;
 
-  const p = projects.find((p) => p.slug === slug);
+  const p = await client.fetch<Project>(projectBySlugQuery, { slug });
   if (!p) {
     notFound();
   }
@@ -49,19 +60,18 @@ export default async function CharitySlugPage({ params }: { params: { slug: stri
               background: 'var(--background, #fff)',
             }}
           >
-            <img
-              src={p.hero.src}
-              alt={p.title}
-              loading="lazy"
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                objectPosition: 'center',
-              }}
-            />
+            {p.hero?.asset?.url && (
+              <Image
+                src={p.hero.asset.url}
+                alt={p.title}
+                fill
+                loading="lazy"
+                style={{
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                }}
+              />
+            )}
           </div>
           <div className="mt-5  flex justify-end"><StatusPill s={p.status} /></div>
         </div>
@@ -93,43 +103,47 @@ export default async function CharitySlugPage({ params }: { params: { slug: stri
       </section>
 
       {/* Milestones */}
-      {/* Milestones */}
-      <section className="bg-cream pb-24 ">
-        <div className="max-w-3xl mx-auto px-6">
-          <h3 className="font-serif text-3xl md:text-4xl text-center mb-12">Project Milestones</h3>
-          <ol style={{ position: 'relative', marginLeft: '12px', paddingLeft: 0 }}>
-            {p.milestones.map((m, i) => (
-              <li
-                key={m.title}
-                style={{
-                  position: 'relative',
-                  paddingLeft: '32px',
-                  marginBottom: i === p.milestones.length - 1 ? 0 : '40px',
-                  borderLeft: i === p.milestones.length - 1 ? 'none' : '1px solid var(--border, #ddd)',
-                }}
-              >
-                <span
-                  style={{
-                    position: 'absolute',
-                    left: '-6px',
-                    top: '6px',
-                    width: '12px',
-                    height: '12px',
-                    borderRadius: '50%',
-                    backgroundColor: 'var(--forest, #2f5233)',
-                    border: '3px solid var(--cream, #f7f3ea)',
-                  }}
-                />
-                <p style={{ fontSize: '10px', letterSpacing: '0.25em', color: 'var(--muted-foreground, #888)', marginBottom: '8px' }}>
-                  {m.date.toUpperCase()}
-                </p>
-                <h4 className="font-serif" style={{ fontSize: '1.25rem', marginBottom: '4px' }}>{m.title}</h4>
-                <p style={{ fontSize: '0.875rem', color: 'var(--foreground, #333)', opacity: 0.75, lineHeight: 1.6 }}>{m.note}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+      {p.milestones && p.milestones.length > 0 && (
+        <section className="bg-cream pb-24 ">
+          <div className="max-w-3xl mx-auto px-6">
+            <h3 className="font-serif text-3xl md:text-4xl text-center mb-12">Project Milestones</h3>
+            <ol style={{ position: 'relative', marginLeft: '12px', paddingLeft: 0 }}>
+              {p.milestones.map((m, i) => {
+                const isLast = i === p.milestones!.length - 1;
+                return (
+                  <li
+                    key={i}
+                    style={{
+                      position: 'relative',
+                      paddingLeft: '32px',
+                      marginBottom: isLast ? 0 : '40px',
+                      borderLeft: isLast ? 'none' : '1px solid var(--border, #ddd)',
+                    }}
+                  >
+                    <span
+                      style={{
+                        position: 'absolute',
+                        left: '-6px',
+                        top: '6px',
+                        width: '12px',
+                        height: '12px',
+                        borderRadius: '50%',
+                        backgroundColor: 'var(--forest, #2f5233)',
+                        border: '3px solid var(--cream, #f7f3ea)',
+                      }}
+                    />
+                    <p style={{ fontSize: '10px', letterSpacing: '0.25em', color: 'var(--muted-foreground, #888)', marginBottom: '8px' }}>
+                      {m.date?.toUpperCase() || ''}
+                    </p>
+                    <h4 className="font-serif" style={{ fontSize: '1.25rem', marginBottom: '4px' }}>{m.title || ''}</h4>
+                    <p style={{ fontSize: '0.875rem', color: 'var(--foreground, #333)', opacity: 0.75, lineHeight: 1.6 }}>{m.note || ''}</p>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        </section>
+      )}
 
       {/* Back */}
       <section className="bg-cream pb-20">

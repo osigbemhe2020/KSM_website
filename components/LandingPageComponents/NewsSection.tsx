@@ -1,9 +1,32 @@
 import { ArrowRight } from "lucide-react";
 import { NewsCard } from "@/components/NewsCard";
 import { Button } from "@/components/membersScreens/memberComponents/DetailsCards";
-import { news as newsData, formatDate } from "@/lib/news-data";
+import { client } from "@/sanity/lib/client";
+import { newsPostsQuery } from "@/sanity/lib/queries";
 
-function NewsSection() {
+type NewsPost = {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  excerpt: string;
+  publishedAt: string;
+  hero?: {
+    asset?: {
+      url?: string;
+      altText?: string;
+    };
+  };
+};
+
+const NewsSection = async () => {
+  const newsPosts = await client.fetch<NewsPost[]>(newsPostsQuery);
+  const latestNews = newsPosts.slice(0, 3);
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  };
+
   return (
     <section className="bg-cream py-20">
       <div className="max-w-7xl mx-auto px-6">
@@ -12,14 +35,14 @@ function NewsSection() {
           <p className="mt-4 text-muted-foreground">Stay informed about the latest from the Metro Council.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
-          {newsData.slice(0, 3).map((n) => (
+          {latestNews.map((n) => (
             <NewsCard
-              key={n.slug}
+              key={n._id}
               title={n.title}
-              date={formatDate(n.date)}
-              imageSrc={n.image.src}
+              date={formatDate(n.publishedAt)}
+              imageSrc={n.hero?.asset?.url || ''}
               excerpt={n.excerpt}
-              href={`/news-and-updates/${n.slug}`}
+              href={`/news-and-updates/${n.slug.current}`}
             />
           ))}
         </div>
@@ -34,6 +57,6 @@ function NewsSection() {
       </div>
     </section>
   );
-}
+};
 
 export default NewsSection;

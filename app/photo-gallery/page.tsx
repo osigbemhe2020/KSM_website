@@ -1,38 +1,46 @@
+import type { Metadata } from "next";
+import { client } from "@/sanity/lib/client";
+import { galleryItemsQuery } from "@/sanity/lib/queries";
 import WhoWeAreHero from "@/components/whoWeAreComponents/WhoWeAreHero";
+import PhotoGalleryClient from "@/components/PhotoGalleryClient";
 
-const PhotoCard = () => {
-    return (
-        <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition">
-            <div className="h-48 bg-gradient-to-br from-gray-300 to-gray-400"></div>
-            <div className="p-2">
-                <p className="font-medium text-[16px] ">Activity of the day</p>
-            </div>
-        </div>
+export const dynamic = "force-dynamic";
 
-
-    );
+export const metadata: Metadata = {
+  title: "Photo Gallery — Knights of St. Mulumba, Metro Council Abuja",
+  description:
+    "Explore photographic memories, events, investitures, and charity missions from the Knights of St. Mulumba Metro Council Abuja.",
+  openGraph: {
+    title: "Photo Gallery — Knights of St. Mulumba",
+    description: "Photographic memories and event gallery.",
+  },
 };
 
-const PhotoGalleryPage = () => {
-    return (
-        <div className="">
-            <WhoWeAreHero
-                title="Photo Gallery"
-                description="Stay informed with the latest news, announcements, events, community stories, and updates from the Knights of St. Mulumba Metro Council Abuja."
-            />
-            <div className=" py-15 max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
-                <PhotoCard />
-                <PhotoCard />
-                <PhotoCard />
-                <PhotoCard />
-                <PhotoCard />
-                <PhotoCard />
-                <PhotoCard />
-                <PhotoCard />
-                <PhotoCard />
-            </div>
-        </div>
-    );
+type GalleryItem = {
+  _id: string;
+  title: string;
+  category?: string;
+  caption?: string;
+  alt?: string;
+  takenAt?: string;
+  image?: {
+    asset?: {
+      url?: string;
+      altText?: string;
+    };
+  };
 };
 
-export default PhotoGalleryPage;
+export default async function PhotoGalleryPage() {
+  const items = await client.fetch<GalleryItem[]>(galleryItemsQuery);
+
+  return (
+    <div>
+      <WhoWeAreHero
+        title="Photo Gallery"
+        description="Explore photographic memories, events, investitures, and charity missions from the Knights of St. Mulumba Metro Council Abuja."
+      />
+      <PhotoGalleryClient items={items} />
+    </div>
+  );
+}

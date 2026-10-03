@@ -58,62 +58,55 @@
 
 // export default ProjectPage
 
-import { StaticImageData } from "next/image";
-import Link from "next/link";
-import pHall from "@/assets/project-hall.jpg";
-import pClinic from "@/assets/project-clinic.jpg";
-import pScholarship from "@/assets/project-scholarship.jpg";
-import pBorehole from "@/assets/project-borehole.jpg";
-import pSkills from "@/assets/project-skills.jpg";
-import pCathedral from "@/assets/project-cathedral.jpg";
-
-// export const Route = createFileRoute("/projects-infrastructure")({
-//   head: () => ({
-//     meta: [
-//       { title: "Projects & Infrastructure — Knights of St. Mulumba, Metro Council Abuja" },
-//       { name: "description", content: "Building lasting impact through meaningful development initiatives across the Abuja metropolis." },
-//       { property: "og:title", content: "Projects & Infrastructure — Knights of St. Mulumba" },
-//       { property: "og:description", content: "Development initiatives across the Abuja metropolis." },
-//     ],
-//     links: [{ rel: "canonical", href: "/projects-infrastructure" }],
-//   }),
-//   component: ProjectsPage,
-// });
-
-
-
+import { client } from '@/sanity/lib/client';
+import { projectsQuery } from '@/sanity/lib/queries';
+import Link from 'next/link';
+import Image from 'next/image';
 
 type Status = "COMPLETED" | "ONGOING" | "UPCOMING";
-const projects: { img: StaticImageData; slug: string; t: string; d: string; s: Status }[] = [
-  { img: pHall, slug: "st-joseph-parish-hall-renovation", t: "St. Joseph Parish Hall Renovation", d: "Complete renovation and expansion of the parish hall to serve as a multi-purpose facility for church and community events.", s: "COMPLETED" },
-  { img: pClinic, slug: "community-health-centre-gwagwalada", t: "Community Health Centre, Gwagwalada", d: "Construction of a primary health centre providing free and subsidized healthcare services to underserved communities.", s: "ONGOING" },
-  { img: pScholarship, slug: "scholarship-endowment-fund-facility", t: "Scholarship Endowment Fund Facility", d: "Establishment of a dedicated facility to manage and administer the Order's scholarship programs for indigent students.", s: "ONGOING" },
-  { img: pBorehole, slug: "water-borehole-project-kuje", t: "Water Borehole Project, Kuje", d: "Drilling and installation of a community borehole providing clean, safe drinking water to a rural community in Kuje.", s: "COMPLETED" },
-  { img: pSkills, slug: "youth-skills-acquisition-centre", t: "Youth Skills Acquisition Centre", d: "A vocational training facility equipping young people with marketable skills in trades, technology, and entrepreneurship.", s: "UPCOMING" },
-  { img: pCathedral, slug: "cathedral-beautification-project", t: "Cathedral Beautification Project", d: "Ongoing support for the beautification and structural enhancement of the Pro-Cathedral grounds and surrounding facilities.", s: "ONGOING" },
-];
+
+interface Project {
+  _id: string;
+  slug: { current: string };
+  title: string;
+  description: string;
+  status: Status;
+  hero?: {
+    asset?: {
+      url?: string;
+    };
+  };
+}
 
 function StatusPill({ s }: { s: Status }) {
   const cls = s === "COMPLETED" ? "bg-forest text-white" : "border border-border text-foreground/70";
   return <span className={`inline-block text-[10px] tracking-[0.18em] px-3 py-1 ${cls}`}>{s}</span>;
 }
 
-function Grid() {
+function Grid({ projects }: { projects: Project[] }) {
   return (
     <section className="bg-cream "
       style={{ marginTop: "60px", marginBottom: "40px" }}>
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {projects.map((p) => (
-            <Link href={`/projects/${p.slug}`} key={p.t}>
+            <Link href={`/projects/${p.slug.current}`} key={p._id}>
               <article className="border border-border bg-cream flex flex-col">
-                <div className="aspect-[4/3] overflow-hidden bg-muted">
-                  <img src={p.img.src} alt={p.t} loading="lazy" width={1024} height={768} className="h-full w-full object-cover" />
+                <div className="aspect-[4/3] overflow-hidden bg-muted relative">
+                  {p.hero?.asset?.url && (
+                    <Image
+                      src={p.hero.asset.url}
+                      alt={p.title}
+                      fill
+                      loading="lazy"
+                      className="object-cover"
+                    />
+                  )}
                 </div>
                 <div className="p-6 flex flex-col flex-1">
-                  <h3 className="font-serif text-lg mb-2 leading-snug">{p.t}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed flex-1 mb-5">{p.d}</p>
-                  <StatusPill s={p.s} />
+                  <h3 className="font-serif text-lg mb-2 leading-snug">{p.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed flex-1 mb-5">{p.description}</p>
+                  <StatusPill s={p.status} />
                 </div>
               </article>
             </Link>
@@ -124,10 +117,12 @@ function Grid() {
   );
 }
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const projects = await client.fetch<Project[]>(projectsQuery);
+
   return (
     <main className="min-h-screen bg-cream">
-      <Grid />
+      <Grid projects={projects} />
     </main>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { User,Users,LayoutDashboard, Files, Wallet, Settings, LogOut } from "lucide-react";
+import { User,Users,LayoutDashboard, Files, Wallet, Settings, LogOut, ShieldCheck } from "lucide-react";
 
 interface SidebarProps {
   authData?: {
