@@ -38,17 +38,17 @@ const EditFormPage = () => {
     originalData: Partial<EditFormValues> | null | undefined
   ): Partial<EditFormValues> => {
     const changed: Partial<EditFormValues> = {};
-    
+
     (Object.keys(values) as Array<keyof EditFormValues>).forEach(key => {
       // Skip empty password fields (user didn't want to change password)
       if (key === 'password' && !values[key]) return;
-      
+
       // Compare with original data
       if (originalData && originalData[key] !== values[key]) {
-        changed[key] = values[key];
+        (changed as any)[key] = values[key];
       }
     });
-    
+
     return changed;
   };
 
