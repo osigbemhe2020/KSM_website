@@ -68,32 +68,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (!authData?.user) return null;
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] text-slate-900 flex flex-col">
-      {/* Top Header */}
-      <div className="bg-white border-b border-gray-200 flex-shrink-0 h-[96px]">
-        <MemberHeader authData={authData} authLoading={authLoading} />
-      </div>
+        <div className="min-h-screen bg-[#FDFBF7] text-slate-900 md:flex">
+ 
 
-      {/* Main Content Area with Sidebar */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="md:hidden fixed bottom-4 right-4 z-50 bg-forest text-white p-3 rounded-full shadow-lg"
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-
-        {/* Mobile Sidebar Overlay */}
-        {isMobileMenuOpen && (
-          <div
-            className="md:hidden fixed inset-0 bg-black/50 z-40"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
-        )}
+     
 
         {/* Sidebar Navigation */}
-        <aside className={`fixed inset-y-0 left-0 z-50 bg-[#1B382B] text-white w-72 transform transition-transform duration-300 ease-in-out md:static md:translate-x-0 md:h-[calc(100vh-96px)] md:w-72 overflow-y-auto ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
+        <aside className="w-full shrink-0 bg-[#1B382B] text-white md:sticky md:top-0 md:h-screen md:w-72">
           <div className="flex h-full flex-col px-5 py-6">
             {/* Brand Header */}
             <Link href="/admin" className="mb-6 block border-b border-white/10 pb-5">
@@ -129,7 +110,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         <Link
                           key={item.href}
                           href={item.href}
-                          onClick={() => setIsMobileMenuOpen(false)}
+                          // onClick={() => setIsMobileMenuOpen(false)}
                           className="group flex items-center gap-3 px-3 py-2 text-xs font-normal text-white/75 transition-colors hover:bg-white/10 hover:text-white"
                         >
                           <IconComponent size={14} className="opacity-70 group-hover:opacity-100 text-white/80" />
@@ -150,7 +131,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <div className="mt-6 border-t border-white/10 pt-4 space-y-2">
               <Link
                 href="/member-page/dashboard"
-                onClick={() => setIsMobileMenuOpen(false)}
+                // onClick={() => setIsMobileMenuOpen(false)}
                 className="flex items-center justify-between px-3 py-1 text-xs text-[#78DAA0] hover:text-white transition-colors"
               >
                 <span>← Member Dashboard</span>
@@ -172,8 +153,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </aside>
 
         {/* Main Content Viewport */}
-        <div className="min-w-0 flex-1 bg-[#FDFBF7] overflow-y-auto">{children}</div>
-      </div>
+        <div className="min-w-0 flex-1">{children}</div>
     </div>
   );
 }
