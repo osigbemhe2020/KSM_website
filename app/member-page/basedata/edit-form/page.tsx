@@ -7,16 +7,39 @@ import { useGetMe } from "@/hooks/auth.hook";
 import { useGetSingleMember, useUpdateMember } from "@/hooks/member.hook";
 import RegistrationForm from "@/components/forms/RegistrationForm";
 
+type EditFormValues = {
+  profileImage: File | null;
+  firstName: string;
+  lastName: string;
+  subCouncil: string;
+  occupation: string;
+  email: string;
+  phoneNumber: string;
+  placeOfInitiation: string;
+  yearOfInitiation: string | number;
+  officeAddress: string;
+  residentialAddress: string;
+  homeParish: string;
+  officeHeld: string;
+  degree: string;
+  memberId: string;
+  password: string;
+  mustChangePassword: boolean;
+};
+
 const EditFormPage = () => {
   const { data: authData, isLoading: authLoading } = useGetMe();
   const id = authData?.user?.id;
   const { data: memberData, isLoading, isError } = useGetSingleMember(id ?? '');
   const { mutate: updateMember, isPending } = useUpdateMember();
 
-  const getChangedFields = (values: any, originalData: any) => {
-    const changed: any = {};
+  const getChangedFields = (
+    values: EditFormValues,
+    originalData: Partial<EditFormValues> | null | undefined
+  ): Partial<EditFormValues> => {
+    const changed: Partial<EditFormValues> = {};
     
-    Object.keys(values).forEach(key => {
+    (Object.keys(values) as Array<keyof EditFormValues>).forEach(key => {
       // Skip empty password fields (user didn't want to change password)
       if (key === 'password' && !values[key]) return;
       
@@ -29,7 +52,7 @@ const EditFormPage = () => {
     return changed;
   };
 
-  const handleSubmit = async (values: any, { setSubmitting }: FormikHelpers<any>) => {
+  const handleSubmit = async (values: EditFormValues, { setSubmitting }: FormikHelpers<EditFormValues>) => {
     if (!id) return;
     
     // Only send changed fields

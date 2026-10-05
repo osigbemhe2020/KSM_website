@@ -1,9 +1,9 @@
 // app/member-page/documents/documents.tsx
 "use client";
 import { useState } from "react";
-import { Upload, FileText, Trash2, Download, Search } from "lucide-react";
+import { Upload, FileText, Trash2, Download,  } from "lucide-react";
 import { useGetDocuments, useDeleteDocument } from "@/hooks/document.hook";
-import { Card, CardHeader, Input, Button, Toggle, StackLayout, Item } from "@/components/membersScreens/memberComponents/DetailsCards";
+import { useGetMe } from "@/hooks/auth.hook";
 
 import DocumentUploadModal from "./memberComponents/DocumentUploadModal";
 import { toast } from "react-toastify";
@@ -14,6 +14,7 @@ const DocumentsPage = () => {
   const [filter, setFilter] = useState("All");
   const { data, isLoading } = useGetDocuments();
   const { mutate: deleteDoc } = useDeleteDocument();
+  const { data: authData } = useGetMe();
 
   const filtered = data?.documents?.filter((doc: any) => {
     const matchesSearch = doc.title.toLowerCase().includes(search.toLowerCase());
@@ -65,13 +66,15 @@ const DocumentsPage = () => {
         <div className="flex items-center justify-between mb-6">
           <p className="text-sm text-gray-500">{filtered.length} documents</p>
         
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 bg-forest text-white px-4 py-2 text-sm rounded-sm hover:opacity-90"
-          >
-            <Upload size={16} />
-            Upload Document
-          </button>
+          {authData?.user.isAdmin && (
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="flex items-center gap-2 bg-forest text-white px-4 py-2 text-sm rounded-sm hover:opacity-90"
+            >
+              <Upload size={16} />
+              Upload Document
+            </button>
+          )}
      
       </div>
 
