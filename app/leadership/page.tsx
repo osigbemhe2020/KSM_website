@@ -4,6 +4,8 @@ import ProfileCard from "@/components/ProfileCard";
 import Link from "next/link";
 import Image from "next/image";
 
+export const dynamic = "force-dynamic";
+
 interface Leader {
   _id: string;
   slug: { current: string };
