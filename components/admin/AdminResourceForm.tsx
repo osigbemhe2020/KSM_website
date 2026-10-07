@@ -224,7 +224,7 @@ export default function AdminResourceForm({
 
       if (!resource.isSingleton) {
         setTimeout(() => {
-          router.push(redirectUrl || `/member-page/admin/${resource.key}`);
+          router.push(redirectUrl || `/admin/${resource.key}`);
           router.refresh();
         }, 800);
       } else {
@@ -909,7 +909,7 @@ export default function AdminResourceForm({
             </button>
             {!resource.isSingleton && (
               <Link
-                href={redirectUrl || `/member-page/admin/${resource.key}`}
+                href={redirectUrl || `/admin/${resource.key}`}
                 className="px-4 py-3 text-sm text-slate-600 hover:text-slate-900 transition-colors"
               >
                 Cancel

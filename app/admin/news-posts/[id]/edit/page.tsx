@@ -19,7 +19,7 @@ export default async function EditNewsPostPage({ params }: Props) {
   return (
     <main className="mx-auto max-w-5xl px-6 py-10 md:px-10">
       <Link
-        href="/member-page/admin/news-posts"
+        href="/admin/news-posts"
         className="mb-6 inline-flex items-center gap-2 text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors"
       >
         <ArrowLeft size={14} /> Back to News Posts
@@ -32,7 +32,7 @@ export default async function EditNewsPostPage({ params }: Props) {
         </h1>
       </div>
 
-      <AdminResourceForm resource={resource} record={post} redirectUrl="/member-page/admin/news-posts" />
+      <AdminResourceForm resource={resource} record={post} redirectUrl="/admin/news-posts" />
     </main>
   );
 }

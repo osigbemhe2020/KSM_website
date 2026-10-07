@@ -14,7 +14,7 @@ export default async function AdminResourceNewPage({ params }: Props) {
   return (
     <main className="mx-auto max-w-5xl px-6 py-10 md:px-10">
       <Link
-        href={`/member-page/admin/${resource.key}`}
+        href={`/admin/${resource.key}`}
         className="mb-6 inline-flex items-center gap-2 text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors"
       >
         <ArrowLeft size={14} /> Back to {resource.title}

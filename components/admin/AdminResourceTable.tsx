@@ -87,7 +87,7 @@ export default function AdminResourceTable({
         </div>
 
         <Link
-          href={`/member-page/admin/${resource.key}/new`}
+          href={`/admin/${resource.key}/new`}
           className="inline-flex items-center justify-center gap-2 bg-forest px-5 py-2.5 text-sm font-medium text-white hover:bg-forest/90 transition-colors shadow-xs"
         >
           <Plus size={16} />
@@ -231,7 +231,7 @@ export default function AdminResourceTable({
                       <td className="py-4 px-5 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-3 text-xs font-medium">
                           <Link
-                            href={`/member-page/admin/${resource.key}/${item._id}/edit`}
+                            href={`/admin/${resource.key}/${item._id}/edit`}
                             className="text-forest hover:text-forest-deep transition-colors"
                           >
                             Edit

@@ -19,7 +19,7 @@ export default async function EditEventPage({ params }: Props) {
   return (
     <main className="mx-auto max-w-5xl px-6 py-10 md:px-10">
       <Link
-        href="/member-page/admin/events"
+        href="/admin/events"
         className="mb-6 inline-flex items-center gap-2 text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors"
       >
         <ArrowLeft size={14} /> Back to Events
@@ -32,7 +32,7 @@ export default async function EditEventPage({ params }: Props) {
         </h1>
       </div>
 
-      <AdminResourceForm resource={resource} record={eventRecord} redirectUrl="/member-page/admin/events" />
+      <AdminResourceForm resource={resource} record={eventRecord} redirectUrl="/admin/events" />
     </main>
   );
 }

@@ -42,7 +42,7 @@ export default function EventForm({ event }: { event?: ExistingEvent }) {
       setSaving(false);
       return;
     }
-    router.push("/member-page/admin/events");
+    router.push("/admin/events");
     router.refresh();
   }
 
@@ -59,7 +59,7 @@ export default function EventForm({ event }: { event?: ExistingEvent }) {
         <label className="block md:col-span-2"><span className="mb-2 block text-sm font-medium">Location</span><input name="location" defaultValue={event?.location} className="admin-input" placeholder="Venue or address" /></label>
         <label className="block md:col-span-2"><span className="mb-2 block text-sm font-medium">Description</span><textarea name="description" rows={6} defaultValue={event?.description} className="admin-input" /></label>
       </div>
-      <div className="mt-8 flex items-center gap-4"><button type="submit" disabled={saving} className="bg-forest px-5 py-3 text-sm font-medium text-white hover:bg-forest/90 disabled:opacity-50">{saving ? "Saving..." : event ? "Save Changes" : "Create Event"}</button><Link href="/member-page/admin/events" className="text-sm text-slate-600 hover:text-slate-950">Cancel</Link></div>
+      <div className="mt-8 flex items-center gap-4"><button type="submit" disabled={saving} className="bg-forest px-5 py-3 text-sm font-medium text-white hover:bg-forest/90 disabled:opacity-50">{saving ? "Saving..." : event ? "Save Changes" : "Create Event"}</button><Link href="/admin/events" className="text-sm text-slate-600 hover:text-slate-950">Cancel</Link></div>
     </form>
   );
 }

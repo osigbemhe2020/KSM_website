@@ -30,7 +30,7 @@ import {
 } from "lucide-react";
 import { ADMIN_CATEGORIES } from "@/lib/adminResources";
 import { useGetMe } from "@/hooks/auth.hook";
-import MemberHeader from '@/components/LayoutComponents/memberHeader';
+
 
 const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   FileText,

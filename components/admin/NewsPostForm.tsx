@@ -41,7 +41,7 @@ export default function NewsPostForm({ post }: { post?: ExistingPost }) {
       setSaving(false);
       return;
     }
-    router.push("/member-page/admin/news-posts");
+    router.push("/admin/news-posts");
     router.refresh();
   }
 
@@ -59,7 +59,7 @@ export default function NewsPostForm({ post }: { post?: ExistingPost }) {
         <label className="block"><span className="mb-2 block text-sm font-medium">Hero image {post ? "(choose a new image to replace it)" : "*"}</span><input name="hero" type="file" accept="image/*" required={!post} onChange={(event) => setImagePreview(event.target.files?.[0] ? URL.createObjectURL(event.target.files[0]) : imagePreview)} className="block w-full text-sm text-slate-600 file:mr-4 file:border-0 file:bg-slate-100 file:px-4 file:py-3 file:text-sm file:font-medium" />{imagePreview && <img src={imagePreview} alt="Current hero" className="mt-4 h-32 w-56 object-cover" />}</label>
         <label className="block"><span className="mb-2 block text-sm font-medium">Hero alt text</span><input name="altText" defaultValue={post?.hero?.altText} className="admin-input" placeholder="Describe the image" /></label>
       </div>
-      <div className="mt-8 flex items-center gap-4"><button type="submit" disabled={saving} className="bg-orange-600 px-5 py-3 text-sm font-medium text-white hover:bg-orange-700 disabled:opacity-50">{saving ? "Saving..." : post ? "Save Changes" : "Create Post"}</button><Link href="/member-page/admin/news-posts" className="text-sm text-slate-600 hover:text-slate-950">Cancel</Link></div>
+      <div className="mt-8 flex items-center gap-4"><button type="submit" disabled={saving} className="bg-orange-600 px-5 py-3 text-sm font-medium text-white hover:bg-orange-700 disabled:opacity-50">{saving ? "Saving..." : post ? "Save Changes" : "Create Post"}</button><Link href="/admin/news-posts" className="text-sm text-slate-600 hover:text-slate-950">Cancel</Link></div>
     </form>
   );
 }
