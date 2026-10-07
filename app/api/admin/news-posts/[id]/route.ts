@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { writeClient } from "@/sanity/lib/writeClient";
 import { InvalidNewsContentError, parseNewsPostContent } from "@/lib/newsPostContent";
-import { requireAdminApiAccess } from "@/lib/adminAuth";
 
 async function uploadHero(file: File, altText: string) {
   const asset = await writeClient.assets.upload("image", Buffer.from(await file.arrayBuffer()), { filename: file.name, contentType: file.type });
@@ -11,11 +10,6 @@ async function uploadHero(file: File, altText: string) {
 type Props = { params: Promise<{ id: string }> };
 
 export async function PATCH(request: NextRequest, { params }: Props) {
-  const accessDenied = await requireAdminApiAccess(request);
-  if (accessDenied) {
-    return accessDenied;
-  }
-
   try {
     const { id } = await params;
     const data = await request.formData();
@@ -56,11 +50,6 @@ export async function PATCH(request: NextRequest, { params }: Props) {
 }
 
 export async function DELETE(request: NextRequest, { params }: Props) {
-  const accessDenied = await requireAdminApiAccess(request);
-  if (accessDenied) {
-    return accessDenied;
-  }
-
   try {
     const { id } = await params;
     await writeClient.delete(id);

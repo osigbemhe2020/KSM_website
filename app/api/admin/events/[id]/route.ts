@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { writeClient } from "@/sanity/lib/writeClient";
-import { requireAdminApiAccess } from "@/lib/adminAuth";
 
 function required(data: FormData, field: string) {
   return String(data.get(field) || "").trim();
@@ -24,11 +23,6 @@ function eventFields(data: FormData) {
 type Props = { params: Promise<{ id: string }> };
 
 export async function PATCH(request: NextRequest, { params }: Props) {
-  const accessDenied = await requireAdminApiAccess(request);
-  if (accessDenied) {
-    return accessDenied;
-  }
-
   try {
     const { id } = await params;
     const data = await request.formData();
@@ -43,11 +37,6 @@ export async function PATCH(request: NextRequest, { params }: Props) {
 }
 
 export async function DELETE(request: NextRequest, { params }: Props) {
-  const accessDenied = await requireAdminApiAccess(request);
-  if (accessDenied) {
-    return accessDenied;
-  }
-
   try {
     const { id } = await params;
     await writeClient.delete(id);

@@ -2,17 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { writeClient } from "@/sanity/lib/writeClient";
 import { getAdminResource } from "@/lib/adminResources";
 import { parseResourceData } from "@/lib/adminParser";
-import { requireAdminApiAccess } from "@/lib/adminAuth";
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ resource: string; id: string }> }
 ) {
-  const accessDenied = await requireAdminApiAccess(request);
-  if (accessDenied) {
-    return accessDenied;
-  }
-
   try {
     const { resource, id } = await params;
     const config = getAdminResource(resource);
@@ -38,11 +32,6 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ resource: string; id: string }> }
 ) {
-  const accessDenied = await requireAdminApiAccess(request);
-  if (accessDenied) {
-    return accessDenied;
-  }
-
   try {
     const { id } = await params;
     await writeClient.delete(id);

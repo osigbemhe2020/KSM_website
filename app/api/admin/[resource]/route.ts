@@ -2,17 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { writeClient } from "@/sanity/lib/writeClient";
 import { getAdminResource } from "@/lib/adminResources";
 import { parseResourceData } from "@/lib/adminParser";
-import { requireAdminApiAccess } from "@/lib/adminAuth";
 
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ resource: string }> }
 ) {
-  const accessDenied = await requireAdminApiAccess(request);
-  if (accessDenied) {
-    return accessDenied;
-  }
-
   try {
     const { resource } = await params;
     const config = getAdminResource(resource);
